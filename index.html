@@ -41,7 +41,7 @@
 		}
 
 		#status {
-			background-color: #242424;
+			background-color: #151b15;
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
@@ -50,6 +50,7 @@
 		}
 
 		#status-splash {
+			display: none;
 			max-height: 100%;
 			max-width: 100%;
 			margin: auto;
@@ -77,6 +78,15 @@
 			bottom: 10%;
 			width: 50%;
 			margin: 0 auto;
+			accent-color: #d7ae64;
+		}
+
+		#status-title {
+			color: #ead69a;
+			font-size: 1.1rem;
+			font-weight: 700;
+			letter-spacing: 0.16em;
+			text-align: center;
 		}
 
 		#status-notice {
@@ -187,13 +197,14 @@
 		Your browser does not support JavaScript.
 	</noscript>
 
-	<div id="status">
-		<img id="status-splash" class="show-image--true fullsize--true use-filter--true" src="phone-r3.png" alt="">
-		<progress id="status-progress"></progress>
-		<div id="status-notice"></div>
+		<div id="status">
+			<img id="status-splash" class="show-image--false fullsize--true use-filter--true" src="phone-r5.png" alt="">
+			<div id="status-title">MOKSOBO 1752</div>
+			<progress id="status-progress"></progress>
+			<div id="status-notice"></div>
 	</div>
 
-	<script src="phone-r3.js"></script>
+	<script src="phone-r5.js"></script>
 	<script>
 		const orientationNotice = document.getElementById('orientation-notice');
 		const orientationButton = document.getElementById('landscape-button');
@@ -248,7 +259,7 @@
 			screen.orientation.lock('landscape').then(updateOrientationNotice).catch(() => {});
 		}
 
-		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"phone-r3","experimentalVK":false,"fileSizes":{"phone-r3.pck":60054948,"phone-r3.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"phone-r5","experimentalVK":false,"fileSizes":{"phone-r5.pck":62867388,"phone-r5.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
 		const GODOT_THREADS_ENABLED = false;
 		const engine = new Engine(GODOT_CONFIG);
 

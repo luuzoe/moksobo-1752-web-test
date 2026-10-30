@@ -1,41 +1,61 @@
 {
-  "build_id": "chapter1-phone-camera-orbit-r3-20261030",
+  "build_id": "chapter1-branded-menu-safe-save-r5-20261030",
   "chapter": 1,
-  "status": "prototype_pending_owner_playtest",
-  "owner_approved": false,
+  "status": "prototype_pending_physical_device_playtest",
+  "owner_approved": true,
   "engine": "Godot 4.7.2",
-  "pck_file": "phone-r3.pck",
-  "pck_sha256": "c71e7d730b57075d4ce7f086b50d66555ba8c5c9cdeafd72dced0879beed8cb2",
-  "pck_bytes": 60054948,
-  "wasm_file": "phone-r3.wasm",
+  "pck_file": "phone-r5.pck",
+  "pck_sha256": "fc6b87c7609e0b027ac337397b96b2c692ae11ff9bf06c1a6c55e1cb68eb5efa",
+  "pck_bytes": 62867388,
+  "wasm_file": "phone-r5.wasm",
+  "wasm_sha256": "fc74679e3b97f76878947fcd4fbe1268cbfa6188182a2e33bbc3f5dc9bfa57d0",
   "wasm_bytes": 39514754,
-  "javascript_file": "phone-r3.js",
+  "javascript_file": "phone-r5.js",
+  "javascript_sha256": "33c94cb3175f3333b82e2a3be5e8e86f77986f0aa2042b1631f6367a4e5bb6ba",
   "javascript_bytes": 279815,
   "source_sha256": {
-    "hud": "e841989370a4a8d886d3d2ef3fa77ca03679900c4897e3303eac8c4976324166",
-    "world": "b0c9dc13e9010731874aa8a3131afb8945f4bda17349a8be132e89a7fd32eb76",
+    "main_menu": "d37d2c73d0a9b0844585d2292ae3cceea1f6f3dc806d0cbb81aab013ce608cef",
+    "world": "78a7034641a9751e173538e7d710dc3acd4e9e94e4de09f999337a6c4b1f5278",
+    "player": "16247c179d59500fe34d98ff5407644fb380c4ad1e1bf191f9f278c05323d560",
+    "hud": "32b166b8bbea7cd6e7783c89156c4afc94bd3be1e225562162f2c67b4da076b8",
     "touch_pad": "9242ac7bf753e73dc6fb8d1b3a2e03d940f402ed0ac00fef8ba32b6795466a9d",
-    "camera_regression": "2c5505c356121fcda1a69b8a5dc92d2fcb5f0d8f40067f5ee5cd32d1aaeac589"
+    "menu_boot_regression": "5c2c462c0bf50e794966966975d5196a678891f13087f453f73940a44c4017df",
+    "camera_regression": "021e7e2412665465c2c5bfa7d34d6c85d0d23cfc53de409159221bfa9e0f9d41",
+    "pages_responsive_smoke": "4b4a0280fcc89b3cdaf283f3ed323a900c0ef265d876134403c28a2a69b1812e"
   },
   "validation": {
-    "source_regression_suites": 9,
-    "strict_phone_regression_suites": 1,
+    "web_loader_branding": "Godot splash image hidden; MOKSOBO 1752 title shown",
+    "main_menu_start_continue_and_save_guard": "passed",
+    "source_regression_suites": 6,
+    "source_regression_suites_passed": 6,
     "source_regression_failures": 0,
-    "combined_movement_and_rapid_camera_orbit": "passed_206_degree_turn_while_joystick_held",
+    "source_regression_suite_names": [
+      "menu_boot_regression",
+      "camera_regression",
+      "pages_responsive_smoke",
+      "multitouch_regression",
+      "mobile_controls_smoke",
+      "chapter_walkthrough_regression"
+    ],
+    "combined_movement_and_camera_orbit": "passed_in_source_regression_and_touch_enabled_browser_emulation",
     "camera_wall_clearance_and_minimum_distance": "passed",
     "collision_aware_chapter_walkthrough": "passed_headless_keyboard_and_touch",
     "candidate_phone_landscape_sizes_css": [
       "844x390 DPR1",
-      "780x351 DPR2"
+      "1280x649 DPR1"
     ],
-    "camera_orbit_stress": "passed_360_css_pixel_drag_while_movement_held_DPR1",
-    "candidate_web_phone_runtime_errors": 0,
+    "responsive_source_smoke_sizes_css": [
+      "390x844",
+      "844x390",
+      "360x640",
+      "640x360",
+      "1280x649"
+    ],
+    "candidate_web_runtime_errors": 0,
     "candidate_web_failed_requests": 0,
-    "both_touch_start_and_release_orders": "passed",
     "orientation_guard": "passed",
     "physical_device_tested": false,
-    "reported_original_error_reproduced": true,
-    "other_chapter_one_errors_confirmed_from_video": 0
+    "reported_original_error_reproduced": true
   },
   "native_app_zip_prepared": false
 }
