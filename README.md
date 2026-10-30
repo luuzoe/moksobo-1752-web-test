@@ -1,6 +1,12 @@
 # အလောင်းမင်းတရား — မုဆိုးဘို ၁၇၅၂ (Web Playtest)
 
-[အခန်း ၁ Web preview ကိုဖွင့်ရန်](https://luuzoe.github.io/moksobo-1752-web-test/?build=phone-r6)။ ဤသည် ဆက်လက်စမ်းသပ်နေသော prototype ဖြစ်ပြီး အပြီးသတ်ဂိမ်း သို့မဟုတ် Android app မဟုတ်ပါ။
+[အခန်း ၁ Web preview ကိုဖွင့်ရန်](https://luuzoe.github.io/moksobo-1752-web-test/?build=phone-r7)။ ဤသည် ဆက်လက်စမ်းသပ်နေသော prototype ဖြစ်ပြီး အပြီးသတ်ဂိမ်း သို့မဟုတ် Android app မဟုတ်ပါ။
+
+## phone-r7 ပြင်ဆင်ချက်
+
+အခန်း ၁ ကို အစမှအဆုံးအထိ ကစားနိုင်သော mission loop အဖြစ် တိုးချဲ့ထားသည် — သတင်းပို့သူ၏ briefing၊ ပစ္စည်း ၃ မျိုးစုဆောင်းခြင်း၊ ပြန်လည်တည်ဆောက်ထားသော အမိန့်အစည်းအဝေးနှင့် ဂိတ်/ကင်းနေရာ ၃ ခု ပြင်ဆင်ခြင်းတို့ ပါဝင်သည်။ အခန်း ၁ ပြီးဆုံးလျှင် အခန်း ၂ ကို တိုးတက်မှုအဖြစ် ဖွင့်ပေးသော်လည်း ကစားနိုင်သောအကြောင်းအရာ မတည်ဆောက်ရသေးဟု ရှင်းလင်းစွာပြထားသည်။ မီနူးတွင် အခန်း ၁–၁၀ timeline ပါရှိပြီး၊ ပြီးစီးမှုမတိုင်မီ အခန်း ၂–၁၀ လော့ခ်ထားသည်။ ပြီးစီးပြီးနောက် အခန်း ၂ သာ progress-unlocked ဖြစ်ပြီး မတည်ဆောက်ရသေးသည့်အခြေအနေကို ဆက်ပြထားကာ အခန်း ၃–၁၀ လော့ခ်ထားသည်။
+
+Joystick နှင့် camera ကို တစ်ပြိုင်နက်အသုံးပြုရာ spin ဖြစ်ခြင်း၊ အိမ်တိုက်မှုနှင့် ခြေထောက်မြေထဲဝင်ခြင်း၊ မြန်မာစာ UI အရွယ်အစားနှင့် ပြတ်သားမှုတို့ကို ပြင်ဆင်ထားသည်။ သမိုင်းမှတ်တမ်းအခြေခံအချက်များနှင့် ဂိမ်းအတွက် ပြန်လည်တည်ဆောက်ထားသော dialogue/mission အသေးစိတ်များကို သီးခြားတံဆိပ်တပ်ထားသည်။
 
 ## phone-r6 ပြင်ဆင်ချက်
 
@@ -10,9 +16,9 @@ Joystick ကိုဖိထားစဉ် player သည် camera ဦးတည�
 
 ## စမ်းသပ်မှုရလဒ်
 
-Menu/save, gameplay controls/flow, character animation, mobile controls, multi-touch, camera, responsive HUD, rendering workload နှင့် Chapter 1 walkthrough အတွက် source regression suite ၁၀ ခုအောင်မြင်ခဲ့သည်။ Simultaneous joystick+camera drag၊ အလွန်ကြီးသော camera delta၊ တစ်ခဏ joystick input ပြတ်တောက်မှုနှင့် ၃၆၀–၈၄၄px ဖုန်းအရွယ် viewport များကို စမ်းသပ်ထားသည်။ Export လုပ်ထားသော Web candidate ကို ၈၄၄×၃၉၀၊ DPR ၂ touch-enabled Chromium တွင်ဖွင့်စစ်ရာ Moksobo menu နှင့် Chapter 1 intro ပေါ်လာပြီး JavaScript/runtime error နှင့် asset request failure မတွေ့ပါ။
+Gameplay controls, camera/multitouch, collision/grounding, menu/save, mobile UI, rendering နှင့် Chapter 1 flow အတွက် Godot source regression test ၁၁ ခုလုံး အောင်မြင်ခဲ့သည်။ ၈၄၄×၃၉၀ touch-enabled Chromium တွင် messenger interaction မှစ၍ ပစ္စည်း ၃ မျိုး၊ meeting၊ repair ၃ ခုနှင့် အခန်းပြီးဆုံးမှုအထိ browser touch route ကို စမ်းသပ်ခဲ့ပြီး၊ completion save ကို reload လုပ်ပြီး အခန်း ၂ unlock အဖြစ်ပြသမှုနှင့် Continue ပြန်ဖွင့်မှုကိုလည်း စစ်ဆေးခဲ့သည်။ Production Web export smoke test တွင် မီနူးနှင့် အခန်း ၁ အဖွင့်ပေါ်လာပြီး HTTP/JavaScript/runtime error မတွေ့ပါ။
 
-ရုပ်ပိုင်းဆိုင်ရာဖုန်းပေါ်တွင် မစမ်းသပ်ရသေးပါ။ ထို့ကြောင့် ဖုန်းပေါ်တွင် အတည်ပြုပြီးဖြစ်သည်ဟု မဆိုလိုပါ။
+ရုပ်ပိုင်းဆိုင်ရာဖုန်းပေါ်တွင် မစမ်းသပ်ရသေးပါ။ Browser test သည် phone-shaped Chromium touch simulation ဖြစ်ပြီး အမှန်တကယ်ဖုန်းစမ်းသပ်မှုဟု မဆိုလိုပါ။
 
 ## ကစားနည်း
 
