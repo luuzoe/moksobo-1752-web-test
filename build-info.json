@@ -1,32 +1,41 @@
 {
-  "build_id": "chapter1-phone-input-r2-20261030",
+  "build_id": "chapter1-phone-camera-orbit-r3-20261030",
   "chapter": 1,
   "status": "prototype_pending_owner_playtest",
   "owner_approved": false,
   "engine": "Godot 4.7.2",
-  "pck_file": "phone-r2.pck",
-  "pck_sha256": "8ae77cb400b2154788edecf2505209a967438bd5d2cc183c8787c52a849fcdd9",
-  "pck_bytes": 60054020,
+  "pck_file": "phone-r3.pck",
+  "pck_sha256": "c71e7d730b57075d4ce7f086b50d66555ba8c5c9cdeafd72dced0879beed8cb2",
+  "pck_bytes": 60054948,
+  "wasm_file": "phone-r3.wasm",
+  "wasm_bytes": 39514754,
+  "javascript_file": "phone-r3.js",
+  "javascript_bytes": 279815,
   "source_sha256": {
     "hud": "e841989370a4a8d886d3d2ef3fa77ca03679900c4897e3303eac8c4976324166",
-    "world": "2d2f4e071a7aa2e7ffcb4b8fbbefb6eebd78f3ea97792e0883d9827b257686c5",
-    "touch_pad": "9242ac7bf753e73dc6fb8d1b3a2e03d940f402ed0ac00fef8ba32b6795466a9d"
+    "world": "b0c9dc13e9010731874aa8a3131afb8945f4bda17349a8be132e89a7fd32eb76",
+    "touch_pad": "9242ac7bf753e73dc6fb8d1b3a2e03d940f402ed0ac00fef8ba32b6795466a9d",
+    "camera_regression": "2c5505c356121fcda1a69b8a5dc92d2fcb5f0d8f40067f5ee5cd32d1aaeac589"
   },
   "validation": {
     "source_regression_suites": 9,
     "strict_phone_regression_suites": 1,
     "source_regression_failures": 0,
+    "combined_movement_and_rapid_camera_orbit": "passed_206_degree_turn_while_joystick_held",
+    "camera_wall_clearance_and_minimum_distance": "passed",
     "collision_aware_chapter_walkthrough": "passed_headless_keyboard_and_touch",
     "candidate_phone_landscape_sizes_css": [
       "844x390 DPR1",
       "780x351 DPR2"
     ],
+    "camera_orbit_stress": "passed_360_css_pixel_drag_while_movement_held_DPR1",
     "candidate_web_phone_runtime_errors": 0,
     "candidate_web_failed_requests": 0,
     "both_touch_start_and_release_orders": "passed",
     "orientation_guard": "passed",
     "physical_device_tested": false,
-    "reported_original_error_reproduced": false
+    "reported_original_error_reproduced": true,
+    "other_chapter_one_errors_confirmed_from_video": 0
   },
   "native_app_zip_prepared": false
 }
