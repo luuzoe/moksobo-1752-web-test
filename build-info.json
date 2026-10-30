@@ -1,16 +1,32 @@
 {
-  "build_id": "chapter1-visual-controls-20261030",
+  "build_id": "chapter1-phone-input-r2-20261030",
   "chapter": 1,
   "status": "prototype_pending_owner_playtest",
   "owner_approved": false,
   "engine": "Godot 4.7.2",
-  "pck_sha256": "4bcea893268c2abad3eb4e40a870eb9d33711b26065dc0ef3ba7ec025b26f7fb",
+  "pck_file": "phone-r2.pck",
+  "pck_sha256": "8ae77cb400b2154788edecf2505209a967438bd5d2cc183c8787c52a849fcdd9",
+  "pck_bytes": 60054020,
+  "source_sha256": {
+    "hud": "e841989370a4a8d886d3d2ef3fa77ca03679900c4897e3303eac8c4976324166",
+    "world": "2d2f4e071a7aa2e7ffcb4b8fbbefb6eebd78f3ea97792e0883d9827b257686c5",
+    "touch_pad": "9242ac7bf753e73dc6fb8d1b3a2e03d940f402ed0ac00fef8ba32b6795466a9d"
+  },
   "validation": {
     "source_regression_suites": 9,
+    "strict_phone_regression_suites": 1,
     "source_regression_failures": 0,
     "collision_aware_chapter_walkthrough": "passed_headless_keyboard_and_touch",
-    "web_desktop_runtime_errors": 0,
-    "web_mobile_runtime_errors": 0
+    "candidate_phone_landscape_sizes_css": [
+      "844x390 DPR1",
+      "780x351 DPR2"
+    ],
+    "candidate_web_phone_runtime_errors": 0,
+    "candidate_web_failed_requests": 0,
+    "both_touch_start_and_release_orders": "passed",
+    "orientation_guard": "passed",
+    "physical_device_tested": false,
+    "reported_original_error_reproduced": false
   },
   "native_app_zip_prepared": false
 }
