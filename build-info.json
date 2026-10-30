@@ -1,0 +1,16 @@
+{
+  "build_id": "chapter1-controls-audit-20261030",
+  "chapter": 1,
+  "status": "prototype_pending_owner_playtest",
+  "owner_approved": false,
+  "engine": "Godot 4.7.2",
+  "pck_sha256": "ba6a4ba86ff34c5c0bf2e2076d39c53b24508f2626673aea10bcc134afce92d8",
+  "validation": {
+    "source_regression_suites": 8,
+    "source_regression_failures": 0,
+    "collision_aware_chapter_walkthrough": "passed_headless_keyboard_and_touch",
+    "web_desktop_runtime_errors": 0,
+    "web_mobile_runtime_errors": 0
+  },
+  "native_app_zip_prepared": false
+}
