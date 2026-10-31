@@ -70,6 +70,22 @@
 			image-rendering: pixelated;
 		}
 
+		#status-splash.show-image--true,
+		#status-splash.fullsize--true.show-image--true {
+			display: block;
+			position: relative;
+			inset: auto;
+			width: min(27vw, 132px) !important;
+			height: min(27vw, 132px) !important;
+			max-width: 132px;
+			max-height: 132px;
+			margin: 0 auto 12px;
+			object-fit: cover;
+			border: 1px solid rgba(236, 222, 172, 0.54);
+			border-radius: 18px;
+			box-shadow: 0 10px 32px rgba(0, 0, 0, 0.38);
+		}
+
 		#status-progress, #status-notice {
 			display: none;
 		}
@@ -87,6 +103,17 @@
 			font-weight: 700;
 			letter-spacing: 0.16em;
 			text-align: center;
+		}
+
+		#status-detail {
+			box-sizing: border-box;
+			width: min(82vw, 760px);
+			margin: 12px 20px 0;
+			color: #e4dfd1;
+			font-size: clamp(13px, 2.2vw, 18px);
+			line-height: 1.55;
+			text-align: center;
+			white-space: pre-line;
 		}
 
 		#status-notice {
@@ -172,14 +199,14 @@
 			min-height: 1.6em;
 			margin: 12px 0 0;
 			color: #d7d9ce;
-			font-size: 13px;
-		}
-	</style>
-	<link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png">
-	<link rel="apple-touch-icon" href="index.apple-touch-icon.png">
-</head>
-<body>
-	<canvas id="canvas">
+				font-size: 13px;
+			}
+		</style>
+			<link id="-gd-engine-icon" rel="icon" type="image/png" href="phone-r12.png">
+			<link rel="apple-touch-icon" href="phone-r12.png">
+	</head>
+	<body>
+		<canvas id="canvas">
 		Your browser does not support the canvas tag.
 	</canvas>
 
@@ -198,13 +225,14 @@
 	</noscript>
 
 		<div id="status">
-			<img id="status-splash" class="show-image--false fullsize--true use-filter--true" src="phone-r10.png" alt="">
-			<div id="status-title">အောင်ဇေယျ • မုဆိုးဘို</div>
-			<progress id="status-progress"></progress>
-			<div id="status-notice"></div>
+			<img id="status-splash" class="show-image--true fullsize--false use-filter--true" src="phone-r12.png" alt="မုဆိုးဘို ဂိမ်းပုံတံဆိပ်">
+				<div id="status-title">အောင်ဇေယျ • မုဆိုးဘို</div>
+				<progress id="status-progress"></progress>
+				<div id="status-detail" role="status" aria-live="polite">ဝဘ်ဂိမ်းဒေတာ ၃၃.၀ MB နှင့် WebAssembly ၃၉.၅ MB ကို ဖွင့်နေသည်။ ကွန်ရက်နှင့် ဖုန်းပေါ်မူတည်၍ အချိန်ယူနိုင်သည်။</div>
+				<div id="status-notice"></div>
 	</div>
 
-	<script src="phone-r10.js"></script>
+	<script src="phone-r12.js"></script>
 	<script>
 		const orientationNotice = document.getElementById('orientation-notice');
 		const orientationButton = document.getElementById('landscape-button');
@@ -259,7 +287,7 @@
 			screen.orientation.lock('landscape').then(updateOrientationNotice).catch(() => {});
 		}
 
-		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"phone-r10","experimentalVK":false,"fileSizes":{"phone-r10.pck":33028336,"phone-r10.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"phone-r12","experimentalVK":false,"fileSizes":{"phone-r12.pck":33050884,"phone-r12.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
 		const GODOT_THREADS_ENABLED = false;
 		const engine = new Engine(GODOT_CONFIG);
 
@@ -267,21 +295,52 @@
 			const statusOverlay = document.getElementById('status');
 			const statusProgress = document.getElementById('status-progress');
 			const statusNotice = document.getElementById('status-notice');
+			const statusDetail = document.getElementById('status-detail');
 
 			let initializing = true;
 			let statusMode = '';
+			const loadingStartedAt = performance.now();
+			let lastProgressAt = loadingStartedAt;
+			let lastProgressMark = '';
+			let latestProgressPercent = null;
+
+			function formatElapsed(milliseconds) {
+				const seconds = Math.max(0, Math.floor(milliseconds / 1000));
+				if (seconds >= 60) {
+					return `${Math.floor(seconds / 60)} မိနစ် ${seconds % 60} စက္ကန့်`;
+				}
+				return `${seconds} စက္ကန့်`;
+			}
+
+			function updateLoadingFeedback() {
+				if (!initializing) return;
+				const now = performance.now();
+				const elapsed = formatElapsed(now - loadingStartedAt);
+				const base = latestProgressPercent === null
+					? `Godot game files ဖွင့်ရန် ပြင်ဆင်နေသည် • ${elapsed}`
+					: `Godot progress ${latestProgressPercent}% • စုစုပေါင်း ${elapsed}`;
+				const idleMs = now - lastProgressAt;
+				const idle = idleMs >= 20000
+					? `\nProgress update မရှိသည်မှာ ${formatElapsed(idleMs)} ရှိပါပြီ။ ကွန်ရက်နှေးခြင်း သို့မဟုတ် ဖုန်းက ဖိုင်ဖွင့်နေခြင်း ဖြစ်နိုင်သည်။ ပြီးဆုံးချိန်ကို ဤတန်ဖိုးမှ မခန့်မှန်းနိုင်ပါ—စာမျက်နှာကို ဖွင့်ထားပါ။`
+					: '';
+				statusDetail.textContent = `${base}${idle}`;
+			}
+
+			const loadingFeedbackTimer = window.setInterval(updateLoadingFeedback, 1000);
 
 			function setStatusMode(mode) {
 				if (statusMode === mode || !initializing) {
 					return;
 				}
 				if (mode === 'hidden') {
+					window.clearInterval(loadingFeedbackTimer);
 					statusOverlay.remove();
 					initializing = false;
 					return;
 				}
 				statusOverlay.style.visibility = 'visible';
 				statusProgress.style.display = mode === 'progress' ? 'block' : 'none';
+				statusDetail.style.display = mode === 'progress' ? 'block' : 'none';
 				statusNotice.style.display = mode === 'notice' ? 'block' : 'none';
 				statusMode = mode;
 			}
@@ -298,6 +357,7 @@
 			}
 
 			function displayFailureNotice(err) {
+				window.clearInterval(loadingFeedbackTimer);
 				console.error(err);
 				if (err instanceof Error) {
 					setStatusNotice(err.message);
@@ -343,16 +403,23 @@
 				}
 			} else {
 				setStatusMode('progress');
-				engine.startGame({
-					'onProgress': function (current, total) {
-						if (current > 0 && total > 0) {
-							statusProgress.value = current;
-							statusProgress.max = total;
-						} else {
-							statusProgress.removeAttribute('value');
-							statusProgress.removeAttribute('max');
-						}
-					},
+					engine.startGame({
+						'onProgress': function (current, total) {
+							if (current > 0 && total > 0) {
+								statusProgress.value = current;
+								statusProgress.max = total;
+								const mark = `${current}/${total}`;
+								if (mark !== lastProgressMark) {
+									lastProgressMark = mark;
+									lastProgressAt = performance.now();
+								}
+								latestProgressPercent = Math.floor((current / total) * 100);
+							} else {
+								statusProgress.removeAttribute('value');
+								statusProgress.removeAttribute('max');
+							}
+							updateLoadingFeedback();
+						},
 				}).then(() => {
 					setStatusMode('hidden');
 				}, displayFailureNotice);

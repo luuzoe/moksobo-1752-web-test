@@ -1,107 +1,115 @@
 {
-  "build_id": "chapter1-ages18-25-mobile-phone-r10-20261031",
+  "build_id": "chapter1-ages18-25-mobile-phone-r12-20261031",
   "chapter": 1,
+  "playable_missions": 8,
   "story_period": "c.1732–1739; ages 18–25 approximately",
-  "status": "web_preview_ready_physical_device_playtest_pending",
+  "status": "validated_web_preview_release",
   "owner_approved": true,
   "engine": "Godot 4.7.2",
   "active_web_entry": "index.html",
-  "build_page": "phone-r10.html",
-  "preview_url": "https://luuzoe.github.io/moksobo-1752-web-test/?build=phone-r10",
-  "pck_file": "phone-r10.pck",
-  "pck_sha256": "7ce7728b87b315c4afe124fdd64efce52ee28c1a636b3c3522968dd077495ba2",
-  "pck_bytes": 33028336,
-  "pck_previous_phone_r8_bytes": 62880508,
-  "pck_reduction_bytes": 29852172,
-  "pck_reduction_percent": 47.4744,
-  "wasm_file": "phone-r10.wasm",
-  "wasm_sha256": "fc74679e3b97f76878947fcd4fbe1268cbfa6188182a2e33bbc3f5dc9bfa57d0",
-  "wasm_bytes": 39514754,
-  "javascript_file": "phone-r10.js",
-  "javascript_sha256": "33c94cb3175f3333b82e2a3be5e8e86f77986f0aa2042b1631f6367a4e5bb6ba",
-  "javascript_bytes": 279815,
-  "html_file": "phone-r10.html",
-  "html_sha256": "9f5512f90ce70f92d43ff99703f5e5ef07ed09e6b939ad13ca95ed551bb49c04",
-  "html_bytes": 10970,
-  "export_output_total_bytes": 74030957,
-  "source_sha256": {
-    "main_menu": "357e6af199d8bcbb99fa766140fb45649c9fddbb7086042663a9d4a79a7c158d",
-    "world": "699d704d4aad6d8b465dfca1e98ff9ac74d4d240cf434b22c0d7a2120fcfb462",
-    "player": "18674a29c0dc1094f76720de5b876e03947ed740ad73d9cd5c83cbec8e2d8984",
-    "hud": "40f4be841752cab414d8cdf124fca27d6dd636f64fce05ad524d86b76b6d7264",
-    "touch_pad": "e2e1c08349ad8db9547a2c8c0f8a91ffca377d7137c6a9550f1550faca91a5d9",
-    "tests": {
-      "camera_regression": "7bd95c26fa5a0d8f7bb6bfe7a37aed2a9c42c5822c48a48339376e59c029764e",
-      "gameplay_controls_regression": "d101c36c75a5ac9f807966ce3eaae44a68a58711f7aa1f8ae8fa553be83d3510",
-      "collision_grounding_regression": "7be2a99a5245cb1af07f1baa082f7ab9db3a7d0761862c3afe03d42b0fc97519",
-      "character_animation_smoke": "a6d8aca7378ae02504fd02b2d0b662fba28bcbcb88e12c2ddaa51de078ee031c",
-      "village_reconstruction_smoke": "8b19dd1eba6f051d9f0b82c8b41f585618d3b1d6052cd36be006e9b8a4dfe05d",
-      "render_workload_audit": "a89db8c1746aa233fa2d0ad105c4e17487b7dd709a5498401f616771bbcdb04a"
+  "build_page": "phone-r12.html",
+  "preview_url": "https://luuzoe.github.io/moksobo-1752-web-test/?build=phone-r12",
+  "direct_build_url": "https://luuzoe.github.io/moksobo-1752-web-test/phone-r12.html",
+  "release_assets": {
+    "phone-r12.apple-touch-icon.png": {
+      "bytes": 81523,
+      "sha256": "c4b91a479de36596f28d1d1ee1adfb7e36e7b7e8d7e0868dde46a77114d87a3c"
     },
-    "project_godot": "2804859724d565fc560d936b5f463f0f6889527f2d0c38b1b0b2211b131025d0"
+    "phone-r12.audio.position.worklet.js": {
+      "bytes": 2973,
+      "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8"
+    },
+    "phone-r12.audio.worklet.js": {
+      "bytes": 7298,
+      "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3"
+    },
+    "phone-r12.html": {
+      "bytes": 14151,
+      "sha256": "9837b533c43aec6ade01d5262881e43102a53947b3d13087a55cc3c09cc8d816"
+    },
+    "phone-r12.icon.png": {
+      "bytes": 552644,
+      "sha256": "baf8fe37f6ea8992a2c54c90142b3ff41874ade2580c230dc0e3f16af7a11839"
+    },
+    "phone-r12.js": {
+      "bytes": 279815,
+      "sha256": "33c94cb3175f3333b82e2a3be5e8e86f77986f0aa2042b1631f6367a4e5bb6ba"
+    },
+    "phone-r12.pck": {
+      "bytes": 33050884,
+      "sha256": "6a10ecd4b60dc8f1cc42503189a1840c598c531e7b529f3c6543286769596484"
+    },
+    "phone-r12.png": {
+      "bytes": 552644,
+      "sha256": "baf8fe37f6ea8992a2c54c90142b3ff41874ade2580c230dc0e3f16af7a11839"
+    },
+    "phone-r12.wasm": {
+      "bytes": 39514754,
+      "sha256": "fc74679e3b97f76878947fcd4fbe1268cbfa6188182a2e33bbc3f5dc9bfa57d0"
+    }
+  },
+  "export_total_bytes": 74056686,
+  "source_sha256": {
+    "main_menu": "9d8dd9caabb0968073280cbf0b912a5c453650ef4c30cf89e4df63f4b3c560cc",
+    "world": "2d1c06131a6f7a1f1e8229907cad3cefa6b9f4ffcf0beea55bc3b750599793c2",
+    "player": "e2826269d7d26ea309fdfdbad484582e1b8fea6a9a351e2059fa53627b4636c7",
+    "hud": "8aee29d981b654fa5ba4901bc6f1d58be366276c0751413e375cb805c7325cc8",
+    "touch_pad": "584725b1773a812187ee1845cf1baea8021186a28bf72ac766f0f277e5910506",
+    "web_shell": "bd39b3a4456994754ffbb3d143b992593fe838c6a48c87c64bb6b939bdaa6874",
+    "project_godot": "f674f4d75e888e4ce1474c7bd3ffe6b3bdcb2b724bc5a8d7d169f24ec647a635",
+    "export_presets": "d788054d7bb6bd625bf6665a1676d194cb24ff2962753434801e3189e393c662",
+    "stream_flow_shader": "92a52e6762a6a0b1d94891e9b6533d4addee22c0991fd9beeeae2848ccfb40d2"
   },
   "historical_notes": {
-    "birth_year_accounts": "Britannica/EBSCO: 1714 or circa 1714; Gale: 1715; age labels remain approximate.",
-    "early_accounts": "EBSCO's 1733 narrative and Gale's 1737 narrative remain separately attributed and explicitly disputed.",
-    "1738_1739_gameplay": "Gameplay events, the 15-house layout, 12 residents, animal population and encounters are clearly labeled in Burmese as reconstruction; they are not verified census, settlement map, or biography.",
-    "timeline_scope": "Ten planned chapters span approximately 1732–1760; only Chapter 1 is playable. Chapter 2 is progress-unlocked after verified completion but is not built."
+    "birth_year_accounts": "Britannica/EBSCO give 1714 or circa 1714; Gale gives 1715; ages remain approximate.",
+    "early_accounts": "EBSCO’s 1733 narrative and Gale’s 1737 narrative remain separately attributed as uncertain accounts; conflicting details are not blended.",
+    "reconstruction": "Collection tasks, village repairs, meetings, NPC dialogue, settlement population/layout, creek, bridge, well, stall, seats, animals and encounters are explicitly labeled in Burmese as gameplay reconstruction, not verified biography or census.",
+    "mission_progression": "Eight sequential missions cover the approximate age-18-to-25 span, with EBSCO and Gale episodes kept separate."
   },
   "validation": {
-    "web_loader_branding": "Godot splash hidden; user-provided village-image menu retained.",
-    "temporary_browser_qa_bridge_in_release": false,
-    "source_regression_suites": 6,
-    "source_regression_suites_passed": 6,
+    "source_regression_suites": 13,
+    "source_regression_suites_passed": 13,
     "source_regression_failures": 0,
     "source_regression_suite_names": [
       "camera_regression",
-      "gameplay_controls_regression",
-      "collision_grounding_regression",
+      "chapter_walkthrough_regression",
       "character_animation_smoke",
+      "collision_grounding_regression",
+      "gameplay_controls_regression",
+      "gameplay_flow_regression",
+      "menu_boot_regression",
+      "mobile_controls_smoke",
+      "multitouch_regression",
+      "pages_responsive_smoke",
+      "render_workload_audit",
       "village_reconstruction_smoke",
-      "render_workload_audit"
+      "water_swimming_smoke"
     ],
-    "clean_release_browser_smoke": {
-      "viewport_css": [
-        844,
-        390
-      ],
-      "device_scale_factor": 1,
-      "renderer": "Chromium ANGLE SwiftShader software renderer (headless cloud emulation)",
-      "main_menu_loaded": true,
-      "gameplay_scene_opened": true,
-      "joystick_walk_input": true,
-      "camera_drag_input": true,
-      "http_errors": 0,
-      "page_errors": 0,
-      "console_errors": 0,
-      "request_failures": 0,
-      "r9_baseline_request_animation_frame_mean_ms": 294.4,
-      "r10_root_preview_request_animation_frame_mean_ms": 393.3,
-      "r10_root_preview_frame_samples": 5,
-      "r10_short_run_estimated_fps": 2.5,
-      "r10_other_short_run_estimated_fps": 2.8,
-      "measurement_caveat": "Very short, low-sample Chromium SwiftShader requestAnimationFrame timing from cloud emulation; R10 and R9 both showed low pacing. Not a physical phone measurement and not a reliable handset-FPS prediction."
+    "chapter1_web_e2e": {
+      "result": "PASS",
+      "missions": 8,
+      "checks": 52,
+      "save_reload_verified": true,
+      "browser_errors": [],
+      "viewport": "844x390 Chromium touch emulation",
+      "qa_only_bridge_in_release": false
     },
-    "qa_build_full_chapter1_e2e": {
-      "chapter1_completed": true,
-      "chapter1_playthrough_seconds": 218.97,
-      "1739_closing_page_reached": true,
-      "chapter2_progress_unlocked_after_completion": true,
-      "simultaneous_movement_camera_input": true,
-      "independent_finger_release_order": true,
-      "late_chapters_reached_by_horizontal_scroll": true,
-      "http_errors": 0,
-      "page_errors": 0,
-      "console_errors": 0,
-      "measurement_caveat": "QA-only browser-state bridge was used for assertions; it is removed from the release export.",
-      "applies_to": "R9 QA build only; full Chapter 1 was not rerun on R10. R10 received targeted changed-scope regression and Web touch tests."
+    "clean_production_touch_emulation": {
+      "direct_build_errors": [],
+      "root_entry_errors": [],
+      "viewport": "844x390 Chromium mobile touch emulation",
+      "joystick_walk_and_camera_drag_visually_verified": true,
+      "renderer": "Chromium ANGLE SwiftShader software renderer in cloud emulation",
+      "direct_build_frame_samples": 4,
+      "direct_build_mean_frame_ms": 454.125,
+      "root_entry_frame_samples": 4,
+      "root_entry_mean_frame_ms": 475,
+      "measurement_caveat": "Only four animation-frame intervals per sample under a software renderer; not a physical phone FPS estimate."
     },
-    "render_workload": {
-      "mesh_instances": 369,
-      "triangles": 459234,
-      "measurement_environment": "Godot headless non-Web feature set",
-      "web_asset_caveat": "This triangle total includes the high-detail non-Web tree variant; the Web export selects moksobo_tree_3d_web.glb, so it is not the R10 Web triangle total.",
-      "external_assets_added": 0
+    "village_mobile_budget": {
+      "mesh_nodes": 482,
+      "limit": 520,
+      "passed": true
     },
     "physical_device_tested": false,
     "native_android_app_exported": false,

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+		<title>အောင်ဇေယျ — မုဆိုးဘို ၁၇၃၂–၁၇၆၀</title>
+	<style>
+		html, body, #canvas {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			border: 0;
+		}
+
+		body {
+			color: white;
+			background-color: black;
+			overflow: hidden;
+			touch-action: none;
+			font-family: system-ui, -apple-system, "Noto Sans Myanmar", sans-serif;
+		}
+
+		#canvas {
+			display: block;
+		}
+
+		#canvas:focus {
+			outline: none;
+		}
+
+		#status, #status-splash, #status-progress {
+			position: absolute;
+			left: 0;
+			right: 0;
+		}
+
+		#status, #status-splash {
+			top: 0;
+			bottom: 0;
+		}
+
+		#status {
+			background-color: #151b15;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			visibility: hidden;
+		}
+
+		#status-splash {
+			display: none;
+			max-height: 100%;
+			max-width: 100%;
+			margin: auto;
+		}
+
+		#status-splash.show-image--false {
+			display: none;
+		}
+
+		#status-splash.fullsize--true {
+			height: 100%;
+			width: 100%;
+			object-fit: contain;
+		}
+
+		#status-splash.use-filter--false {
+			image-rendering: pixelated;
+		}
+
+		#status-splash.show-image--true,
+		#status-splash.fullsize--true.show-image--true {
+			display: block;
+			position: relative;
+			inset: auto;
+			width: min(27vw, 132px) !important;
+			height: min(27vw, 132px) !important;
+			max-width: 132px;
+			max-height: 132px;
+			margin: 0 auto 12px;
+			object-fit: cover;
+			border: 1px solid rgba(236, 222, 172, 0.54);
+			border-radius: 18px;
+			box-shadow: 0 10px 32px rgba(0, 0, 0, 0.38);
+		}
+
+		#status-progress, #status-notice {
+			display: none;
+		}
+
+		#status-progress {
+			bottom: 10%;
+			width: 50%;
+			margin: 0 auto;
+			accent-color: #d7ae64;
+		}
+
+		#status-title {
+			color: #ead69a;
+			font-size: 1.1rem;
+			font-weight: 700;
+			letter-spacing: 0.16em;
+			text-align: center;
+		}
+
+		#status-detail {
+			box-sizing: border-box;
+			width: min(82vw, 760px);
+			margin: 12px 20px 0;
+			color: #e4dfd1;
+			font-size: clamp(13px, 2.2vw, 18px);
+			line-height: 1.55;
+			text-align: center;
+			white-space: pre-line;
+		}
+
+		#status-notice {
+			background-color: #5b3943;
+			border-radius: 0.5rem;
+			border: 1px solid #9b3943;
+			color: #e0e0e0;
+			line-height: 1.3;
+			margin: 0 2rem;
+			overflow: hidden;
+			padding: 1rem;
+			text-align: center;
+			z-index: 1;
+		}
+
+		#orientation-notice {
+			position: fixed;
+			inset: 0;
+			z-index: 10;
+			display: none;
+			align-items: center;
+			justify-content: center;
+			box-sizing: border-box;
+			padding: max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+			background: radial-gradient(ellipse at 50% 35%, rgba(52, 68, 53, 0.98), rgba(8, 12, 10, 0.98));
+			color: #fff;
+			text-align: center;
+			touch-action: auto;
+		}
+
+		body.needs-landscape #orientation-notice {
+			display: flex;
+		}
+
+		.orientation-card {
+			width: min(100%, 440px);
+			padding: 28px 24px;
+			border: 1px solid rgba(236, 222, 172, 0.35);
+			border-radius: 18px;
+			background: rgba(13, 18, 15, 0.78);
+			box-shadow: 0 16px 56px rgba(0, 0, 0, 0.4);
+		}
+
+		.orientation-symbol {
+			margin: 0 0 12px;
+			color: #ead69a;
+			font-size: 42px;
+			line-height: 1;
+		}
+
+		.orientation-card h1 {
+			margin: 0 0 12px;
+			font-size: clamp(22px, 6vw, 30px);
+		}
+
+		.orientation-card p {
+			margin: 0 auto 18px;
+			max-width: 34ch;
+			color: #e0e5df;
+			font-size: 16px;
+			line-height: 1.65;
+		}
+
+		#landscape-button {
+			min-height: 48px;
+			padding: 11px 20px;
+			border: 0;
+			border-radius: 10px;
+			background: #d6bd78;
+			color: #17170f;
+			font: inherit;
+			font-size: 16px;
+			font-weight: 700;
+			cursor: pointer;
+			touch-action: manipulation;
+		}
+
+		#landscape-button:disabled {
+			opacity: 0.72;
+		}
+
+		#orientation-status {
+			min-height: 1.6em;
+			margin: 12px 0 0;
+			color: #d7d9ce;
+				font-size: 13px;
+			}
+		</style>
+			<link id="-gd-engine-icon" rel="icon" type="image/png" href="phone-r12.png">
+			<link rel="apple-touch-icon" href="phone-r12.png">
+	</head>
+	<body>
+		<canvas id="canvas">
+		Your browser does not support the canvas tag.
+	</canvas>
+
+	<div id="orientation-notice" role="dialog" aria-modal="true" aria-labelledby="orientation-title" aria-hidden="true">
+		<div class="orientation-card">
+			<div class="orientation-symbol" aria-hidden="true">⟳</div>
+			<h1 id="orientation-title">အလျားလိုက်ကစားပါ</h1>
+			<p>ဖုန်းကို အလျားလိုက်လှည့်ပါ။ သင့် browser က ပံ့ပိုးပါက အောက်ပါခလုတ်ကိုနှိပ်ပြီး landscape mode ကို အလိုအလျောက်ဖွင့်နိုင်ပါတယ်။</p>
+			<button id="landscape-button" type="button">အလျားလိုက်ဖွင့်ရန်</button>
+			<p id="orientation-status" aria-live="polite">အလိုအလျောက်မပြောင်းပါက ဖုန်းကို ကိုယ်တိုင်အလျားလိုက်လှည့်ပါ။</p>
+		</div>
+	</div>
+
+	<noscript>
+		Your browser does not support JavaScript.
+	</noscript>
+
+		<div id="status">
+			<img id="status-splash" class="show-image--true fullsize--false use-filter--true" src="phone-r12.png" alt="မုဆိုးဘို ဂိမ်းပုံတံဆိပ်">
+				<div id="status-title">အောင်ဇေယျ • မုဆိုးဘို</div>
+				<progress id="status-progress"></progress>
+				<div id="status-detail" role="status" aria-live="polite">ဝဘ်ဂိမ်းဒေတာ ၃၃.၀ MB နှင့် WebAssembly ၃၉.၅ MB ကို ဖွင့်နေသည်။ ကွန်ရက်နှင့် ဖုန်းပေါ်မူတည်၍ အချိန်ယူနိုင်သည်။</div>
+				<div id="status-notice"></div>
+	</div>
+
+	<script src="phone-r12.js"></script>
+	<script>
+		const orientationNotice = document.getElementById('orientation-notice');
+		const orientationButton = document.getElementById('landscape-button');
+		const orientationStatus = document.getElementById('orientation-status');
+
+		function isPortraitViewport() {
+			return window.matchMedia('(orientation: portrait)').matches || window.innerHeight > window.innerWidth;
+		}
+
+		function updateOrientationNotice() {
+			const needsLandscape = isPortraitViewport();
+			document.body.classList.toggle('needs-landscape', needsLandscape);
+			orientationNotice.setAttribute('aria-hidden', String(!needsLandscape));
+		}
+
+		async function requestLandscapeFromGesture() {
+			orientationButton.disabled = true;
+			orientationStatus.textContent = 'Landscape mode ဖွင့်ရန် ကြိုးစားနေသည်…';
+
+			if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+				try {
+					await document.documentElement.requestFullscreen();
+				} catch (error) {
+					// Some browsers do not permit fullscreen; still try the orientation API.
+				}
+			}
+
+			try {
+				if (!screen.orientation || typeof screen.orientation.lock !== 'function') {
+					throw new Error('Orientation lock is unavailable in this browser.');
+				}
+				await screen.orientation.lock('landscape');
+				orientationStatus.textContent = 'Landscape mode ဖွင့်ပြီးပါပြီ။';
+			} catch (error) {
+				orientationStatus.textContent = 'ဒီ browser က အလိုအလျောက်လှည့်ခြင်းကို မပံ့ပိုးပါ။ ဖုန်းကို ကိုယ်တိုင်အလျားလိုက်လှည့်ပါ။';
+			}
+
+			orientationButton.disabled = false;
+			updateOrientationNotice();
+		}
+
+		orientationButton.addEventListener('click', requestLandscapeFromGesture);
+		window.addEventListener('resize', updateOrientationNotice);
+		window.addEventListener('orientationchange', updateOrientationNotice);
+		if (screen.orientation && screen.orientation.addEventListener) {
+			screen.orientation.addEventListener('change', updateOrientationNotice);
+		}
+		updateOrientationNotice();
+
+		// Attempt the lock immediately where the browser permits it without a gesture.
+		if (isPortraitViewport() && screen.orientation && typeof screen.orientation.lock === 'function') {
+			screen.orientation.lock('landscape').then(updateOrientationNotice).catch(() => {});
+		}
+
+		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"phone-r12","experimentalVK":false,"fileSizes":{"phone-r12.pck":33050884,"phone-r12.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+		const GODOT_THREADS_ENABLED = false;
+		const engine = new Engine(GODOT_CONFIG);
+
+		(function () {
+			const statusOverlay = document.getElementById('status');
+			const statusProgress = document.getElementById('status-progress');
+			const statusNotice = document.getElementById('status-notice');
+			const statusDetail = document.getElementById('status-detail');
+
+			let initializing = true;
+			let statusMode = '';
+			const loadingStartedAt = performance.now();
+			let lastProgressAt = loadingStartedAt;
+			let lastProgressMark = '';
+			let latestProgressPercent = null;
+
+			function formatElapsed(milliseconds) {
+				const seconds = Math.max(0, Math.floor(milliseconds / 1000));
+				if (seconds >= 60) {
+					return `${Math.floor(seconds / 60)} မိနစ် ${seconds % 60} စက္ကန့်`;
+				}
+				return `${seconds} စက္ကန့်`;
+			}
+
+			function updateLoadingFeedback() {
+				if (!initializing) return;
+				const now = performance.now();
+				const elapsed = formatElapsed(now - loadingStartedAt);
+				const base = latestProgressPercent === null
+					? `Godot game files ဖွင့်ရန် ပြင်ဆင်နေသည် • ${elapsed}`
+					: `Godot progress ${latestProgressPercent}% • စုစုပေါင်း ${elapsed}`;
+				const idleMs = now - lastProgressAt;
+				const idle = idleMs >= 20000
+					? `\nProgress update မရှိသည်မှာ ${formatElapsed(idleMs)} ရှိပါပြီ။ ကွန်ရက်နှေးခြင်း သို့မဟုတ် ဖုန်းက ဖိုင်ဖွင့်နေခြင်း ဖြစ်နိုင်သည်။ ပြီးဆုံးချိန်ကို ဤတန်ဖိုးမှ မခန့်မှန်းနိုင်ပါ—စာမျက်နှာကို ဖွင့်ထားပါ။`
+					: '';
+				statusDetail.textContent = `${base}${idle}`;
+			}
+
+			const loadingFeedbackTimer = window.setInterval(updateLoadingFeedback, 1000);
+
+			function setStatusMode(mode) {
+				if (statusMode === mode || !initializing) {
+					return;
+				}
+				if (mode === 'hidden') {
+					window.clearInterval(loadingFeedbackTimer);
+					statusOverlay.remove();
+					initializing = false;
+					return;
+				}
+				statusOverlay.style.visibility = 'visible';
+				statusProgress.style.display = mode === 'progress' ? 'block' : 'none';
+				statusDetail.style.display = mode === 'progress' ? 'block' : 'none';
+				statusNotice.style.display = mode === 'notice' ? 'block' : 'none';
+				statusMode = mode;
+			}
+
+			function setStatusNotice(text) {
+				while (statusNotice.lastChild) {
+					statusNotice.removeChild(statusNotice.lastChild);
+				}
+				const lines = text.split('\n');
+				lines.forEach((line) => {
+					statusNotice.appendChild(document.createTextNode(line));
+					statusNotice.appendChild(document.createElement('br'));
+				});
+			}
+
+			function displayFailureNotice(err) {
+				window.clearInterval(loadingFeedbackTimer);
+				console.error(err);
+				if (err instanceof Error) {
+					setStatusNotice(err.message);
+				} else if (typeof err === 'string') {
+					setStatusNotice(err);
+				} else {
+					setStatusNotice('An unknown error occurred.');
+				}
+				setStatusMode('notice');
+				initializing = false;
+			}
+
+			const missing = Engine.getMissingFeatures({
+				threads: GODOT_THREADS_ENABLED,
+			});
+
+			if (missing.length !== 0) {
+				if (GODOT_CONFIG['serviceWorker'] && GODOT_CONFIG['ensureCrossOriginIsolationHeaders'] && 'serviceWorker' in navigator) {
+					let serviceWorkerRegistrationPromise;
+					try {
+						serviceWorkerRegistrationPromise = navigator.serviceWorker.getRegistration();
+					} catch (err) {
+						serviceWorkerRegistrationPromise = Promise.reject(new Error('Service worker registration failed.'));
+					}
+					Promise.race([
+						serviceWorkerRegistrationPromise.then((registration) => {
+							if (registration != null) {
+								return Promise.reject(new Error('Service worker already exists.'));
+							}
+							return registration;
+						}).then(() => engine.installServiceWorker()),
+						new Promise((resolve) => {
+							setTimeout(() => resolve(), 2000);
+						}),
+					]).then(() => {
+						window.location.reload();
+					}).catch((err) => {
+						console.error('Error while registering service worker:', err);
+					});
+				} else {
+					const missingMsg = 'Error\nThe following features required to run Godot projects on the Web are missing:\n';
+					displayFailureNotice(missingMsg + missing.join('\n'));
+				}
+			} else {
+				setStatusMode('progress');
+					engine.startGame({
+						'onProgress': function (current, total) {
+							if (current > 0 && total > 0) {
+								statusProgress.value = current;
+								statusProgress.max = total;
+								const mark = `${current}/${total}`;
+								if (mark !== lastProgressMark) {
+									lastProgressMark = mark;
+									lastProgressAt = performance.now();
+								}
+								latestProgressPercent = Math.floor((current / total) * 100);
+							} else {
+								statusProgress.removeAttribute('value');
+								statusProgress.removeAttribute('max');
+							}
+							updateLoadingFeedback();
+						},
+				}).then(() => {
+					setStatusMode('hidden');
+				}, displayFailureNotice);
+			}
+		}());
+	</script>
+</body>
+</html>
