@@ -1,8 +1,26 @@
 {
   "provider": "BBC Sport",
   "feedUrl": "https://feeds.bbci.co.uk/sport/football/rss.xml?edition=int",
-  "fetchedAt": "2026-11-01T20:26:48Z",
+  "fetchedAt": "2026-11-01T20:37:14Z",
   "articles": [
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/articles/c6rry8pxwkdpo#2",
+      "title": "Warnock hid seizures from Liverpool as a youngster",
+      "url": "https://www.bbc.co.uk/sport/football/articles/c6rry8pxwkdpo?at_medium=RSS&at_campaign=rss",
+      "description": "Former Premier League footballer Stephen Warnock says he hid seizures from Liverpool as a youngster because he feared he would be released.",
+      "publishedAt": "2026-11-01T20:32:44Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/849b/live/b532dde0-d630-11f1-b862-ff7106b70f88.jpg"
+    },
+    {
+      "guid": "https://www.bbc.co.uk/iplayer/episode/l00590gw#0",
+      "title": "Watch: Bundesliga highlights - matchday eight",
+      "url": "https://www.bbc.co.uk/iplayer/episode/l00590gw?at_medium=RSS&at_campaign=rss",
+      "description": "Watch highlights from matchday eight in the Bundesliga.",
+      "publishedAt": "2026-11-01T20:18:38Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/images/ic/240x135/p0p8slj9.jpg"
+    },
     {
       "guid": "https://www.bbc.co.uk/sport/football/articles/c39wz2epven4o#0",
       "title": "From Fleetwood embarrassment to 'magical' Anfield win 14 years in making ",
@@ -34,6 +52,15 @@
       "guid": "https://www.bbc.co.uk/iplayer/live/bbcscotland#17",
       "title": "Watch: Falkirk v Celtic highlights on Sportscene",
       "url": "https://www.bbc.co.uk/iplayer/live/bbcscotland?at_medium=RSS&at_campaign=rss",
+      "description": "Extended highlights of Falkirk v Celtic, and a look back at Saturday's action.",
+      "publishedAt": "2026-11-01T19:45:14Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/images/ic/240x135/p0pkrcp5.jpg"
+    },
+    {
+      "guid": "https://www.bbc.co.uk/iplayer/episode/m0033wbj#17",
+      "title": "Watch: Falkirk v Celtic highlights on Sportscene",
+      "url": "https://www.bbc.co.uk/iplayer/episode/m0033wbj?at_medium=RSS&at_campaign=rss",
       "description": "Extended highlights of Falkirk v Celtic, and a look back at Saturday's action.",
       "publishedAt": "2026-11-01T19:45:14Z",
       "publisher": "BBC Sport",
@@ -441,6 +468,15 @@
       "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/6cac/live/3039d500-d55c-11f1-b937-61b94454a4cf.jpg",
       "publishedAt": "2026-10-31T20:26:15Z",
       "publisher": "BBC Sport"
+    },
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/articles/cv369yp2451lo#11",
+      "title": "More goals for Lankshear, home woes for Hammers - Aaron McLean's EFL Takeaways",
+      "url": "https://www.bbc.co.uk/sport/football/articles/cv369yp2451lo?at_medium=RSS&at_campaign=rss",
+      "description": "BBC Final Score pundit Aaron McLean looks at the weekend's talking points in the EFL, including Middlesbrough and West Ham United. ",
+      "publishedAt": "2026-10-31T20:24:50Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/e5df/live/6baa95e0-d569-11f1-a701-fddedf244c16.png"
     },
     {
       "guid": "https://www.bbc.co.uk/sport/football/articles/cmrry892zpkro#7",
