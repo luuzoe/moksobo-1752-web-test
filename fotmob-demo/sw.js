@@ -1,4 +1,4 @@
-const CACHE_NAME = 'matchday-shell-v6';
+const CACHE_NAME = 'matchday-shell-v7';
 const SHELL_FILES = [
   './',
   './index.html',
@@ -9,17 +9,20 @@ const SHELL_FILES = [
   './pwa.js',
   './app.js',
   './manifest.webmanifest',
+  './brand-options.html',
   './icons/matchday-180.png',
   './icons/matchday-192.png',
   './icons/matchday-512.png',
   './icons/matchday-maskable-512.png',
+  './icons/option-a-football-badge.svg',
+  './icons/option-b-ball-m.svg',
   './data/news.json',
   './data/matches.json'
 ];
 
 function cacheKeyFor(request, scopeURL) {
   const url = new URL(request.url);
-  if (request.mode === 'navigate') {
+  if (request.mode === 'navigate' && url.pathname !== new URL('./brand-options.html', scopeURL).pathname) {
     url.pathname = new URL('./index.html', scopeURL).pathname;
   }
   url.search = '';
