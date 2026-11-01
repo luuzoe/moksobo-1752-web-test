@@ -1,8 +1,17 @@
 {
   "provider": "BBC Sport",
   "feedUrl": "https://feeds.bbci.co.uk/sport/football/rss.xml?edition=int",
-  "fetchedAt": "2026-11-01T20:37:14Z",
+  "fetchedAt": "2026-11-01T21:07:24Z",
   "articles": [
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/articles/cvp8grpjk4leo#0",
+      "title": "I'll tell my players to dive in future - Iraola",
+      "url": "https://www.bbc.co.uk/sport/football/articles/cvp8grpjk4leo?at_medium=RSS&at_campaign=rss",
+      "description": "Andoni Iraola says that he will tell his players to go down in future after Liverpool were denied a penalty in Sunday's defeat by Arsenal.",
+      "publishedAt": "2026-11-01T21:00:26Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/3c6f/live/4e8ffeb0-d630-11f1-81be-7db9d1d08850.jpg"
+    },
     {
       "guid": "https://www.bbc.co.uk/sport/football/articles/c6rry8pxwkdpo#2",
       "title": "Warnock hid seizures from Liverpool as a youngster",
