@@ -335,5 +335,59 @@ html,body,button,input{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe 
 .news-feed{padding-top:12px}
 .news-story{border-radius:16px;box-shadow:0 2px 8px rgba(20,32,38,.045)}
 .news-story:hover{transform:none}
+
+/* Slight type-size increase for more comfortable reading; controls and icons stay the same. */
+main{font-size:17px}
+.league-name{font-size:13px}
+.league-meta,.league-right{font-size:10px}
+.match-row .team{font-size:12px}
+.match-time{font-size:10px}
+.match-time .state-label{font-size:8px}
+.scorecol{font-size:13px}
+.navitem span{font-size:9.5px}
+.detail-completion{font-size:11px}
+.detail-status{font-size:9px}
+.detail-update{font-size:9px}
+.score-time{font-size:11px}
+.detail-tab{font-size:10px}
+.detail-fact span{font-size:9px}
+.detail-fact strong{font-size:11.5px}
+.detail-event{font-size:11px}
+.detail-event small{font-size:9px}
+.stats-team-head>span{font-size:10px}
+.stat-row strong{font-size:11px}
+.stat-row>span{font-size:9px}
+.lineup-team-title strong{font-size:10px}
+.lineup-team-title small,.lineup-count{font-size:8px}
+.lineup-player .player-name{font-size:9px}
+.lineup-starters .lineup-player .player-position,.lineup-starters .lineup-player .player-state{font-size:7px}
+.lineup-reserves h3{font-size:9px}
+.news-story-meta{font-size:11px}
+.news-story-meta .news-source{font-size:9px}
+.news-story h2{font-size:16px}
+.news-story-copy p{font-size:13px}
+.news-read-link{font-size:11px}
+.news-image-credit{font-size:10px}
+.league-tab{font-size:10px}
+.league-card-heading h2{font-size:13px}
+.league-card-heading p{font-size:9px}
+.league-standings th{font-size:9px}
+.league-standings td{font-size:10px}
+.league-fixture-meta{font-size:9px}
+.league-fixture-side>strong{font-size:13px}
+.league-open-match{font-size:9px}
+.league-load-more{font-size:10px}
+.league-scoreboard-row{font-size:10px}
+.league-scoreboard-row>span{font-size:9px}
+.league-empty strong{font-size:12px}
+.league-empty p,.league-unavailable-details>p{font-size:10px}
+.league-overview-fixture strong{font-size:10px}
+.league-player-detail strong{font-size:10px}
+.league-player-detail small{font-size:8px}
+.league-team-row-meta{font-size:9px}
+.league-season-info strong{font-size:10px}
+.league-season-info small{font-size:8px}
+@media(max-width:380px){.match-row .team{font-size:11.5px}.standing-club .team-identity{font-size:9.5px}}
+@media(max-width:360px){.app .detail-tab{font-size:9px}.app .detail-update{font-size:8px}.app .navitem span{font-size:9px}.app .score-team .team-identity .identity-name{font-size:9.5px}.news-story h2{font-size:15.5px}.news-story-copy p{font-size:12.5px}}
 @media(max-width:360px){.match-row{grid-template-columns:39px minmax(0,1fr) 30px 42px;gap:4px;padding-right:4px}.star-btn{width:42px!important;height:42px!important;min-width:42px}.score-teams{grid-template-columns:minmax(0,1fr) 72px minmax(0,1fr)}.score-team .team-identity .identity-name{font-size:9px}.detail-tab{padding-inline:5px;font-size:8px}.detail-update{font-size:7px}.navitem span{font-size:8.5px}}
 @media(prefers-reduced-motion:reduce){html:focus-within{scroll-behavior:auto}.star-btn,.navitem{transition:none!important}}
