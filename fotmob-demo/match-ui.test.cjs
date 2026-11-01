@@ -11,8 +11,23 @@ if (browserStartup < 0) throw new Error('Could not find browser-only app startup
 const sandbox = { localStorage: { getItem: () => null, setItem: () => {} }, console };
 vm.runInNewContext(`${appSource.slice(0, browserStartup)}
 teamBadge = () => '<span class="test-team"></span>';
-globalThis.matchUi = { kickoffTime, matchRow, matchesPage, feedFreshness, state, localDateKey, selectedDate };`, sandbox, { filename: 'app.js' });
+globalThis.matchUi = { kickoffTime, matchRow, matchesPage, feedFreshness, state, localDateKey, selectedDate, scoreboardDates, eventsForMyanmarDate };`, sandbox, { filename: 'app.js' });
 const ui = sandbox.matchUi;
+
+test('groups after-midnight Myanmar fixtures under the local day and queries both overlapping UTC dates', () => {
+  ui.state.dateOffset = 0;
+  const selected = ui.selectedDate(new Date('2026-11-01T19:16:00Z'));
+  assert.equal(ui.localDateKey(selected), '2026-11-02');
+  assert.deepEqual(Array.from(ui.scoreboardDates(selected)), ['20261101', '20261102']);
+  const fixtures = [
+    { id: 'juventus-napoli', kickoffUtc: '2026-11-01T19:45:00Z' },
+    { id: 'athletic-real-sociedad', kickoffUtc: '2026-11-01T20:00:00Z' },
+    { id: 'previous-myanmar-day', kickoffUtc: '2026-11-01T17:15:00Z' },
+  ];
+  const visible = ui.eventsForMyanmarDate(fixtures, '2026-11-02');
+  assert.deepEqual(Array.from(visible, match => match.id), ['juventus-napoli', 'athletic-real-sociedad']);
+  assert.deepEqual(Array.from(visible, match => ui.kickoffTime(match.kickoffUtc)), ['02:15', '02:30']);
+});
 
 test('formats upcoming kickoff times in Myanmar Time regardless of host timezone', () => {
   assert.equal(ui.kickoffTime('2099-11-02T02:45:00Z'), '09:15');
