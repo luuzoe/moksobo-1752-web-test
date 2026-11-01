@@ -1,4 +1,4 @@
-const CACHE_NAME = 'matchday-shell-v1';
+const CACHE_NAME = 'matchday-shell-v2';
 const SHELL_FILES = [
   './',
   './index.html',
@@ -13,10 +13,18 @@ const SHELL_FILES = [
   './icons/matchday-192.png',
   './icons/matchday-512.png',
   './icons/matchday-maskable-512.png',
-  './data/news.json',
-  './data/matches.json',
-  './data/espn/teams.json'
+  './data/news.json'
 ];
+
+function cacheKeyFor(request, scopeURL) {
+  const url = new URL(request.url);
+  if (request.mode === 'navigate') {
+    url.pathname = new URL('./index.html', scopeURL).pathname;
+  }
+  url.search = '';
+  url.hash = '';
+  return url.href;
+}
 
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
@@ -27,7 +35,7 @@ self.addEventListener('install', event => {
         const response = await fetch(url.href, { cache: 'reload' });
         if (response.ok) await cache.put(url.href, response.clone());
       } catch (_) {
-        // Keep installation available even if a nonessential shell asset is temporarily unreachable.
+        // Keep installation available if a nonessential shell asset is temporarily unreachable.
       }
     }));
     await self.skipWaiting();
@@ -37,7 +45,9 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
-    await Promise.all(keys.filter(key => key.startsWith('matchday-shell-') && key !== CACHE_NAME).map(key => caches.delete(key)));
+    await Promise.all(keys
+      .filter(key => key.startsWith('matchday-shell-') && key !== CACHE_NAME)
+      .map(key => caches.delete(key)));
     await self.clients.claim();
   })());
 });
@@ -45,20 +55,34 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET') return;
+
   const requestURL = new URL(request.url);
   const scopeURL = new URL('./', self.location.href);
   if (requestURL.origin !== scopeURL.origin || !requestURL.pathname.startsWith(scopeURL.pathname)) return;
 
+  const key = cacheKeyFor(request, scopeURL);
+  const cachePromise = caches.open(CACHE_NAME);
+  const refreshPromise = fetch(request).then(async response => {
+    if (response && response.ok && response.type === 'basic') {
+      const cache = await cachePromise;
+      await cache.put(key, response.clone());
+    }
+    return response;
+  });
+
+  // Keep the background refresh alive after returning a cached response.
+  event.waitUntil(refreshPromise.then(() => undefined).catch(() => undefined));
   event.respondWith((async () => {
-    const cache = await caches.open(CACHE_NAME);
+    const cache = await cachePromise;
+    const cached = await cache.match(key);
+    if (cached && request.cache !== 'no-store') return cached;
+
     try {
-      const response = await fetch(request);
-      if (response && response.ok && response.type === 'basic') {
-        await cache.put(request, response.clone());
-      }
-      return response;
+      const fresh = await refreshPromise;
+      if (fresh && fresh.ok) return fresh;
+      if (cached) return cached;
+      return fresh;
     } catch (_) {
-      const cached = await cache.match(request, { ignoreSearch: true });
       if (cached) return cached;
       if (request.mode === 'navigate') {
         const offlinePage = await cache.match(new URL('./index.html', scopeURL).href);
