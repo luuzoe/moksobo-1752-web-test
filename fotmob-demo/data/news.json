@@ -1,8 +1,17 @@
 {
   "provider": "BBC Sport",
   "feedUrl": "https://feeds.bbci.co.uk/sport/football/rss.xml?edition=int",
-  "fetchedAt": "2026-11-01T17:18:36Z",
+  "fetchedAt": "2026-11-01T17:36:22Z",
   "articles": [
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/articles/cmvg7d1xl8epo#17",
+      "title": "Are Celtic club in regression amid run of six defeats in 10?",
+      "url": "https://www.bbc.co.uk/sport/football/articles/cmvg7d1xl8epo?at_medium=RSS&at_campaign=rss",
+      "description": "Chris Sutton and Ian McCall weigh in on Celtic after a second league defeat of the season, but manager Martin O'Neill is defiant.",
+      "publishedAt": "2026-11-01T17:34:12Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/1f85/live/92559140-d613-11f1-90fb-b3468681b3ba.jpg"
+    },
     {
       "guid": "https://www.bbc.co.uk/sport/football/videos/c6wyrgydvx0lo#4",
       "title": "Chelsea put six past Charlton to top WSL table",
