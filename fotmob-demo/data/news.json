@@ -1,8 +1,17 @@
 {
   "provider": "BBC Sport",
   "feedUrl": "https://feeds.bbci.co.uk/sport/football/rss.xml?edition=int",
-  "fetchedAt": "2026-11-01T18:46:26Z",
+  "fetchedAt": "2026-11-01T18:56:39Z",
   "articles": [
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/articles/cxr5yjpnd31eo#17",
+      "title": "Giant curiosity Hibs finally liberated from the sucker punch ",
+      "url": "https://www.bbc.co.uk/sport/football/articles/cxr5yjpnd31eo?at_medium=RSS&at_campaign=rss",
+      "description": "Hibernian, for once, avoid late heartbreak to set up League Cup final with Rangers, writes Tom English.",
+      "publishedAt": "2026-11-01T18:45:49Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/70d1/live/12fd5df0-d623-11f1-8b43-9d133992838c.jpg"
+    },
     {
       "guid": "https://www.bbc.co.uk/sport/football/articles/cqj9kgyww478o#0",
       "title": "Rice brings energy, Alisson costs hosts - Liverpool and Arsenal player ratings",
