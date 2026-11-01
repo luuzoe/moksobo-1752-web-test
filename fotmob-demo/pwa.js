@@ -18,6 +18,10 @@
   let installMode = null;
   let swRegistration = null;
   let reloadAfterUpdate = false;
+  let siteUpdateVersion = null;
+  const siteVersionKey = 'matchday-site-version';
+  const siteVersionCheckKey = 'matchday-site-version-checked';
+  const siteVersionURL = 'https://api.github.com/repos/luuzoe/moksobo-1752-web-test/commits?path=fotmob-demo&per_page=1';
 
   const ua = navigator.userAgent || '';
   const isIOS = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -94,7 +98,7 @@
   }
 
   function showUpdateAvailable() {
-    if (!updateBanner || !swRegistration || !swRegistration.waiting || !navigator.serviceWorker.controller) return;
+    if (!updateBanner || !swRegistration || (!swRegistration.waiting && !siteUpdateVersion) || !navigator.serviceWorker.controller) return;
     if (sessionFlag('matchday-pwa-update-dismissed')) return;
     if (banner) banner.hidden = true;
     updateBanner.hidden = false;
@@ -117,16 +121,69 @@
       // A network failure should not interrupt the current app session.
     }
     if (swRegistration.waiting) showUpdateAvailable();
+    await checkSiteVersion();
+  }
+
+  async function checkSiteVersion() {
+    if (!navigator.onLine) return;
+    const now = Date.now();
+    try {
+      const lastCheck = Number(localStorage.getItem(siteVersionCheckKey) || 0);
+      if (now - lastCheck < 6 * 60 * 60 * 1000) return;
+      localStorage.setItem(siteVersionCheckKey, String(now));
+    } catch (_) {
+      // Continue checking when browser storage is unavailable.
+    }
+    try {
+      const response = await fetch(siteVersionURL, {
+        cache: 'no-store',
+        headers: { Accept: 'application/vnd.github+json' }
+      });
+      if (!response.ok) return;
+      const commits = await response.json();
+      const latestVersion = Array.isArray(commits) && commits[0] && commits[0].sha;
+      if (!latestVersion) return;
+      const installedVersion = localStorage.getItem(siteVersionKey);
+      if (!installedVersion) {
+        localStorage.setItem(siteVersionKey, latestVersion);
+      } else if (installedVersion !== latestVersion) {
+        siteUpdateVersion = latestVersion;
+        showUpdateAvailable();
+      }
+    } catch (_) {
+      // GitHub may be offline or rate-limited; the app remains usable as-is.
+    }
   }
 
   function applyUpdate() {
     const waitingWorker = swRegistration && swRegistration.waiting;
     if (!waitingWorker) {
-      if (updateBanner) updateBanner.hidden = true;
-      checkForUpdate();
+      const activeWorker = navigator.serviceWorker.controller;
+      if (!activeWorker || typeof MessageChannel === 'undefined') {
+        window.location.reload();
+        return;
+      }
+      if (updateAction) {
+        updateAction.disabled = true;
+        updateAction.textContent = 'Updating…';
+      }
+      const channel = new MessageChannel();
+      channel.port1.onmessage = event => {
+        if (!event.data || event.data.type !== 'SHELL_REFRESHED') return;
+        channel.port1.close();
+        if (siteUpdateVersion) {
+          try { localStorage.setItem(siteVersionKey, siteUpdateVersion); } catch (_) { /* Storage may be unavailable. */ }
+        }
+        window.location.reload();
+      };
+      activeWorker.postMessage({ type: 'REFRESH_SHELL' }, [channel.port2]);
+      window.setTimeout(() => window.location.reload(), 20000);
       return;
     }
     reloadAfterUpdate = true;
+    if (siteUpdateVersion) {
+      try { localStorage.setItem(siteVersionKey, siteUpdateVersion); } catch (_) { /* Storage may be unavailable. */ }
+    }
     if (updateAction) {
       updateAction.disabled = true;
       updateAction.textContent = 'Updating…';

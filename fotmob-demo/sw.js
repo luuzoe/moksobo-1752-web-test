@@ -1,4 +1,4 @@
-const CACHE_NAME = 'matchday-shell-v5';
+const CACHE_NAME = 'matchday-shell-v6';
 const SHELL_FILES = [
   './',
   './index.html',
@@ -13,7 +13,8 @@ const SHELL_FILES = [
   './icons/matchday-192.png',
   './icons/matchday-512.png',
   './icons/matchday-maskable-512.png',
-  './data/news.json'
+  './data/news.json',
+  './data/matches.json'
 ];
 
 function cacheKeyFor(request, scopeURL) {
@@ -38,11 +39,31 @@ self.addEventListener('install', event => {
         // Keep installation available if a nonessential shell asset is temporarily unreachable.
       }
     }));
+    // Install the update monitor promptly; later site revisions are announced in-app.
+    await self.skipWaiting();
   })());
 });
 
 self.addEventListener('message', event => {
-  if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    event.waitUntil(self.skipWaiting());
+    return;
+  }
+  if (!event.data || event.data.type !== 'REFRESH_SHELL') return;
+  const replyPort = event.ports && event.ports[0];
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    await Promise.all(SHELL_FILES.map(async path => {
+      try {
+        const url = new URL(path, self.location.href);
+        const response = await fetch(url.href, { cache: 'reload' });
+        if (response.ok && response.type === 'basic') await cache.put(url.href, response.clone());
+      } catch (_) {
+        // Retain the cached file if a refresh is temporarily unavailable.
+      }
+    }));
+    if (replyPort) replyPort.postMessage({ type: 'SHELL_REFRESHED' });
+  })());
 });
 
 self.addEventListener('activate', event => {
