@@ -202,8 +202,8 @@
 				font-size: 13px;
 			}
 		</style>
-			<link id="-gd-engine-icon" rel="icon" type="image/png" href="phone-r12.png">
-			<link rel="apple-touch-icon" href="phone-r12.png">
+			<link id="-gd-engine-icon" rel="icon" type="image/png" href="phone-r13.png">
+			<link rel="apple-touch-icon" href="phone-r13.png">
 	</head>
 	<body>
 		<canvas id="canvas">
@@ -225,14 +225,14 @@
 	</noscript>
 
 		<div id="status">
-			<img id="status-splash" class="show-image--true fullsize--false use-filter--true" src="phone-r12.png" alt="မုဆိုးဘို ဂိမ်းပုံတံဆိပ်">
+			<img id="status-splash" class="show-image--true fullsize--false use-filter--true" src="phone-r13.png" alt="မုဆိုးဘို ဂိမ်းပုံတံဆိပ်">
 				<div id="status-title">အောင်ဇေယျ • မုဆိုးဘို</div>
 				<progress id="status-progress"></progress>
 				<div id="status-detail" role="status" aria-live="polite">ဝဘ်ဂိမ်းဒေတာ ၃၃.၀ MB နှင့် WebAssembly ၃၉.၅ MB ကို ဖွင့်နေသည်။ ကွန်ရက်နှင့် ဖုန်းပေါ်မူတည်၍ အချိန်ယူနိုင်သည်။</div>
 				<div id="status-notice"></div>
 	</div>
 
-	<script src="phone-r12.js"></script>
+	<script src="phone-r13.js"></script>
 	<script>
 		const orientationNotice = document.getElementById('orientation-notice');
 		const orientationButton = document.getElementById('landscape-button');
@@ -287,7 +287,7 @@
 			screen.orientation.lock('landscape').then(updateOrientationNotice).catch(() => {});
 		}
 
-		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"phone-r12","experimentalVK":false,"fileSizes":{"phone-r12.pck":33050884,"phone-r12.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"phone-r13","experimentalVK":false,"fileSizes":{"phone-r13.pck":33050596,"phone-r13.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
 		const GODOT_THREADS_ENABLED = false;
 		const engine = new Engine(GODOT_CONFIG);
 
@@ -428,3 +428,4 @@
 	</script>
 </body>
 </html>
+

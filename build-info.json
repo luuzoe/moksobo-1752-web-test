@@ -1,60 +1,60 @@
 {
-  "build_id": "chapter1-ages18-25-mobile-phone-r12-20261031",
+  "build_id": "chapter1-compact-controls-phone-r13-20261101",
   "chapter": 1,
   "playable_missions": 8,
   "story_period": "c.1732–1739; ages 18–25 approximately",
-  "status": "validated_web_preview_release",
-  "owner_approved": true,
+  "status": "web_preview_candidate_awaiting_phone_test",
+  "owner_approved": false,
   "engine": "Godot 4.7.2",
   "active_web_entry": "index.html",
-  "build_page": "phone-r12.html",
-  "preview_url": "https://luuzoe.github.io/moksobo-1752-web-test/?build=phone-r12",
-  "direct_build_url": "https://luuzoe.github.io/moksobo-1752-web-test/phone-r12.html",
+  "build_page": "phone-r13.html",
+  "preview_url": "https://luuzoe.github.io/moksobo-1752-web-test/?build=phone-r13",
+  "direct_build_url": "https://luuzoe.github.io/moksobo-1752-web-test/phone-r13.html",
   "release_assets": {
-    "phone-r12.apple-touch-icon.png": {
+    "phone-r13.apple-touch-icon.png": {
       "bytes": 81523,
       "sha256": "c4b91a479de36596f28d1d1ee1adfb7e36e7b7e8d7e0868dde46a77114d87a3c"
     },
-    "phone-r12.audio.position.worklet.js": {
+    "phone-r13.audio.position.worklet.js": {
       "bytes": 2973,
       "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8"
     },
-    "phone-r12.audio.worklet.js": {
+    "phone-r13.audio.worklet.js": {
       "bytes": 7298,
       "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3"
     },
-    "phone-r12.html": {
-      "bytes": 14151,
-      "sha256": "9837b533c43aec6ade01d5262881e43102a53947b3d13087a55cc3c09cc8d816"
+    "phone-r13.html": {
+      "bytes": 14152,
+      "sha256": "2b03e5dde27e98bec743cacdc77035f05d970ef263e6fb1c37289e73a51b8a7a"
     },
-    "phone-r12.icon.png": {
+    "phone-r13.icon.png": {
       "bytes": 552644,
       "sha256": "baf8fe37f6ea8992a2c54c90142b3ff41874ade2580c230dc0e3f16af7a11839"
     },
-    "phone-r12.js": {
+    "phone-r13.js": {
       "bytes": 279815,
       "sha256": "33c94cb3175f3333b82e2a3be5e8e86f77986f0aa2042b1631f6367a4e5bb6ba"
     },
-    "phone-r12.pck": {
-      "bytes": 33050884,
-      "sha256": "6a10ecd4b60dc8f1cc42503189a1840c598c531e7b529f3c6543286769596484"
+    "phone-r13.pck": {
+      "bytes": 33050596,
+      "sha256": "f25035e6257dcf097649245fdbdeb4dfa632f72847ee13ac88a486c0553b6a65"
     },
-    "phone-r12.png": {
+    "phone-r13.png": {
       "bytes": 552644,
       "sha256": "baf8fe37f6ea8992a2c54c90142b3ff41874ade2580c230dc0e3f16af7a11839"
     },
-    "phone-r12.wasm": {
+    "phone-r13.wasm": {
       "bytes": 39514754,
       "sha256": "fc74679e3b97f76878947fcd4fbe1268cbfa6188182a2e33bbc3f5dc9bfa57d0"
     }
   },
-  "export_total_bytes": 74056686,
+  "export_total_bytes": 74056399,
   "source_sha256": {
     "main_menu": "9d8dd9caabb0968073280cbf0b912a5c453650ef4c30cf89e4df63f4b3c560cc",
-    "world": "2d1c06131a6f7a1f1e8229907cad3cefa6b9f4ffcf0beea55bc3b750599793c2",
+    "world": "b5d42c6a542c6a1786725b8e110be7fac0138670fdebe09bd1f402da130f6a91",
     "player": "e2826269d7d26ea309fdfdbad484582e1b8fea6a9a351e2059fa53627b4636c7",
-    "hud": "8aee29d981b654fa5ba4901bc6f1d58be366276c0751413e375cb805c7325cc8",
-    "touch_pad": "584725b1773a812187ee1845cf1baea8021186a28bf72ac766f0f277e5910506",
+    "hud": "6524ab44e2ef0a459e9561ff501c640cdcaea8293560a0031a15174c28386538",
+    "touch_pad": "86d7fa71703a9dfce6ba11e2bd2eeb1f3319310daadd4d5e79eb453a3177d6d9",
     "web_shell": "bd39b3a4456994754ffbb3d143b992593fe838c6a48c87c64bb6b939bdaa6874",
     "project_godot": "f674f4d75e888e4ce1474c7bd3ffe6b3bdcb2b724bc5a8d7d169f24ec647a635",
     "export_presets": "d788054d7bb6bd625bf6665a1676d194cb24ff2962753434801e3189e393c662",
@@ -85,34 +85,93 @@
       "village_reconstruction_smoke",
       "water_swimming_smoke"
     ],
-    "chapter1_web_e2e": {
-      "result": "PASS",
-      "missions": 8,
-      "checks": 52,
-      "save_reload_verified": true,
-      "browser_errors": [],
-      "viewport": "844x390 Chromium touch emulation",
-      "qa_only_bridge_in_release": false
-    },
-    "clean_production_touch_emulation": {
-      "direct_build_errors": [],
-      "root_entry_errors": [],
-      "viewport": "844x390 Chromium mobile touch emulation",
-      "joystick_walk_and_camera_drag_visually_verified": true,
-      "renderer": "Chromium ANGLE SwiftShader software renderer in cloud emulation",
-      "direct_build_frame_samples": 4,
-      "direct_build_mean_frame_ms": 454.125,
-      "root_entry_frame_samples": 4,
-      "root_entry_mean_frame_ms": 475,
-      "measurement_caveat": "Only four animation-frame intervals per sample under a software renderer; not a physical phone FPS estimate."
-    },
-    "village_mobile_budget": {
-      "mesh_nodes": 482,
-      "limit": 520,
-      "passed": true
-    },
+    "browser_touch_camera_checks": [
+      {
+        "viewport": "844x390",
+        "device_pixel_ratio": 1,
+        "assertions": [
+          "reference-sized joystick and separate right-side targets at correct DPR",
+          "real joystick walks >2m and releases without stale movement",
+          "simultaneous movement/camera keeps heading and finger ownership; spike cannot spin",
+          "second-finger Sprint works during movement without camera activation",
+          "individual optional action buttons open and UI touches do not rotate camera",
+          "low-physics-rate render follow has stable offset/pitch and keeps the full body in frame",
+          "portrait pauses input; landscape restores without stale movement"
+        ],
+        "errors": [],
+        "camera_capture": {
+          "samples": 15,
+          "physics_ticks_per_second": 20,
+          "max_offset_error_m": 9.536742986426816e-07,
+          "pitch_range_rad": 1.49011610994787e-07,
+          "feet_vertical_range_css_px": 3.0517578011313162e-05,
+          "mean_software_frame_ms": 388.6266666666666,
+          "p95_software_frame_ms": 436.90000000000003,
+          "caveat": "Software-renderer measurements are not handset FPS or physical-phone validation."
+        }
+      },
+      {
+        "viewport": "800x360",
+        "device_pixel_ratio": 1,
+        "assertions": [
+          "reference-sized joystick and separate right-side targets at correct DPR",
+          "real joystick walks >2m and releases without stale movement",
+          "simultaneous movement/camera keeps heading and finger ownership; spike cannot spin",
+          "second-finger Sprint works during movement without camera activation",
+          "individual optional action buttons open and UI touches do not rotate camera",
+          "low-physics-rate render follow has stable offset/pitch and keeps the full body in frame",
+          "portrait pauses input; landscape restores without stale movement"
+        ],
+        "errors": [],
+        "camera_capture": {
+          "samples": 15,
+          "physics_ticks_per_second": 20,
+          "max_offset_error_m": 9.83024969450963e-07,
+          "pitch_range_rad": 8.940696699655248e-08,
+          "feet_vertical_range_css_px": 0,
+          "mean_software_frame_ms": 362.29333333333335,
+          "p95_software_frame_ms": 426.59999999999997,
+          "caveat": "Software-renderer measurements are not handset FPS or physical-phone validation."
+        }
+      },
+      {
+        "viewport": "844x390",
+        "device_pixel_ratio": 2,
+        "assertions": [
+          "reference-sized joystick and separate right-side targets at correct DPR",
+          "real joystick walks >2m and releases without stale movement",
+          "simultaneous movement/camera keeps heading and finger ownership; spike cannot spin",
+          "second-finger Sprint works during movement without camera activation",
+          "individual optional action buttons open and UI touches do not rotate camera",
+          "low-physics-rate render follow has stable offset/pitch and keeps the full body in frame",
+          "portrait pauses input; landscape restores without stale movement"
+        ],
+        "errors": [],
+        "camera_capture": {
+          "samples": 15,
+          "physics_ticks_per_second": 20,
+          "max_offset_error_m": 9.536743981186646e-07,
+          "pitch_range_rad": 2.0861625599222222e-07,
+          "feet_vertical_range_css_px": 3.0517578011313162e-05,
+          "mean_software_frame_ms": 401.69333333333327,
+          "p95_software_frame_ms": 442.59999999999997,
+          "caveat": "Software-renderer measurements are not handset FPS or physical-phone validation."
+        }
+      }
+    ],
+    "qa_only_bridge_in_release": false,
     "physical_device_tested": false,
+    "owner_phone_acceptance_pending": true,
     "native_android_app_exported": false,
-    "user_save_data_deleted": false
-  }
+    "user_save_data_deleted": false,
+    "measurement_caveat": "Godot headless and Chromium/SwiftShader cloud touch emulation only. Render-follow telemetry is not proof of smoothness or FPS on a physical phone."
+  },
+  "changes": [
+    "Owner reference-sized inset joystick: 144 CSS px touch target, 132.48 CSS px visible ring in short landscape.",
+    "Separate 56 CSS px right action circles in short landscape, compact Burmese labels.",
+    "No full-width opaque top bar; compact objective and title chip.",
+    "Camera uses one interpolated player sample with its own physics interpolation OFF; no positional lag bob.",
+    "Collision recovery eased without forcing camera through close walls.",
+    "Coalesced drag capped even during a stalled render frame."
+  ]
 }
