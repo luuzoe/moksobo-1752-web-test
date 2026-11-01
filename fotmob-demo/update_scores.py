@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Build a small, openly licensed OpenLigaDB score snapshot for GitHub Pages.
+"""Build an openly licensed OpenLigaDB snapshot for the Matchday Pages UI.
 
-The public site reads the generated JSON only. This scheduled job is the single
-central API client, which avoids every visitor polling OpenLigaDB independently.
+The scheduled job is the single API client. It centrally caches source-listed
+fixtures, reported scores, goal records and standings; it does not infer missing
+match data or fetch unlicensed third-party badges.
 """
 from __future__ import annotations
 
@@ -19,10 +20,8 @@ from urllib.request import Request, urlopen
 ROOT = Path(__file__).resolve().parent
 DATA_FILE = ROOT / "data" / "matches.json"
 API = "https://api.openligadb.de"
-USER_AGENT = "MatchdayLive/1.0 (+https://github.com/luuzoe/moksobo-1752-web-test/issues)"
+USER_AGENT = "MatchdayLive/2.0 (+https://github.com/luuzoe/moksobo-1752-web-test/issues)"
 
-# Keep only competitions currently listed by OpenLigaDB under their established
-# league shortcuts. No teams, scores, badges, or fixtures are hard-coded here.
 SPECS = [
     ("Premier League", "pl", lambda n, s, y: "premier league" in n.lower() and s.lower() == "pl"),
     ("LaLiga", "la1", lambda n, s, y: "laliga" in n.lower() and s.lower() == "la1"),
@@ -44,13 +43,11 @@ def utc_iso(value: datetime | None = None) -> str:
 
 
 def api_get(path: str):
-    url = f"{API}/{path.lstrip('/')}"
     for attempt in range(4):
-        request = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/json"})
+        request = Request(f"{API}/{path.lstrip('/')}", headers={"User-Agent": USER_AGENT, "Accept": "application/json"})
         try:
             with urlopen(request, timeout=35) as response:
-                payload = response.read()
-                return json.loads(payload.decode("utf-8"))
+                return json.loads(response.read().decode("utf-8"))
         except HTTPError as exc:
             if exc.code not in RETRYABLE or attempt == 3:
                 raise RuntimeError(f"OpenLigaDB returned HTTP {exc.code} for {path}") from exc
@@ -67,8 +64,6 @@ def api_get(path: str):
 
 
 def current_season_year(now: datetime) -> int:
-    # European football seasons normally begin in July. During Jan–Jun, the
-    # current season is the one that began the previous calendar year.
     return now.year if now.month >= 7 else now.year - 1
 
 
@@ -76,51 +71,42 @@ def select_competitions(year: int) -> list[dict]:
     available = api_get(f"getavailableleagues/{year}")
     selected = []
     for display_name, preferred_shortcut, matches_spec in SPECS:
-        choices = [
-            league for league in available
-            if str(league.get("leagueSeason", "")) == str(year)
-            and matches_spec(str(league.get("leagueName", "")), str(league.get("leagueShortcut", "")), year)
-        ]
-        # Prefer the long-established shortcut, then the current-year UEFA
-        # shortcut. This avoids choosing similarly named community test leagues.
-        choices.sort(key=lambda item: (
-            str(item.get("leagueShortcut", "")).lower() != preferred_shortcut,
-            str(item.get("leagueShortcut", "")).lower() not in {preferred_shortcut, f"{preferred_shortcut}{year}"},
-            int(item.get("leagueId", 0)),
-        ))
+        choices = [league for league in available if str(league.get("leagueSeason", "")) == str(year) and matches_spec(str(league.get("leagueName", "")), str(league.get("leagueShortcut", "")), year)]
+        choices.sort(key=lambda item: (str(item.get("leagueShortcut", "")).lower() != preferred_shortcut, str(item.get("leagueShortcut", "")).lower() not in {preferred_shortcut, f"{preferred_shortcut}{year}"}, int(item.get("leagueId", 0))))
         if not choices:
             continue
         league = choices[0]
-        selected.append({
-            "id": int(league["leagueId"]),
-            "name": display_name,
-            "sourceName": str(league.get("leagueName", display_name)),
-            "shortcut": str(league["leagueShortcut"]),
-            "season": int(league.get("leagueSeason", year)),
-        })
+        selected.append({"id": int(league["leagueId"]), "name": display_name, "sourceName": str(league.get("leagueName", display_name)), "shortcut": str(league["leagueShortcut"]), "season": int(league.get("leagueSeason", year))})
     return selected
 
 
 def score_from_results(results: list[dict], finished: bool):
-    usable = [
-        result for result in (results or [])
-        if result.get("pointsTeam1") is not None and result.get("pointsTeam2") is not None
-    ]
+    usable = [result for result in (results or []) if result.get("pointsTeam1") is not None and result.get("pointsTeam2") is not None]
     if not usable:
         return None
     final_kinds = {"After90Minutes", "AfterExtraTime", "AfterPenalties"}
     finals = [result for result in usable if result.get("resultTypeKind") in final_kinds]
     if finished:
-        # Never present a halftime-only value as the final score.
         if not finals:
             return None
         result = max(finals, key=lambda item: int(item.get("resultOrderID", 0) or 0))
     else:
         result = max(usable, key=lambda item: int(item.get("resultOrderID", 0) or 0))
+    return {"home": int(result["pointsTeam1"]), "away": int(result["pointsTeam2"]), "kind": result.get("resultTypeKind") or result.get("resultName") or "reported"}
+
+
+def normalize_goal(goal: dict) -> dict:
     return {
-        "home": int(result["pointsTeam1"]),
-        "away": int(result["pointsTeam2"]),
-        "kind": result.get("resultTypeKind") or result.get("resultName") or "reported",
+        "id": goal.get("goalID"),
+        "scoreHome": goal.get("scoreTeam1"),
+        "scoreAway": goal.get("scoreTeam2"),
+        "minute": goal.get("matchMinute"),
+        "scorer": goal.get("goalGetterName") or None,
+        "scoringTeamId": goal.get("scoringTeamId"),
+        "penalty": bool(goal.get("isPenalty")),
+        "ownGoal": bool(goal.get("isOwnGoal")),
+        "overtime": bool(goal.get("isOvertime")),
+        "comment": goal.get("comment") or None,
     }
 
 
@@ -130,6 +116,10 @@ def normalize_match(match: dict, comp: dict) -> dict | None:
         return None
     finished = bool(match.get("matchIsFinished"))
     group = match.get("group") or {}
+    home = match.get("team1") or {}
+    away = match.get("team2") or {}
+    raw_goals = match.get("goals") or []
+    goals = [normalize_goal(goal) for goal in raw_goals if isinstance(goal, dict)] if isinstance(raw_goals, list) else []
     return {
         "id": int(match.get("matchID", 0)),
         "competitionId": comp["id"],
@@ -140,12 +130,51 @@ def normalize_match(match: dict, comp: dict) -> dict | None:
         "round": str(group.get("groupName") or ""),
         "groupOrderId": group.get("groupOrderID"),
         "kickoffUtc": str(kickoff),
-        "home": str((match.get("team1") or {}).get("teamName") or "Unknown team"),
-        "away": str((match.get("team2") or {}).get("teamName") or "Unknown team"),
+        "home": str(home.get("teamName") or "Unknown team"),
+        "away": str(away.get("teamName") or "Unknown team"),
+        "homeTeamId": home.get("teamId"),
+        "awayTeamId": away.get("teamId"),
         "finished": finished,
         "score": score_from_results(match.get("matchResults") or [], finished),
+        "goals": goals,
         "sourceUpdatedAt": match.get("lastUpdateDateTime"),
     }
+
+
+def normalize_standings(rows: list[dict]) -> list[dict]:
+    normalized = []
+    for position, row in enumerate(rows, 1):
+        if not isinstance(row, dict) or not row.get("teamName"):
+            continue
+        normalized.append({
+            "position": position,
+            "team": str(row.get("teamName")),
+            "shortName": str(row.get("shortName") or ""),
+            "played": row.get("matches"),
+            "won": row.get("won"),
+            "drawn": row.get("draw"),
+            "lost": row.get("lost"),
+            "goalsFor": row.get("goals"),
+            "goalsAgainst": row.get("opponentGoals"),
+            "goalDifference": row.get("goalDiff"),
+            "points": row.get("points"),
+        })
+    return normalized
+
+
+def fetch_standings(comp: dict, old: dict | None = None) -> dict:
+    path = f"getbltable/{quote(comp['shortcut'], safe='')}/{comp['season']}"
+    try:
+        payload = api_get(path)
+        if not isinstance(payload, list):
+            raise RuntimeError(f"Unexpected standings response for {path}")
+        rows = normalize_standings(payload)
+        return {"standings": rows, "standingsUpdatedAt": utc_iso(), "standingsStatus": "available" if rows else "empty"}
+    except Exception as exc:
+        print(f"  Standings unavailable for {comp['name']}: {exc}", file=sys.stderr)
+        if old and old.get("standings"):
+            return {"standings": old["standings"], "standingsUpdatedAt": old.get("standingsUpdatedAt"), "standingsStatus": "stale"}
+        return {"standings": [], "standingsUpdatedAt": None, "standingsStatus": "unavailable"}
 
 
 def in_publish_window(match: dict, now: datetime) -> bool:
@@ -190,28 +219,23 @@ def main() -> int:
     previous_comps = previous.get("competitions", []) if previous else []
     previous_ids = [(c.get("id"), c.get("shortcut"), c.get("season")) for c in previous_comps]
     current_ids = [(c["id"], c["shortcut"], c["season"]) for c in competitions]
-    full_refresh = (
-        not previous
-        or previous.get("season") != year
-        or previous_ids != current_ids
-        or previous.get("fullSyncDate") != today
-    )
+    full_refresh = (not previous or previous.get("schemaVersion", 0) < 2 or previous.get("season") != year or previous_ids != current_ids or previous.get("fullSyncDate") != today)
 
     markers = dict(previous.get("changeMarkers", {})) if previous else {}
+    old_by_id = {int(c["id"]): c for c in previous_comps}
     if full_refresh:
         print(f"Refreshing {len(competitions)} current-season competitions ({year})")
         updated_comps = []
         for comp in competitions:
-            matches = source_matches(
-                f"getmatchdata/{quote(comp['shortcut'], safe='')}/{comp['season']}", comp
-            )
-            updated_comps.append({**comp, "matches": matches})
-            print(f"  {comp['name']}: {len(matches)} matches in published window")
+            matches = source_matches(f"getmatchdata/{quote(comp['shortcut'], safe='')}/{comp['season']}", comp)
+            old = old_by_id.get(comp["id"])
+            standings = fetch_standings(comp, old)
+            updated_comps.append({**comp, "matches": matches, **standings})
+            print(f"  {comp['name']}: {len(matches)} matches; {len(standings['standings'])} table rows")
         competitions_data = updated_comps
         changed = True
         full_sync_date = today
     else:
-        old_by_id = {int(c["id"]): c for c in previous_comps}
         competitions_data = []
         changed = False
         monitor_start = now - timedelta(days=MONITOR_PAST_DAYS)
@@ -228,29 +252,22 @@ def main() -> int:
                     continue
                 if group_id is not None and monitor_start <= kickoff <= monitor_end:
                     groups.add(int(group_id))
-            # Poll each relevant round once centrally; download full round data
-            # only after OpenLigaDB reports a change.
             for group_id in sorted(groups):
                 marker_key = f"{comp['shortcut']}:{comp['season']}:{group_id}"
-                marker = api_get(
-                    f"getlastchangedate/{quote(comp['shortcut'], safe='')}/{comp['season']}/{group_id}"
-                )
+                marker = api_get(f"getlastchangedate/{quote(comp['shortcut'], safe='')}/{comp['season']}/{group_id}")
                 if marker is None:
                     continue
                 marker = str(marker)
                 if markers.get(marker_key) == marker:
                     continue
                 print(f"  Changed group: {comp['name']} · {group_id}")
-                round_matches = source_matches(
-                    f"getmatchdata/{quote(comp['shortcut'], safe='')}/{comp['season']}/{group_id}", comp
-                )
+                round_matches = source_matches(f"getmatchdata/{quote(comp['shortcut'], safe='')}/{comp['season']}/{group_id}", comp)
                 matches = [m for m in matches if int(m.get("groupOrderId") or -1) != group_id]
                 matches.extend(round_matches)
                 markers[marker_key] = marker
                 changed = True
-            # Drop expired records and ensure the public snapshot stays compact.
             matches = [m for m in matches if in_publish_window(m, now)]
-            competitions_data.append({**comp, "matches": matches})
+            competitions_data.append({**comp, "matches": matches, "standings": old.get("standings", []), "standingsUpdatedAt": old.get("standingsUpdatedAt"), "standingsStatus": old.get("standingsStatus", "unavailable")})
         full_sync_date = previous.get("fullSyncDate", today)
 
     if not changed:
@@ -258,7 +275,7 @@ def main() -> int:
         return 0
 
     snapshot = {
-        "schemaVersion": 1,
+        "schemaVersion": 2,
         "provider": "OpenLigaDB",
         "license": "ODbL-1.0",
         "attribution": "Football data from OpenLigaDB (www.openligadb.de), licensed under ODbL 1.0.",
@@ -266,7 +283,7 @@ def main() -> int:
         "snapshotUpdatedAt": utc_iso(now),
         "fullSyncDate": full_sync_date,
         "refreshTargetMinutes": 5,
-        "coverageNote": "Community-maintained coverage; scores may be delayed, incomplete, or absent.",
+        "coverageNote": "Community-maintained coverage; scores and event records may be delayed, incomplete, or absent.",
         "competitions": competitions_data,
         "changeMarkers": markers,
     }
@@ -279,6 +296,5 @@ if __name__ == "__main__":
     try:
         raise SystemExit(main())
     except Exception as exc:
-        # Fail the workflow without replacing a previously valid public snapshot.
         print(f"OpenLigaDB sync failed: {exc}", file=sys.stderr)
         raise
