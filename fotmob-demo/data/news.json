@@ -1,8 +1,17 @@
 {
   "provider": "BBC Sport",
   "feedUrl": "https://feeds.bbci.co.uk/sport/football/rss.xml?edition=int",
-  "fetchedAt": "2026-11-01T19:26:27Z",
+  "fetchedAt": "2026-11-01T20:06:50Z",
   "articles": [
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/videos/cmly09yv9xl6o#0",
+      "title": "Arsenal move clear at the top with a rare win at Liverpool",
+      "url": "https://www.bbc.co.uk/sport/football/videos/cmly09yv9xl6o?at_medium=RSS&at_campaign=rss",
+      "description": "Arsenal win at Anfield for the first time since 2012 to earn a three-point lead at the top of the Premier League table following an end-to-end match that leaves Liverpool frustrated to have taken nothing.",
+      "publishedAt": "2026-11-01T20:00:18Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/035d/live/adb0c650-d62a-11f1-a701-fddedf244c16.jpg"
+    },
     {
       "guid": "https://www.bbc.co.uk/iplayer/live/bbcscotland#17",
       "title": "Watch: Falkirk v Celtic highlights on Sportscene",
