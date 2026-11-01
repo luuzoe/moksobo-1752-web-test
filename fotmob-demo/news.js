@@ -255,7 +255,7 @@
     }
 
     return `<section class="news-feed" aria-label="Latest football news">
-      <header class="news-heading"><div><p class="news-eyebrow">BBC SPORT · FOOTBALL</p><h1>Latest news</h1><p class="news-intro">Stories from the BBC Sport Football RSS feed, with original source links and publication times.</p></div><button class="news-refresh" type="button" data-news-refresh ${loading ? 'disabled' : ''}>${loading ? 'Updating…' : 'Refresh'}</button></header>
+      <header class="news-heading"><div><p class="news-eyebrow">BBC SPORT · FOOTBALL</p><h1>Latest news</h1><p class="news-intro">Stories from the BBC Sport Football RSS feed, with publication times and BBC attribution.</p></div><button class="news-refresh" type="button" data-news-refresh ${loading ? 'disabled' : ''}>${loading ? 'Updating…' : 'Refresh'}</button></header>
       ${status}${content}
       <p class="news-attribution">Titles, summaries, dates and images are shown only when supplied by <a href="https://www.bbc.com/sport/football" target="_blank" rel="noopener noreferrer">BBC Sport Football</a>. BBC image credit is shown with each feed-provided image. Times use your device’s local time.</p>
     </section>`;
