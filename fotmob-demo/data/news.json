@@ -1,8 +1,26 @@
 {
   "provider": "BBC Sport",
   "feedUrl": "https://feeds.bbci.co.uk/sport/football/rss.xml?edition=int",
-  "fetchedAt": "2026-11-01T20:06:50Z",
+  "fetchedAt": "2026-11-01T20:26:48Z",
   "articles": [
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/articles/c39wz2epven4o#0",
+      "title": "From Fleetwood embarrassment to 'magical' Anfield win 14 years in making ",
+      "url": "https://www.bbc.co.uk/sport/football/articles/c39wz2epven4o?at_medium=RSS&at_campaign=rss",
+      "description": "Arsenal bounce back from the low of defeat at League Two Fleetwood to secure their first win in 14 years at Anfield - and open up a three-point lead at the top of the Premier League.",
+      "publishedAt": "2026-11-01T20:16:46Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/fbd8/live/473d6620-d62b-11f1-b085-b9e65bc8bfff.jpg"
+    },
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/articles/c6z7x52w0r0zo#0",
+      "title": "Boy, 14, hands himself into police over Bradley Lowery video",
+      "url": "https://www.bbc.co.uk/sport/football/articles/c6z7x52w0r0zo?at_medium=RSS&at_campaign=rss",
+      "description": "A 14-year-old has handed himself into West Midlands Police after Coventry City said they were investigating a video appearing to show a fan taunting Sunderland supporters with a picture of Bradley Lowery.",
+      "publishedAt": "2026-11-01T20:15:52Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/9407/live/2d7783d0-d624-11f1-8c22-ab38856653ce.jpg"
+    },
     {
       "guid": "https://www.bbc.co.uk/sport/football/videos/cmly09yv9xl6o#0",
       "title": "Arsenal move clear at the top with a rare win at Liverpool",
