@@ -1,8 +1,17 @@
 {
   "provider": "BBC Sport",
   "feedUrl": "https://feeds.bbci.co.uk/sport/football/rss.xml?edition=int",
-  "fetchedAt": "2026-11-01T15:27:00Z",
+  "fetchedAt": "2026-11-01T15:56:36Z",
   "articles": [
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/articles/cj93z2nk2694o#0",
+      "title": "Defeat for London City - but is Europe a real possibility?",
+      "url": "https://www.bbc.co.uk/sport/football/articles/cj93z2nk2694o?at_medium=RSS&at_campaign=rss",
+      "description": "London City Lionesses suffer defeat by Manchester City but their performance suggests they are closer to Champions League qualification than expected.",
+      "publishedAt": "2026-11-01T15:49:47Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/2e9d/live/7fcb7d70-d60c-11f1-bdc5-33a5057f63d4.jpg"
+    },
     {
       "guid": "https://www.bbc.co.uk/sport/football/articles/cmy4xwwqzvw1o#0",
       "title": "Spence 'very proud' to break WSL appearance record",
