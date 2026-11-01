@@ -1,7 +1,7 @@
 {
   "provider": "BBC Sport",
   "feedUrl": "https://feeds.bbci.co.uk/sport/football/rss.xml?edition=int",
-  "fetchedAt": "2026-11-01T18:56:39Z",
+  "fetchedAt": "2026-11-01T19:16:29Z",
   "articles": [
     {
       "guid": "https://www.bbc.co.uk/sport/football/articles/cxr5yjpnd31eo#17",
@@ -360,6 +360,15 @@
       "publishedAt": "2026-10-31T22:29:02Z",
       "publisher": "BBC Sport",
       "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/00d7/live/efbcddc0-d578-11f1-a701-fddedf244c16.jpg"
+    },
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/articles/crz98lwn3pvzo#6",
+      "title": "Man Utd enquire about Toney - Sunday's gossip",
+      "url": "https://www.bbc.co.uk/sport/football/articles/crz98lwn3pvzo?at_medium=RSS&at_campaign=rss",
+      "description": "Manchester United enquire about Ivan Toney's availability, Barcelona are tracking Chelsea winger Estevao Willian, Jean-Philippe Mateta is set to leave Crystal Palace in January, plus more.",
+      "publishedAt": "2026-10-31T22:14:36Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/dc19/live/848cd980-d571-11f1-858c-9b90cf3a2059.png"
     },
     {
       "guid": "https://www.bbc.co.uk/sport/football/articles/c6n04v897qe4o#2",
