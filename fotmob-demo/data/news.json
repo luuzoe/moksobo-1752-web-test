@@ -1,7 +1,7 @@
 {
   "provider": "BBC Sport",
   "feedUrl": "https://feeds.bbci.co.uk/sport/football/rss.xml?edition=int",
-  "fetchedAt": "2026-11-01T23:06:30Z",
+  "fetchedAt": "2026-11-01T23:57:44Z",
   "articles": [
     {
       "guid": "id:https://www.bbc.co.uk/iplayer/live/bbcone#0",
@@ -512,6 +512,15 @@
       "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/e5df/live/6baa95e0-d569-11f1-a701-fddedf244c16.png"
     },
     {
+      "guid": "id:https://www.bbc.co.uk/sport/football/videos/c9203ymmn1m3o#7",
+      "title": "Tottenham mood 'totally different' - De Zerbi",
+      "url": "https://www.bbc.co.uk/sport/football/videos/c9203ymmn1m3o?at_medium=RSS&at_campaign=rss",
+      "description": "Tottenham manager Roberto De Zerbi said the mood at the club is \"totally different\" after picking up a third straight league victory with a 2-0 win over Crystal Palace.",
+      "publishedAt": "2026-10-31T20:13:33Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/bf47/live/8558ab70-d565-11f1-a701-fddedf244c16.jpg"
+    },
+    {
       "guid": "https://www.bbc.co.uk/sport/football/articles/cmrry892zpkro#7",
       "title": "Sunderland's paradox - San Siro trip amid relegation battle",
       "url": "https://www.bbc.co.uk/sport/football/articles/cmrry892zpkro?at_medium=RSS&at_campaign=rss",
@@ -555,15 +564,6 @@
       "publishedAt": "2026-10-31T16:34:42Z",
       "publisher": "BBC Sport",
       "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/8d88/live/9c858070-d579-11f1-a701-fddedf244c16.jpg"
-    },
-    {
-      "guid": "https://www.bbc.co.uk/sport/football/videos/cqrlywrdjdzyo#8",
-      "title": "Carrick bemoans Man Utd defending in loss to Chelsea",
-      "url": "https://www.bbc.co.uk/sport/football/videos/cqrlywrdjdzyo?at_medium=RSS&at_campaign=rss",
-      "description": "Manchester United manager Michael Carrick takes issue with his side's defending, particularly for the first goal they conceded in their 2-0 defeat by Chelsea in the Premier League.",
-      "publishedAt": "2026-10-31T15:13:43Z",
-      "publisher": "BBC Sport",
-      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/dcf5/live/89d7d220-d53d-11f1-b441-2b33b063138f.jpg"
     }
   ]
 }
