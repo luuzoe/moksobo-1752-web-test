@@ -24,6 +24,7 @@
   const siteVersionURL = 'https://api.github.com/repos/luuzoe/moksobo-1752-web-test/commits?path=fotmob-demo&per_page=1';
   const updateCheckIntervalMs = 5 * 60 * 1000;
   const bootSplash = document.getElementById('boot-splash');
+  const bootRun = document.getElementById('boot-run');
   let bootSplashTimeout = null;
 
   function dismissBootSplash() {
@@ -34,8 +35,18 @@
   }
 
   if (bootSplash && !bootSplash.hidden) {
-    document.addEventListener('DOMContentLoaded', () => window.setTimeout(dismissBootSplash, 120), { once: true });
-    bootSplashTimeout = window.setTimeout(dismissBootSplash, 5000);
+    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (bootRun && !prefersReducedMotion) {
+      const finishBootOnAnimationEnd = event => {
+        if (event.target !== bootRun || event.animationName !== 'boot-run-across') return;
+        bootRun.removeEventListener('animationend', finishBootOnAnimationEnd);
+        dismissBootSplash();
+      };
+      bootRun.addEventListener('animationend', finishBootOnAnimationEnd);
+      bootSplashTimeout = window.setTimeout(dismissBootSplash, 4000);
+    } else {
+      bootSplashTimeout = window.setTimeout(dismissBootSplash, 120);
+    }
   }
 
   const ua = navigator.userAgent || '';

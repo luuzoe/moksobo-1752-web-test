@@ -245,3 +245,47 @@ test('does not reload after a failed shell refresh and offers a retry', async ()
   assert.equal(element('pwa-update-action').textContent, 'Try again');
   assert.equal(storage.get('matchday-site-version'), 'version-old', 'does not mark a failed update as installed');
 });
+
+test('waits for the football run animation before hiding the boot splash', () => {
+  const registered = new Map();
+  const timers = new Map();
+  let nextTimer = 0;
+  const bootSplash = {
+    hidden: false,
+    classList: { classes: new Set(), add(name) { this.classes.add(name); } },
+  };
+  const bootRun = {
+    addEventListener(type, listener) { registered.set(type, listener); },
+    removeEventListener(type, listener) { if (registered.get(type) === listener) registered.delete(type); },
+  };
+  const elements = new Map([['boot-splash', bootSplash], ['boot-run', bootRun]]);
+  const element = id => {
+    if (!elements.has(id)) elements.set(id, { hidden: true, addEventListener() {}, focus() {} });
+    return elements.get(id);
+  };
+  const document = { getElementById: element, addEventListener() {} };
+  const window = {
+    matchMedia(query) { return { matches: query === '(display-mode: standalone)' }; },
+    addEventListener() {},
+    setTimeout(callback, milliseconds) { const id = ++nextTimer; timers.set(id, { callback, milliseconds }); return id; },
+    clearTimeout(id) { timers.delete(id); },
+  };
+  const navigator = { userAgent: 'Test browser', platform: 'Linux', maxTouchPoints: 0 };
+
+  vm.runInNewContext(pwaSource, { document, window, navigator, console: { warn() {} } }, { filename: 'pwa.js' });
+
+  assert.equal(bootSplash.hidden, false, 'does not dismiss the splash immediately on DOM ready');
+  assert.equal(bootSplash.classList.classes.has('is-hiding'), false);
+  registered.get('animationend')({ target: bootRun, animationName: 'boot-player-bob' });
+  assert.equal(registered.has('animationend'), true, 'keeps listening after bubbled child animations');
+  assert.equal(bootSplash.classList.classes.has('is-hiding'), false, 'ignores unrelated SVG animation events');
+
+  registered.get('animationend')({ target: bootRun, animationName: 'boot-run-across' });
+  assert.equal(bootSplash.classList.classes.has('is-hiding'), true, 'starts the splash fade only after the run finishes');
+  assert.equal(registered.has('animationend'), false, 'removes the handler after the main animation ends');
+  assert.equal(bootSplash.hidden, false, 'keeps the splash during its fade');
+  const fade = [...timers.values()].find(timer => timer.milliseconds === 300);
+  assert.ok(fade, 'schedules the final hide after the fade transition');
+  fade.callback();
+  assert.equal(bootSplash.hidden, true);
+});

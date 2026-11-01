@@ -40,8 +40,11 @@ test('includes a circular branded startup screen with a football animation and p
   assert.match(html, /class="boot-brand-orb"/);
   assert.match(html, /class="boot-player"/);
   assert.match(html, /class="boot-ball"/);
+  assert.match(html, /<g class="boot-run" id="boot-run">/);
   assert.match(html, /class="boot-progress" role="progressbar"/);
   assert.match(css, /\.boot-brand-orb\{[^}]*border-radius:50%/);
+  assert.match(css, /\.boot-brand-orb img\{[^}]*clip-path:circle\(50%/);
+  assert.match(css, /@keyframes boot-run-across/);
   assert.match(css, /@keyframes boot-kick/);
   assert.match(css, /@keyframes boot-ball-roll/);
 });
