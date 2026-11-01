@@ -49,6 +49,47 @@ test('refresh-shell message updates cached app assets and acknowledges completio
   assert.ok([...cached.keys()].some(url => url.endsWith('/data/matches.json')));
 });
 
+test('refresh-shell keeps the old cache and reports failure when a required asset is missing', async () => {
+  const handlers = {};
+  const cached = new Map([['https://luuzoe.github.io/moksobo-1752-web-test/fotmob-demo/app.js', { version: 'old' }]]);
+  const replies = [];
+  const cache = {
+    async put(url, response) { cached.set(url, response); },
+    async match(url) { return cached.get(url); },
+  };
+  const self = {
+    location: { href: 'https://luuzoe.github.io/moksobo-1752-web-test/fotmob-demo/sw.js' },
+    addEventListener(type, listener) { handlers[type] = listener; },
+    clients: { claim: async () => {} },
+    skipWaiting: async () => {},
+  };
+  vm.runInNewContext(workerSource, {
+    self,
+    URL,
+    Promise,
+    Response,
+    caches: { open: async () => cache, keys: async () => [], delete: async () => true },
+    fetch: async url => ({
+      ok: !url.endsWith('/app.js'),
+      type: 'basic',
+      url,
+      clone() { return { url, version: 'new' }; },
+    }),
+  }, { filename: 'sw.js' });
+
+  let refreshFinished;
+  handlers.message({
+    data: { type: 'REFRESH_SHELL' },
+    ports: [{ postMessage(message) { replies.push(message); } }],
+    waitUntil(promise) { refreshFinished = promise; },
+  });
+  await refreshFinished;
+
+  assert.deepEqual(replies.map(reply => reply.type), ['SHELL_REFRESH_FAILED']);
+  assert.deepEqual(cached.get('https://luuzoe.github.io/moksobo-1752-web-test/fotmob-demo/app.js'), { version: 'old' });
+  assert.equal(cached.size, 1, 'does not partially replace the current shell');
+});
+
 test('installed PWA checks for app and site updates every five minutes', async () => {
   const storage = new Map();
   const clock = { now: 1_000_000 };
@@ -121,4 +162,86 @@ test('installed PWA checks for app and site updates every five minutes', async (
   clock.now += 1;
   await intervals[0].callback();
   assert.equal(fetchCount, 2, 'fetches the site version once five minutes have elapsed');
+});
+
+test('does not reload after a failed shell refresh and offers a retry', async () => {
+  const storage = new Map([['matchday-site-version', 'version-old']]);
+  const listeners = new Map();
+  const elements = new Map();
+  let reloadCount = 0;
+  const element = id => {
+    if (!elements.has(id)) {
+      elements.set(id, {
+        hidden: true,
+        disabled: false,
+        textContent: '',
+        addEventListener(type, callback) { listeners.set(id, callback); },
+        focus() {},
+      });
+    }
+    return elements.get(id);
+  };
+  const activeWorker = {
+    postMessage(message, ports) {
+      assert.equal(message.type, 'REFRESH_SHELL');
+      ports[0].postMessage({ type: 'SHELL_REFRESH_FAILED' });
+    },
+  };
+  const registration = { waiting: null, installing: null, async update() {}, addEventListener() {} };
+  const document = {
+    getElementById: element,
+    addEventListener() {},
+    visibilityState: 'hidden',
+  };
+  const window = {
+    location: { reload() { reloadCount += 1; } },
+    matchMedia() { return { matches: true, addEventListener() {} }; },
+    addEventListener() {},
+    setInterval() {},
+    setTimeout() { return 1; },
+    clearTimeout() {},
+  };
+  const navigator = {
+    userAgent: 'Test browser',
+    platform: 'Linux',
+    maxTouchPoints: 0,
+    onLine: true,
+    serviceWorker: {
+      controller: activeWorker,
+      addEventListener() {},
+      async register() { return registration; },
+    },
+  };
+  class TestMessageChannel {
+    constructor() {
+      this.port1 = { onmessage: null, close() {} };
+      this.port2 = {
+        postMessage: data => this.port1.onmessage && this.port1.onmessage({ data }),
+        close() {},
+      };
+    }
+  }
+
+  vm.runInNewContext(pwaSource, {
+    document,
+    window,
+    navigator,
+    localStorage: {
+      getItem(key) { return storage.has(key) ? storage.get(key) : null; },
+      setItem(key, value) { storage.set(key, String(value)); },
+    },
+    location: { protocol: 'https:', hostname: 'luuzoe.github.io' },
+    fetch: async () => ({ ok: true, async json() { return [{ sha: 'version-new' }]; } }),
+    MessageChannel: TestMessageChannel,
+    console: { warn() {} },
+  }, { filename: 'pwa.js' });
+
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(element('pwa-update-banner').hidden, false, 'shows the available update');
+  listeners.get('pwa-update-action')();
+
+  assert.equal(reloadCount, 0, 'keeps the currently loaded app open');
+  assert.equal(element('pwa-update-action').disabled, false);
+  assert.equal(element('pwa-update-action').textContent, 'Try again');
+  assert.equal(storage.get('matchday-site-version'), 'version-old', 'does not mark a failed update as installed');
 });

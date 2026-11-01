@@ -512,3 +512,56 @@ main{font-size:17px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @media(max-width:380px){.league-tab{padding-inline:8px}.league-hero{padding-inline:11px}.league-fixture-pair{grid-template-columns:minmax(0,1fr) 55px minmax(0,1fr)}.league-fixture-side .team-identity .identity-name{max-width:83px}.league-segment{padding-inline:9px}}
 @media(prefers-reduced-motion:reduce){.league-loader-dot{animation:none}}
+
+
+/* Branded PWA launch screen */
+.boot-splash[hidden]{display:none!important}
+.boot-splash{position:absolute;z-index:30;inset:0;display:grid;place-items:center;padding:28px 22px calc(25px + var(--safe-bottom));overflow:hidden;background:radial-gradient(ellipse at 50% 38%,#ffffff 0,#f5f8f6 70%);color:#202a2e;opacity:1;visibility:visible;transition:opacity .28s ease,visibility .28s ease}
+.boot-splash.is-hiding{opacity:0;visibility:hidden;pointer-events:none}
+.boot-splash-card{width:min(100%,320px);display:grid;justify-items:center;text-align:center}
+.boot-brand-orb{width:86px;height:86px;display:grid;place-items:center;overflow:hidden;border:5px solid #fff;border-radius:50%;background:#047857;box-shadow:0 8px 24px rgba(4,120,87,.2),0 0 0 1px rgba(4,120,87,.1)}
+.boot-brand-orb img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover}
+.boot-splash-kicker{margin-top:17px;color:#078254;font-size:9px;font-weight:900;letter-spacing:2.7px}
+.boot-splash-title{margin:5px 0 0;color:#202a2e;font-size:25px;line-height:1.15;font-weight:850;letter-spacing:-.8px}
+.boot-splash-copy{margin:8px 0 0;color:#6c787d;font-size:11px;line-height:1.45}
+.boot-run-scene{display:block;width:min(220px,78vw);height:130px;margin:14px 0 1px;overflow:visible}
+.boot-ground{fill:none;stroke:#dbe9e1;stroke-width:4;stroke-linecap:round;stroke-dasharray:1 1}
+.boot-ground-mark{fill:none;stroke:#a7d7bc;stroke-width:3;stroke-linecap:round;stroke-dasharray:11 10;animation:boot-ground-slide .8s linear infinite}
+.boot-player{animation:boot-run-bob .52s ease-in-out infinite;transform-box:view-box;transform-origin:64px 70px}
+.boot-player-head{fill:#efb58d;stroke:#285640;stroke-width:2}
+.boot-player-shirt{fill:#07885c;stroke:#056f4b;stroke-width:2;stroke-linejoin:round}
+.boot-player-shorts{fill:#243b34;stroke:#1c302a;stroke-width:2;stroke-linejoin:round}
+.boot-player-arm,.boot-player-leg,.boot-player-boot{fill:none;stroke:#285640;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.boot-player-arm-back{stroke:#548169;transform-box:view-box;transform-origin:55px 42px;animation:boot-arm-back .52s ease-in-out infinite}
+.boot-player-arm-front{transform-box:view-box;transform-origin:77px 42px;animation:boot-arm-front .52s ease-in-out infinite}
+.boot-player-leg-back{stroke:#548169;transform-box:view-box;transform-origin:64px 74px;animation:boot-leg-back .52s ease-in-out infinite}
+.boot-player-leg-support{transform-box:view-box;transform-origin:77px 74px;animation:boot-leg-support .52s ease-in-out infinite}
+.boot-player-leg-kick{stroke:#0b7652;transform-box:view-box;transform-origin:70px 74px;animation:boot-kick .98s ease-in-out infinite}
+.boot-player-boot{stroke:#203c31;stroke-width:5}
+.boot-player-boot-back{stroke:#547565}
+.boot-player-boot-kick{transform-box:view-box;transform-origin:103px 90px;animation:boot-kick .98s ease-in-out infinite}
+.boot-ball{transform-box:view-box;transform-origin:126px 96px;animation:boot-ball-roll 1.35s ease-in-out infinite}
+.boot-ball circle{fill:#fff;stroke:#284b3a;stroke-width:2}
+.boot-ball path{fill:none;stroke:#284b3a;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.boot-progress{width:min(190px,68vw);height:6px;overflow:hidden;border-radius:999px;background:#dfebe5;box-shadow:inset 0 1px 2px rgba(32,58,44,.08)}
+.boot-progress span{display:block;width:32%;height:100%;border-radius:inherit;background:linear-gradient(90deg,#11a66b,#047857);box-shadow:0 0 12px rgba(4,120,87,.25);animation:boot-progress-run 1.15s cubic-bezier(.5,0,.35,1) infinite}
+.boot-splash-note{margin:12px 0 0;color:#85918e;font-size:7px;font-weight:800;letter-spacing:1.4px}
+.boot-splash-note i{padding:0 3px;color:#f07850;font-style:normal}
+@keyframes boot-run-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@keyframes boot-arm-back{0%,100%{transform:rotate(-17deg)}50%{transform:rotate(20deg)}}
+@keyframes boot-arm-front{0%,100%{transform:rotate(18deg)}50%{transform:rotate(-18deg)}}
+@keyframes boot-leg-back{0%,100%{transform:rotate(19deg)}50%{transform:rotate(-16deg)}}
+@keyframes boot-leg-support{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(18deg)}}
+@keyframes boot-kick{0%,35%,100%{transform:rotate(0)}48%{transform:rotate(-35deg)}58%{transform:rotate(9deg)}}
+@keyframes boot-ball-roll{0%,33%{transform:translateX(0) rotate(0)}48%{transform:translate(13px,-7px) rotate(130deg)}100%{transform:translate(51px,0) rotate(420deg)}}
+@keyframes boot-ground-slide{to{stroke-dashoffset:-22}}
+@keyframes boot-progress-run{0%{transform:translateX(-115%)}100%{transform:translateX(430%)}}
+.app[data-theme="dark"] .boot-splash{background:radial-gradient(ellipse at 50% 38%,#1b2422 0,#101617 72%);color:#f3f6f4}
+.app[data-theme="dark"] .boot-splash-title{color:#f3f6f4}
+.app[data-theme="dark"] .boot-splash-copy{color:#a4b1ab}
+.app[data-theme="dark"] .boot-splash-note{color:#7f9288}
+.app[data-theme="dark"] .boot-progress{background:#283a31}
+@media(prefers-reduced-motion:reduce){.boot-ground-mark,.boot-player,.boot-player-arm,.boot-player-leg,.boot-player-boot-kick,.boot-ball,.boot-progress span{animation:none!important}.boot-progress span{width:55%;transform:translateX(40%)}}
+
+.boot-splash:not(.is-hiding){animation:boot-splash-failsafe 8s linear forwards}
+@keyframes boot-splash-failsafe{0%,94%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden;pointer-events:none}}

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'matchday-shell-v13';
+const CACHE_NAME = 'matchday-shell-v14';
 const SHELL_FILES = [
   './',
   './index.html',
@@ -19,6 +19,32 @@ const SHELL_FILES = [
   './data/news.json',
   './data/matches.json'
 ];
+const REQUIRED_SHELL_FILES = new Set([
+  './',
+  './index.html',
+  './styles.css',
+  './clock.js',
+  './news.js',
+  './league.js',
+  './pwa.js',
+  './app.js',
+  './manifest.webmanifest'
+]);
+
+async function updateShellCache(cache) {
+  const assets = await Promise.all(SHELL_FILES.map(async path => {
+    try {
+      const url = new URL(path, self.location.href);
+      const response = await fetch(url.href, { cache: 'reload' });
+      if (response.ok && response.type === 'basic') return { url: url.href, response };
+      if (REQUIRED_SHELL_FILES.has(path)) throw new Error(`Required shell asset unavailable: ${path}`);
+    } catch (error) {
+      if (REQUIRED_SHELL_FILES.has(path)) throw error;
+    }
+    return null;
+  }));
+  await Promise.all(assets.filter(Boolean).map(({ url, response }) => cache.put(url, response.clone())));
+}
 
 function cacheKeyFor(request, scopeURL) {
   const url = new URL(request.url);
@@ -33,15 +59,12 @@ function cacheKeyFor(request, scopeURL) {
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE_NAME);
-    await Promise.all(SHELL_FILES.map(async path => {
-      try {
-        const url = new URL(path, self.location.href);
-        const response = await fetch(url.href, { cache: 'reload' });
-        if (response.ok) await cache.put(url.href, response.clone());
-      } catch (_) {
-        // Keep installation available if a nonessential shell asset is temporarily unreachable.
-      }
-    }));
+    try {
+      await updateShellCache(cache);
+    } catch (error) {
+      await caches.delete(CACHE_NAME);
+      throw error;
+    }
     // Install the update monitor promptly; later site revisions are announced in-app.
     await self.skipWaiting();
   })());
@@ -55,17 +78,14 @@ self.addEventListener('message', event => {
   if (!event.data || event.data.type !== 'REFRESH_SHELL') return;
   const replyPort = event.ports && event.ports[0];
   event.waitUntil((async () => {
-    const cache = await caches.open(CACHE_NAME);
-    await Promise.all(SHELL_FILES.map(async path => {
-      try {
-        const url = new URL(path, self.location.href);
-        const response = await fetch(url.href, { cache: 'reload' });
-        if (response.ok && response.type === 'basic') await cache.put(url.href, response.clone());
-      } catch (_) {
-        // Retain the cached file if a refresh is temporarily unavailable.
-      }
-    }));
-    if (replyPort) replyPort.postMessage({ type: 'SHELL_REFRESHED' });
+    try {
+      const cache = await caches.open(CACHE_NAME);
+      await updateShellCache(cache);
+      if (replyPort) replyPort.postMessage({ type: 'SHELL_REFRESHED' });
+    } catch (_) {
+      // Keep the currently working app open when the refreshed shell is incomplete.
+      if (replyPort) replyPort.postMessage({ type: 'SHELL_REFRESH_FAILED' });
+    }
   })());
 });
 

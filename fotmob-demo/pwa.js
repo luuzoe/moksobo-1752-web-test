@@ -23,6 +23,20 @@
   const siteVersionCheckKey = 'matchday-site-version-checked';
   const siteVersionURL = 'https://api.github.com/repos/luuzoe/moksobo-1752-web-test/commits?path=fotmob-demo&per_page=1';
   const updateCheckIntervalMs = 5 * 60 * 1000;
+  const bootSplash = document.getElementById('boot-splash');
+  let bootSplashTimeout = null;
+
+  function dismissBootSplash() {
+    if (!bootSplash || bootSplash.hidden) return;
+    if (bootSplashTimeout !== null) window.clearTimeout(bootSplashTimeout);
+    bootSplash.classList.add('is-hiding');
+    window.setTimeout(() => { bootSplash.hidden = true; }, 300);
+  }
+
+  if (bootSplash && !bootSplash.hidden) {
+    document.addEventListener('DOMContentLoaded', () => window.setTimeout(dismissBootSplash, 120), { once: true });
+    bootSplashTimeout = window.setTimeout(dismissBootSplash, 5000);
+  }
 
   const ua = navigator.userAgent || '';
   const isIOS = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -169,8 +183,25 @@
         updateAction.textContent = 'Updating…';
       }
       const channel = new MessageChannel();
+      const refreshTimeout = window.setTimeout(() => {
+        channel.port1.close();
+        if (updateAction) {
+          updateAction.disabled = false;
+          updateAction.textContent = 'Try again';
+        }
+      }, 20000);
       channel.port1.onmessage = event => {
-        if (!event.data || event.data.type !== 'SHELL_REFRESHED') return;
+        if (!event.data) return;
+        window.clearTimeout(refreshTimeout);
+        if (event.data.type === 'SHELL_REFRESH_FAILED') {
+          channel.port1.close();
+          if (updateAction) {
+            updateAction.disabled = false;
+            updateAction.textContent = 'Try again';
+          }
+          return;
+        }
+        if (event.data.type !== 'SHELL_REFRESHED') return;
         channel.port1.close();
         if (siteUpdateVersion) {
           try { localStorage.setItem(siteVersionKey, siteUpdateVersion); } catch (_) { /* Storage may be unavailable. */ }
@@ -178,7 +209,6 @@
         window.location.reload();
       };
       activeWorker.postMessage({ type: 'REFRESH_SHELL' }, [channel.port2]);
-      window.setTimeout(() => window.location.reload(), 20000);
       return;
     }
     reloadAfterUpdate = true;
