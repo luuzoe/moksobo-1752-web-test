@@ -1,8 +1,17 @@
 {
   "provider": "BBC Sport",
   "feedUrl": "https://feeds.bbci.co.uk/sport/football/rss.xml?edition=int",
-  "fetchedAt": "2026-11-01T17:56:35Z",
+  "fetchedAt": "2026-11-01T18:06:38Z",
   "articles": [
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/videos/cm4g1rgey8j7o#1",
+      "title": "Clinical Man City edge past London City in WSL thriller",
+      "url": "https://www.bbc.co.uk/sport/football/videos/cm4g1rgey8j7o?at_medium=RSS&at_campaign=rss",
+      "description": "Manchester City earn a dramatic victory courtesy of goals from Khadija Shaw and Lauren Hemp against an excellent but wasteful London City Lionesses side.",
+      "publishedAt": "2026-11-01T17:54:43Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/4858/live/af032900-d600-11f1-93e1-3b657b665bcf.jpg"
+    },
     {
       "guid": "https://www.bbc.co.uk/sport/football/videos/c678pe84l97go#4",
       "title": "Russo rescues late point for Arsenal against Villa",
@@ -290,6 +299,42 @@
       "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/a4cb/live/4de6b580-d563-11f1-a701-fddedf244c16.jpg"
     },
     {
+      "guid": "https://www.bbc.co.uk/sport/football/videos/cxvgdrg33m72o#4",
+      "title": "Spurs revival continues with victory over 10-man Crystal Palace",
+      "url": "https://www.bbc.co.uk/sport/football/videos/cxvgdrg33m72o?at_medium=RSS&at_campaign=rss",
+      "description": "Jean-Philippe Mateta was shown an early red card as Crystal Palace lose 2-0 at Tottenham to increase the pressure on manager Pierre Sage.",
+      "publishedAt": "2026-10-31T22:29:29Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/9230/live/038f60d0-d564-11f1-93e1-3b657b665bcf.jpg"
+    },
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/videos/c6zxj1vzwx1xo#4",
+      "title": "Evanilson scores again as Bournemouth beat Leeds",
+      "url": "https://www.bbc.co.uk/sport/football/videos/c6zxj1vzwx1xo?at_medium=RSS&at_campaign=rss",
+      "description": "Forward Evanilson continues his fine goalscoring form by netting in a fourth Premier League match in a row to help Bournemouth defeat Leeds United at the Vitality Stadium.",
+      "publishedAt": "2026-10-31T22:29:21Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/8ae1/live/c3c33b70-d55e-11f1-b441-2b33b063138f.jpg"
+    },
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/videos/ck1l3z063n8vo#4",
+      "title": "Thiago on target as Brentford beat Forest",
+      "url": "https://www.bbc.co.uk/sport/football/videos/ck1l3z063n8vo?at_medium=RSS&at_campaign=rss",
+      "description": "Igor Thiago's second-half goal helps Brentford to their first win in five as they beat Nottingham Forest 2-0 at the Gtech Community Stadium. ",
+      "publishedAt": "2026-10-31T22:29:11Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/0170/live/c24a4850-d564-11f1-b441-2b33b063138f.jpg"
+    },
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/videos/cmwy9rylr0e6o#4",
+      "title": "Suzuki mistake gifts Fulham point at Villa",
+      "url": "https://www.bbc.co.uk/sport/football/videos/cmwy9rylr0e6o?at_medium=RSS&at_campaign=rss",
+      "description": "Aston Villa goalkeeper Zion Suzuki's second-half mistake sees Fulham secure a 1-1 draw at Villa Park after Nicolas Jackson had given the hosts the lead. \n\n\n",
+      "publishedAt": "2026-10-31T22:29:02Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/00d7/live/efbcddc0-d578-11f1-a701-fddedf244c16.jpg"
+    },
+    {
       "guid": "https://www.bbc.co.uk/sport/football/articles/c6n04v897qe4o#2",
       "title": "Are De Zerbi's Spurs finding elusive consistency?",
       "url": "https://www.bbc.co.uk/sport/football/articles/c6n04v897qe4o?at_medium=RSS&at_campaign=rss",
@@ -360,6 +405,15 @@
       "publishedAt": "2026-10-31T16:34:42Z",
       "publisher": "BBC Sport",
       "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/8d88/live/9c858070-d579-11f1-a701-fddedf244c16.jpg"
+    },
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/videos/cqrlywrdjdzyo#8",
+      "title": "Carrick bemoans Man Utd defending in loss to Chelsea",
+      "url": "https://www.bbc.co.uk/sport/football/videos/cqrlywrdjdzyo?at_medium=RSS&at_campaign=rss",
+      "description": "Manchester United manager Michael Carrick takes issue with his side's defending, particularly for the first goal they conceded in their 2-0 defeat by Chelsea in the Premier League.",
+      "publishedAt": "2026-10-31T15:13:43Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/dcf5/live/89d7d220-d53d-11f1-b441-2b33b063138f.jpg"
     }
   ]
 }
