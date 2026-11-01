@@ -1,8 +1,26 @@
 {
   "provider": "BBC Sport",
   "feedUrl": "https://feeds.bbci.co.uk/sport/football/rss.xml?edition=int",
-  "fetchedAt": "2026-11-01T18:06:38Z",
+  "fetchedAt": "2026-11-01T18:46:26Z",
   "articles": [
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/articles/cqj9kgyww478o#0",
+      "title": "Rice brings energy, Alisson costs hosts - Liverpool and Arsenal player ratings",
+      "url": "https://www.bbc.co.uk/sport/football/articles/cqj9kgyww478o?at_medium=RSS&at_campaign=rss",
+      "description": "How Liverpool and Arsenal's players rated in their Premier League match at Anfield, as the champions of the past two seasons went head to head.",
+      "publishedAt": "2026-11-01T18:38:45Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/381b/live/0f9c8e70-d61d-11f1-905f-4bb31135b4e2.jpg"
+    },
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/videos/cv0ldye7k4g3o#1",
+      "title": "Bellingham & Mbappe score as Real Madrid earn statement win",
+      "url": "https://www.bbc.co.uk/sport/football/videos/cv0ldye7k4g3o?at_medium=RSS&at_campaign=rss",
+      "description": "Kylian Mbappe, Jude Bellingham and Yan Diomande score as Real Madrid cruise to a 3-0 win against Racing Santander, moving only three points behind Barcelona at the top of La Liga.",
+      "publishedAt": "2026-11-01T18:37:48Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/9010/live/2011c5a0-d61c-11f1-a701-fddedf244c16.jpg"
+    },
     {
       "guid": "https://www.bbc.co.uk/sport/football/videos/cm4g1rgey8j7o#1",
       "title": "Clinical Man City edge past London City in WSL thriller",
