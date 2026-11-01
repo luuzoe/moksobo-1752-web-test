@@ -11,8 +11,13 @@
   const helpClose = document.getElementById('pwa-help-close');
   const helpCopy = document.getElementById('pwa-help-copy');
   const helpSteps = document.getElementById('pwa-help-steps');
+  const updateBanner = document.getElementById('pwa-update-banner');
+  const updateAction = document.getElementById('pwa-update-action');
+  const updateDismiss = document.getElementById('pwa-update-dismiss');
   let deferredPrompt = null;
   let installMode = null;
+  let swRegistration = null;
+  let reloadAfterUpdate = false;
 
   const ua = navigator.userAgent || '';
   const isIOS = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -88,6 +93,47 @@
     hideInstallUI();
   }
 
+  function showUpdateAvailable() {
+    if (!updateBanner || !swRegistration || !swRegistration.waiting || !navigator.serviceWorker.controller) return;
+    if (sessionFlag('matchday-pwa-update-dismissed')) return;
+    if (banner) banner.hidden = true;
+    updateBanner.hidden = false;
+  }
+
+  function watchInstallingWorker(worker) {
+    if (!worker) return;
+    const checkReady = () => {
+      if (worker.state === 'installed') showUpdateAvailable();
+    };
+    worker.addEventListener('statechange', checkReady);
+    checkReady();
+  }
+
+  async function checkForUpdate() {
+    if (!swRegistration || !navigator.onLine) return;
+    try {
+      await swRegistration.update();
+    } catch (_) {
+      // A network failure should not interrupt the current app session.
+    }
+    if (swRegistration.waiting) showUpdateAvailable();
+  }
+
+  function applyUpdate() {
+    const waitingWorker = swRegistration && swRegistration.waiting;
+    if (!waitingWorker) {
+      if (updateBanner) updateBanner.hidden = true;
+      checkForUpdate();
+      return;
+    }
+    reloadAfterUpdate = true;
+    if (updateAction) {
+      updateAction.disabled = true;
+      updateAction.textContent = 'Updating…';
+    }
+    waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+  }
+
   async function requestInstall() {
     if (isInstalled()) {
       hideInstallUI();
@@ -116,6 +162,11 @@
   if (installButton) installButton.addEventListener('click', requestInstall);
   if (bannerAction) bannerAction.addEventListener('click', requestInstall);
   if (bannerDismiss) bannerDismiss.addEventListener('click', dismissBanner);
+  if (updateAction) updateAction.addEventListener('click', applyUpdate);
+  if (updateDismiss) updateDismiss.addEventListener('click', () => {
+    if (updateBanner) updateBanner.hidden = true;
+    setSessionFlag('matchday-pwa-update-dismissed');
+  });
   if (helpClose) helpClose.addEventListener('click', closeIOSGuide);
   if (help) help.addEventListener('click', event => { if (event.target === help) closeIOSGuide(); });
   document.addEventListener('keydown', event => {
@@ -127,7 +178,6 @@
     deferredPrompt = event;
     showInstallUI('native');
   });
-
   window.addEventListener('appinstalled', () => {
     deferredPrompt = null;
     hideInstallUI();
@@ -149,7 +199,21 @@
   }
 
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-    navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(error => {
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (reloadAfterUpdate) window.location.reload();
+    });
+    navigator.serviceWorker.register('./sw.js', { scope: './' }).then(registration => {
+      swRegistration = registration;
+      if (registration.waiting) showUpdateAvailable();
+      if (registration.installing) watchInstallingWorker(registration.installing);
+      registration.addEventListener('updatefound', () => watchInstallingWorker(registration.installing));
+      checkForUpdate();
+      window.setInterval(checkForUpdate, 6 * 60 * 60 * 1000);
+      window.addEventListener('focus', checkForUpdate);
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') checkForUpdate();
+      });
+    }).catch(error => {
       console.warn('Matchday offline support could not be enabled:', error);
     });
   }

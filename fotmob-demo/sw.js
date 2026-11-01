@@ -1,4 +1,4 @@
-const CACHE_NAME = 'matchday-shell-v4';
+const CACHE_NAME = 'matchday-shell-v5';
 const SHELL_FILES = [
   './',
   './index.html',
@@ -38,8 +38,11 @@ self.addEventListener('install', event => {
         // Keep installation available if a nonessential shell asset is temporarily unreachable.
       }
     }));
-    await self.skipWaiting();
   })());
+});
+
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
 self.addEventListener('activate', event => {

@@ -204,7 +204,7 @@
 
 
 /* PWA installation */
-.install-cta[hidden],.pwa-install-banner[hidden],.pwa-help-backdrop[hidden]{display:none!important}
+.install-cta[hidden],.pwa-install-banner[hidden],.pwa-update-banner[hidden],.pwa-help-backdrop[hidden]{display:none!important}
 .pwa-install-banner{position:absolute;z-index:12;left:12px;right:12px;bottom:calc(72px + var(--safe-bottom));display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #674637;border-radius:16px;background:linear-gradient(135deg,#25201e,#171a1d 75%);box-shadow:0 14px 38px #0008;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
 .pwa-install-copy{display:grid;gap:4px;min-width:0;flex:1}
 .pwa-install-copy strong{color:#fff;font-size:11px;font-weight:850}
@@ -214,6 +214,8 @@
 .pwa-install-dismiss,.pwa-help-close{width:30px;height:30px;display:grid;place-items:center;border-radius:9px;background:transparent;color:#aeb6bb;font-size:19px;line-height:1}
 .pwa-install-dismiss:hover,.pwa-help-close:hover{background:#ffffff12;color:#fff}
 .app[data-theme="light"] .pwa-install-banner{border-color:#f0c9b8;background:linear-gradient(135deg,#fff,#fff8f4 78%);box-shadow:0 14px 34px #17212a24}
+.pwa-update-banner{border-color:#4c623f;background:linear-gradient(135deg,#1d261d,#171a1d 75%)}
+.app[data-theme="light"] .pwa-update-banner{border-color:#c8dfb6;background:linear-gradient(135deg,#fff,#f5fbf0 78%)}
 .app[data-theme="light"] .pwa-install-copy strong{color:#242a2e}
 .app[data-theme="light"] .pwa-install-copy span{color:#626d73}
 .app[data-theme="light"] .pwa-install-dismiss,.app[data-theme="light"] .pwa-help-close{color:#68737a}

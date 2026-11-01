@@ -20,7 +20,7 @@
 <script defer src="./clock.js"></script>
 <script defer src="./news.js?v=20261101-pwa2"></script>
 <script defer src="./league.js?v=20261101-pwa1"></script>
-<script defer src="./pwa.js?v=20261101-pwa1"></script>
+<script defer src="./pwa.js?v=20261102-update1"></script>
 <script defer src="./app.js?v=20261101-finished1"></script>
 </head>
 <body>
@@ -38,6 +38,10 @@
   <div class="pwa-install-banner" id="pwa-install-banner" role="region" aria-label="Install Matchday" aria-live="polite" hidden>
     <div class="pwa-install-copy"><strong id="pwa-install-title">Install Matchday</strong><span id="pwa-install-subtitle">Keep football scores and news one tap away.</span></div>
     <div class="pwa-install-actions"><button type="button" class="pwa-install-action" id="pwa-install-action">Install</button><button type="button" class="pwa-install-dismiss" id="pwa-install-dismiss" aria-label="Dismiss install message">×</button></div>
+  </div>
+  <div class="pwa-install-banner pwa-update-banner" id="pwa-update-banner" role="region" aria-label="Matchday update available" aria-live="polite" hidden>
+    <div class="pwa-install-copy"><strong>New update available</strong><span>A new Matchday version is ready. Update now to load the latest version.</span></div>
+    <div class="pwa-install-actions"><button type="button" class="pwa-install-action" id="pwa-update-action">Update now</button><button type="button" class="pwa-install-dismiss" id="pwa-update-dismiss" aria-label="Dismiss update message">×</button></div>
   </div>
   <div class="pwa-help-backdrop" id="pwa-install-help" hidden>
     <section class="pwa-help-sheet" role="dialog" aria-modal="true" aria-labelledby="pwa-help-title">
