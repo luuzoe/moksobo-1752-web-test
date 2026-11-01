@@ -1,6 +1,10 @@
 name: Refresh football feeds
 
 on:
+  # Publish the site for every code or content push to the default branch.
+  push:
+    branches:
+      - main
   schedule:
     # GitHub scheduled workflows run on a five-minute minimum interval.
     # Offset from the top of the hour to reduce schedule congestion.
@@ -41,9 +45,12 @@ jobs:
           git add fotmob-demo/data
           if git diff --cached --quiet; then
             echo "No published data changes."
-            exit 0
+            if [ "$GITHUB_EVENT_NAME" != "push" ]; then
+              exit 0
+            fi
+          else
+            git commit -m "Refresh football feed snapshots"
+            git push origin HEAD:main
           fi
-          git commit -m "Refresh football feed snapshots"
-          git push origin HEAD:main
           # GITHUB_TOKEN pushes do not themselves trigger a legacy Pages build.
           gh api --method POST "repos/$GITHUB_REPOSITORY/pages/builds" --silent || echo "Pages rebuild deferred; the next refresh can retry."
