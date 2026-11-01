@@ -9,6 +9,9 @@ const TEAM_FOLLOWS_KEY='matchday_followed_teams_v1';
 const TEAM_LOGOS_KEY='matchday_espn_team_logos_v1';
 const THEME_KEY='matchday_theme_v3';
 const REFRESH_MS=60_000;
+const LIVE_SCORE_URL='https://matchday-espn-live.mongla-drive.workers.dev/api/live';
+const LIVE_REFRESH_MS=15_000;
+let liveFetchInFlight=false;
 const SUMMARY_MAX_AGE=60_000;
 const LEAGUES=[
   ['eng.1','Premier League','England','league'],['eng.2','Championship','England','league'],['eng.3','League One','England','league'],['eng.4','League Two','England','league'],['eng.fa','FA Cup','England','cup'],['eng.league_cup','Carabao Cup','England','cup'],
@@ -231,6 +234,62 @@ document.addEventListener('click',event=>{const b=event.target.closest('[data-ac
 document.addEventListener('input',event=>{if(event.target.id==='search-input'){state.query=event.target.value;render();const input=document.getElementById('search-input');if(input){input.focus();input.setSelectionRange(input.value.length,input.value.length)}}});
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&state.search){state.search=false;render()}if(event.key==='Enter'&&event.target.matches('.match-row,[data-action="search-result"]'))event.target.click()});
 function restoreTodayScoreCache(){
- try{const saved=JSON.parse(localStorage.getItem(ESPN_CACHE_KEY)||'null'),today=localDateKey(selectedDate());if(saved?.date===today&&Array.isArray(saved.events)){state.events=saved.events;state.eventsDate=saved.date;state.eventsFetchedAt=Number(saved.fetchedAt)||Date.now();state.scoreSnapshot=!!saved.snapshot;state.feedMode='stale';state.stale=true;state.loading=false}}catch{}
+	try{const saved=JSON.parse(localStorage.getItem(ESPN_CACHE_KEY)||'null'),today=localDateKey(selectedDate());if(saved?.date===today&&Array.isArray(saved.events)){state.events=saved.events;state.eventsDate=saved.date;state.eventsFetchedAt=Number(saved.fetchedAt)||Date.now();state.scoreSnapshot=!!saved.snapshot;state.feedMode='stale';state.stale=true;state.loading=false}}catch{}
 }
-window.addEventListener('matchday-news-updated',render);window.addEventListener('matchday-league-updated',render);updateClock();setInterval(updateClock,15000);restoreTodayScoreCache();render();pollESPN(false);setInterval(()=>pollESPN(false),REFRESH_MS);setInterval(updateLiveClocks,1000);
+window.addEventListener('matchday-news-updated',render);window.addEventListener('matchday-league-updated',render);updateClock();setInterval(updateClock,15000);restoreTodayScoreCache();render();setInterval(()=>pollESPN(false),REFRESH_MS);setInterval(updateLiveClocks,1000);
+
+function liveEventFingerprint(events){return JSON.stringify((Array.isArray(events)?events:[]).map(match=>[String(match.id),match.status||'',match.statusText||'',match.period||null,match.score?`${match.score.home}-${match.score.away}`:null]).sort((a,b)=>a[0].localeCompare(b[0])))}
+function shouldUseLiveBackend(){return Boolean(LIVE_SCORE_URL)&&state.page==='Matches'&&state.dateOffset===0&&typeof document!=='undefined'&&document.visibilityState==='visible'}
+async function pollLiveBackend(){
+ if(!shouldUseLiveBackend()||liveFetchInFlight)return false;
+ liveFetchInFlight=true;
+ const request=++espnRequestSequence,selected=selectedDate(),key=localDateKey(selected),dateCodes=scoreboardDates(selected),controller=new AbortController(),timer=setTimeout(()=>controller.abort(),7000);
+ try{
+  const endpoint=new URL(LIVE_SCORE_URL);endpoint.searchParams.set('dates',dateCodes.join(','));
+  const response=await fetch(endpoint.toString(),{cache:'no-store',headers:{Accept:'application/json'},signal:controller.signal});
+  if(!response.ok)throw Error(`Live score backend HTTP ${response.status}`);
+  const payload=await response.json();
+  if(request!==espnRequestSequence||!shouldUseLiveBackend())return false;
+  const unique=new Map(),competitionErrors={},logos={...state.competitionLogos},calendars={...state.leagueCalendars},years={...state.competitionSeasonYears},fetchedTimes=[];
+  let boardCount=0;
+  for(const dateCode of dateCodes){
+   const snapshot=payload.dates?.[dateCode];if(!snapshot)continue;
+   const failed=new Set(Array.isArray(snapshot.failedLeagues)?snapshot.failedLeagues:[]);
+   for(const [code,name] of LEAGUES){
+    const board=snapshot.leagues?.[code];
+    if(!board){competitionErrors[code]='A UTC scoreboard snapshot is unavailable';continue}
+    boardCount++;if(failed.has(code))competitionErrors[code]='An ESPN scoreboard check failed';
+    if(board.logo)logos[code]=board.logo;if(Array.isArray(board.calendar)&&board.calendar.length)calendars[code]=board.calendar;if(board.seasonYear)years[code]=Number(board.seasonYear);
+    const feedAt=Date.parse(board.fetchedAt||snapshot.updatedAt)||Date.now();if(Number.isFinite(feedAt))fetchedTimes.push(feedAt);
+    for(const raw of Array.isArray(board.events)?board.events:[]){const match=normalizeEvent(raw,code,name,feedAt);for(const visible of eventsForMyanmarDate([match],key))unique.set(visible.id,visible)}
+   }
+  }
+  if(!boardCount)throw Error('No ESPN scoreboard snapshots are ready');
+  if(payload.partial)competitionErrors.monitor='One UTC scoreboard date is still loading';
+  const events=[...unique.values()],fetchedAt=fetchedTimes.length?Math.max(...fetchedTimes):Date.now(),previous=state.eventsDate===key?state.events.slice():[],before=liveEventFingerprint(previous),after=liveEventFingerprint(events),changed=before!==after,hadCurrentData=state.eventsDate===key&&!!state.eventsFetchedAt,previousMode=state.feedMode,previousPartial=state.feedPartialError,previousMinute=Math.floor((Number(state.eventsFetchedAt)||0)/60000);
+  state.competitionLogos=logos;state.leagueCalendars=calendars;state.competitionSeasonYears=years;
+  if(changed)window.MatchdayLeague?.onScoresUpdated(previous,events);
+  state.events=events;state.eventsDate=key;state.eventsFetchedAt=fetchedAt;state.scoreSnapshot=false;state.feedError=false;state.feedPartialError=Object.keys(competitionErrors).length>0;state.competitionErrors=competitionErrors;state.feedMode=state.feedPartialError?'partial':'live';state.stale=false;state.liveBackendActive=true;state.loading=false;state.refreshing=false;
+  persist(ESPN_CACHE_KEY,{date:key,events:state.events,fetchedAt,snapshot:false});
+  if(!hadCurrentData||changed||previousMode!==state.feedMode||previousPartial!==state.feedPartialError||previousMinute!==Math.floor(fetchedAt/60000))render();
+  return true;
+ }catch{
+  if(request===espnRequestSequence)state.liveBackendActive=false;
+  return false;
+ }finally{clearTimeout(timer);liveFetchInFlight=false}
+}
+function installLiveScoreBackend(){
+ const directPoll= pollESPN;
+ pollESPN=function(manual=false){
+  if(!manual&&state.page!=='Matches'){state.liveBackendActive=false;return Promise.resolve(false)}
+  if(!manual&&state.dateOffset===0&&typeof document!=='undefined'&&document.visibilityState!=='visible')return Promise.resolve(false);
+  if(!shouldUseLiveBackend()){state.liveBackendActive=false;return directPoll(manual)}
+  if(!manual&&state.liveBackendActive)return Promise.resolve(true);
+  if(liveFetchInFlight)return Promise.resolve(false);
+  return pollLiveBackend().then(ok=>{if(ok){if(manual)toast('Scores refreshed');return true}state.liveBackendActive=false;return directPoll(manual)});
+ };
+}
+installLiveScoreBackend();
+pollESPN(false);
+setInterval(()=>{if(shouldUseLiveBackend())pollLiveBackend()},LIVE_REFRESH_MS);
+document.addEventListener('visibilitychange',()=>{if(shouldUseLiveBackend())pollLiveBackend()});
