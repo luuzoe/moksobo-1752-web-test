@@ -1,0 +1,103 @@
+{
+  "provider": "BBC Sport",
+  "feedUrl": "https://feeds.bbci.co.uk/sport/football/rss.xml",
+  "fetchedAt": "2026-11-01T15:02:32.807633Z",
+  "articles": [
+    {
+      "title": "Wednesday appoint former Stockport boss Challinor",
+      "url": "https://www.bbc.co.uk/sport/football/articles/ckzd6er2025qo?at_medium=RSS&at_campaign=rss",
+      "description": "Sheffield Wednesday appoint former Stockport County boss Dave Challinor as their new manager.",
+      "publishedAt": "2026-11-01T11:15:42Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/fe4b/live/5cc02ee0-d5e2-11f1-8fc6-43c59756914a.jpg"
+    },
+    {
+      "title": "Manager ins and outs - 2026-27",
+      "url": "https://www.bbc.co.uk/sport/football/articles/cd94713djgyo?at_medium=RSS&at_campaign=rss",
+      "description": "BBC Sport tracks all the manager ins and outs in the Premier League, Scottish Premiership, Women's Super League, English Football League and National League.",
+      "publishedAt": "2026-11-01T11:11:40Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/4f91/live/e6c88cc0-d139-11f1-be77-d1864d279cb0.jpg"
+    },
+    {
+      "title": "Kilmarnock 'need support more than ever' but patience wearing thin",
+      "url": "https://www.bbc.co.uk/sport/football/articles/c6pqg3dw9w55o?at_medium=RSS&at_campaign=rss",
+      "description": "Kilmarnock climb out of bottom spot, but failure to beat 10 men at home adds to gloom at Rugby Park.",
+      "publishedAt": "2026-11-01T10:41:28Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/e1be/live/48da30d0-d568-11f1-910b-9bd7c745c627.jpg"
+    },
+    {
+      "title": "O'Neill insists frozen-out midfielder can still have Celtic future - gossip",
+      "url": "https://www.bbc.co.uk/sport/football/articles/cm20vy1kwynko?at_medium=RSS&at_campaign=rss",
+      "description": "Martin O'Neill insists frozen-out midfielder can still have a Celtic future, plus more Scottish football gossip.",
+      "publishedAt": "2026-11-01T10:22:22Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/8829/live/10ed2c90-407b-11f1-bd52-e755d604ece4.png"
+    },
+    {
+      "title": "Third choice? Inside Alexander-Arnold's struggles in Madrid",
+      "url": "https://www.bbc.co.uk/sport/football/articles/c9e8lp357je7o?at_medium=RSS&at_campaign=rss",
+      "description": "Trent Alexander-Arnold is currently third-choice right-back at Real Madrid - where does his future lie?",
+      "publishedAt": "2026-11-01T07:42:08Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/b465/live/040177b0-d460-11f1-ab12-eb0c94f5b382.jpg"
+    },
+    {
+      "title": "Anfield, intensity, rotation - how Iraola is improving Liverpool",
+      "url": "https://www.bbc.co.uk/sport/football/articles/ckzd6217j7pgo?at_medium=RSS&at_campaign=rss",
+      "description": "Liverpool fans are finding joy at Anfield again with a feel-good factor around the club before the visit of reigning champions Arsenal on Sunday.",
+      "publishedAt": "2026-11-01T07:38:15Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/3d5c/live/b3329da0-d45a-11f1-93d9-89af68edb68a.jpg"
+    },
+    {
+      "title": "Who am I? Guess WSL star No 10",
+      "url": "https://www.bbc.co.uk/sport/football/articles/c3vgyqrw90nxo?at_medium=RSS&at_campaign=rss",
+      "description": "Work out the identity of today's player in as few attempts as possible.",
+      "publishedAt": "2026-11-01T06:56:19Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/70d9/live/eb25ea50-9afd-11f1-b792-a710e56a11dc.jpg"
+    },
+    {
+      "title": "Who am I? Plus today's other quizzes",
+      "url": "https://www.bbc.co.uk/sport/football/articles/cv8ezj09e9k6o?at_medium=RSS&at_campaign=rss",
+      "description": "Test your ball knowledge against today's Who Am I?, Five in Five and Brainteaser.",
+      "publishedAt": "2026-11-01T06:54:38Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/1fbf/live/38bd3c70-bda7-11f1-bc2e-018d645d8d21.png"
+    },
+    {
+      "title": "Fishlock out to keep career alive in NWSL play-offs",
+      "url": "https://www.bbc.co.uk/sport/football/articles/cmewe7ee1djzo?at_medium=RSS&at_campaign=rss",
+      "description": "On Sunday, 1 November, Jess Fishlock takes to the pitch for Seattle Reign against Orlando Pride, not knowing if it will be her final match.",
+      "publishedAt": "2026-11-01T05:15:00Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/a352/live/0473ba50-d488-11f1-80bc-6d398902272f.jpg"
+    },
+    {
+      "title": "Are Manchester United really at risk of a relegation scrap?",
+      "url": "https://www.bbc.co.uk/sport/football/articles/c8g47wl06vkqo?at_medium=RSS&at_campaign=rss",
+      "description": "Manchester United's current tally of seven points from nine games would not even get them 30 points if it was continued for the full season.",
+      "publishedAt": "2026-10-31T23:52:28Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/c471/live/62195190-d55c-11f1-b937-61b94454a4cf.jpg"
+    },
+    {
+      "title": "Coventry, Ipswich, Hull - promoted trio enjoy positive starts",
+      "url": "https://www.bbc.co.uk/sport/football/articles/ck5ynzv8404ro?at_medium=RSS&at_campaign=rss",
+      "description": "The three teams have collected a respectable 31 points in total after nine games, and all currently sit above the relegation zone.",
+      "publishedAt": "2026-10-31T23:08:07Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/ba92/live/63ab8750-d57d-11f1-a701-fddedf244c16.png"
+    },
+    {
+      "title": "McInnes demands more after delivering Rangers' trophy chance",
+      "url": "https://www.bbc.co.uk/sport/football/articles/c83vqypr511po?at_medium=RSS&at_campaign=rss",
+      "description": "Derek McInnes knows there is room for improvement as he steers in-form Rangers to the Premier Sports Cup final with a 1-0 win over Aberdeen.",
+      "publishedAt": "2026-10-31T22:40:38Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/42c1/live/ce1cbe80-d57b-11f1-ab63-077ce6c8a12a.jpg"
+    }
+  ]
+}
