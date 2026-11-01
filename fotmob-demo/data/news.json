@@ -1,8 +1,16 @@
 {
   "provider": "BBC Sport",
   "feedUrl": "https://feeds.bbci.co.uk/sport/football/rss.xml?edition=int",
-  "fetchedAt": "2026-11-01T21:07:24Z",
+  "fetchedAt": "2026-11-01T22:36:52Z",
   "articles": [
+    {
+      "guid": "id:https://www.bbc.co.uk/iplayer/live/bbcone#0",
+      "title": "Watch: Match of the Day",
+      "url": "https://www.bbc.co.uk/iplayer/live/bbcone?at_medium=RSS&at_campaign=rss",
+      "description": "Highlights of Sunday’s only Premier League game as Liverpool take on champions Arsenal.",
+      "publishedAt": "2026-11-01T23:12:25Z",
+      "publisher": "BBC Sport"
+    },
     {
       "guid": "https://www.bbc.co.uk/sport/football/articles/cvp8grpjk4leo#0",
       "title": "I'll tell my players to dive in future - Iraola",
