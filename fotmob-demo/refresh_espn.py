@@ -16,7 +16,14 @@ from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parent / 'data' / 'espn'
 BASE = 'https://site.api.espn.com/apis/site/v2/sports/soccer'
-LEAGUES = ['eng.1', 'esp.1', 'ger.1', 'ita.1', 'fra.1', 'uefa.champions', 'uefa.europa', 'uefa.europa.conf']
+COMMON_BASE = 'https://site.web.api.espn.com/apis/common/v3/sports/soccer'
+WEB_BASE = 'https://site.web.api.espn.com/apis/v2/sports/soccer'
+LEAGUES = [
+    'eng.1', 'eng.2', 'eng.3', 'eng.4', 'eng.fa', 'eng.league_cup',
+    'esp.1', 'esp.2', 'esp.copa_del_rey', 'ger.1', 'ger.2', 'ger.dfb_pokal',
+    'ita.1', 'ita.2', 'ita.coppa_italia', 'fra.1', 'fra.2', 'ned.1', 'por.1',
+    'bel.1', 'sco.1', 'usa.1', 'mex.1', 'uefa.champions', 'uefa.europa', 'uefa.europa.conf'
+]
 WORKERS = 6
 
 
@@ -38,8 +45,8 @@ def write(path, payload):
     temporary.replace(path)
 
 
-def get(path):
-    request = Request(f'{BASE}/{path}', headers={'Accept': 'application/json', 'User-Agent': 'MatchdayStaticFeed/1.0'})
+def get_url(url):
+    request = Request(url, headers={'Accept': 'application/json', 'User-Agent': 'MatchdayStaticFeed/1.0'})
     for attempt in range(3):
         try:
             with urlopen(request, timeout=20) as response:
@@ -48,6 +55,43 @@ def get(path):
             if attempt == 2:
                 raise
             time.sleep(attempt + 1)
+
+
+def get(path):
+    return get_url(f'{BASE}/{path}')
+
+
+def current_league_data(code, previous):
+    result = dict(previous or {})
+    previous_year = int(result.get('currentSeasonYear') or 0)
+    result['provider'] = 'ESPN'
+    try:
+        payload = get_url(f'{COMMON_BASE}/{code}/seasons?region=us&lang=en')
+        seasons = [
+            {'year': int(item['year']), 'displayName': str(item['displayName'])}
+            for item in payload.get('seasons', [])
+            if item.get('year') and item.get('displayName')
+        ]
+        if not seasons:
+            raise ValueError('No season list returned')
+        year = max(item['year'] for item in seasons)
+        result.update({'seasons': seasons, 'currentSeasonYear': year})
+        try:
+            standings = get_url(f'{WEB_BASE}/{code}/standings?region=us&lang=en&season={year}')
+            returned_year = int((standings.get('season') or {}).get('year') or year)
+            if returned_year != year:
+                raise ValueError(f'ESPN returned standings for {returned_year}, expected {year}')
+            result.update({'standings': standings, 'standingsFetchedAt': stamp()})
+            result.pop('standingsError', None)
+        except Exception as exc:
+            result['standingsError'] = type(exc).__name__
+            if previous_year != year:
+                result.pop('standings', None)
+                result.pop('standingsFetchedAt', None)
+        return code, result
+    except Exception as exc:
+        print(f'League data {code}: preserving previous response ({type(exc).__name__})', flush=True)
+        return code, previous
 
 
 def age(payload):
@@ -74,7 +118,24 @@ def main():
         if directories:
             write(team_file, {'provider': 'ESPN', 'fetchedAt': stamp(), 'leagues': directories})
         print(f'Team directories cached: {len(directories)}', flush=True)
-    dates = [(now + timedelta(days=offset)).strftime('%Y%m%d') for offset in range(-3, 4)]
+    league_data_path = ROOT / 'league-data.json'
+    previous_league_data = read(league_data_path)
+    if not previous_league_data or age(previous_league_data) > 240:
+        competitions = dict((previous_league_data or {}).get('competitions', {}))
+        with ThreadPoolExecutor(max_workers=WORKERS) as pool:
+            jobs = {pool.submit(current_league_data, code, competitions.get(code)): code for code in LEAGUES}
+            for job in as_completed(jobs):
+                code = jobs[job]
+                try:
+                    result_code, payload = job.result()
+                    if payload:
+                        competitions[result_code] = payload
+                except Exception as exc:
+                    print(f'League data {code}: preserving previous response ({type(exc).__name__})', flush=True)
+        if competitions:
+            write(league_data_path, {'provider': 'ESPN', 'fetchedAt': stamp(), 'competitions': competitions})
+        print(f'League catalogues and current tables cached: {len(competitions)}', flush=True)
+    dates = [(now + timedelta(days=offset)).strftime('%Y%m%d') for offset in range(-3, 8)]
     scoreboards = {day: {'provider': 'ESPN', 'fetchedAt': stamp(), 'leagues': {}} for day in dates}
     with ThreadPoolExecutor(max_workers=WORKERS) as pool:
         jobs = {pool.submit(get, f'{code}/scoreboard?dates={day}'): (day, code) for day in dates for code in LEAGUES}
@@ -82,25 +143,45 @@ def main():
             day, code = jobs[job]
             try:
                 payload = job.result()
-                scoreboards[day]['leagues'][code] = {'events': payload.get('events', [])}
+                leagues = payload.get('leagues') or []
+                league = next((item for item in leagues if item.get('slug') == code), leagues[0] if leagues else {})
+                logos = league.get('logos') or []
+                logo = next((item.get('href') for item in logos if 'default' in item.get('rel', [])), None)
+                if not logo and logos:
+                    logo = logos[0].get('href')
+                scoreboards[day]['leagues'][code] = {
+                    'events': payload.get('events', []),
+                    'logo': logo,
+                    'calendar': league.get('calendar', []),
+                    'seasonYear': (league.get('season') or {}).get('year')
+                }
             except Exception as exc:
                 print(f'Scoreboard {day}/{code}: unavailable ({type(exc).__name__})', flush=True)
     events = {}
     for day, payload in scoreboards.items():
-        # Never replace a complete prior bundle with a partial/failed refresh.
-        if len(payload['leagues']) != len(LEAGUES):
-            payload = read(ROOT / 'scoreboards' / f'{day}.json') or payload
-        else:
+        # Keep current ESPN responses for every successful competition. A single
+        # failed feed must not hide valid current scores from the rest.
+        if payload['leagues']:
             write(ROOT / 'scoreboards' / f'{day}.json', payload)
+        else:
+            payload = read(ROOT / 'scoreboards' / f'{day}.json') or payload
         for code, board in payload.get('leagues', {}).items():
             for event in board.get('events', []):
                 if event.get('id'):
                     events[str(event['id'])] = (code, event)
-    print(f'Cached seven selected-date scoreboards; returned fixtures: {len(events)}', flush=True)
+    print(f'Cached selected-date scoreboards; returned fixtures: {len(events)}', flush=True)
     wanted = []
     for event_id, (code, event) in events.items():
         old = read(ROOT / 'summaries' / f'{event_id}.json')
         status = (event.get('status') or {}).get('type') or {}
+        try:
+            event_time = datetime.fromisoformat(str(event.get('date', '')).replace('Z', '+00:00'))
+        except (TypeError, ValueError):
+            event_time = None
+        if status.get('state') == 'pre' and event_time and (event_time < now - timedelta(hours=6) or event_time > now + timedelta(hours=24)):
+            continue
+        if status.get('completed') and event_time and event_time < now - timedelta(days=2):
+            continue
         ttl = 86400 if status.get('completed') else 1800 if status.get('state') == 'pre' else 240
         if old and age(old) < ttl:
             continue
