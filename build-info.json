@@ -1,60 +1,63 @@
 {
-  "build_id": "chapter1-runtime-grounding-phone-r14-20261101",
+  "build_id": "chapter1-evidence-controls-collisions-creek-phone-r15-20261101",
   "chapter": 1,
   "playable_missions": 8,
   "story_period": "c.1732–1739; ages 18–25 approximately",
-  "status": "web_preview_candidate_awaiting_phone_test",
+  "status": "web_preview_candidate_awaiting_owner_phone_acceptance",
   "owner_approved": false,
+  "previous_build_owner_outcome": {
+    "phone-r14": "Owner reported 100% failed. Previous cloud test passes do not override this outcome."
+  },
   "engine": "Godot 4.7.2",
   "active_web_entry": "index.html",
-  "build_page": "phone-r14.html",
-  "preview_url": "https://luuzoe.github.io/moksobo-1752-web-test/?build=phone-r14",
-  "direct_build_url": "https://luuzoe.github.io/moksobo-1752-web-test/phone-r14.html",
+  "build_page": "phone-r15.html",
+  "preview_url": "https://luuzoe.github.io/moksobo-1752-web-test/?build=phone-r15",
+  "direct_build_url": "https://luuzoe.github.io/moksobo-1752-web-test/phone-r15.html",
   "release_assets": {
-    "phone-r14.apple-touch-icon.png": {
+    "phone-r15.apple-touch-icon.png": {
       "bytes": 81523,
       "sha256": "c4b91a479de36596f28d1d1ee1adfb7e36e7b7e8d7e0868dde46a77114d87a3c"
     },
-    "phone-r14.audio.position.worklet.js": {
+    "phone-r15.audio.position.worklet.js": {
       "bytes": 2973,
       "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8"
     },
-    "phone-r14.audio.worklet.js": {
+    "phone-r15.audio.worklet.js": {
       "bytes": 7298,
       "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3"
     },
-    "phone-r14.html": {
+    "phone-r15.html": {
       "bytes": 14152,
-      "sha256": "b223ac0cd9f6d9e3da134bd9e8bd61927e65b6779d54d9194ee5f70f718c61f6"
+      "sha256": "3fe50e76c62836b8807a8ed02e3dc6cd3d750da989ecd227150a1b4a481a64b9"
     },
-    "phone-r14.icon.png": {
+    "phone-r15.icon.png": {
       "bytes": 552644,
       "sha256": "baf8fe37f6ea8992a2c54c90142b3ff41874ade2580c230dc0e3f16af7a11839"
     },
-    "phone-r14.js": {
+    "phone-r15.js": {
       "bytes": 279815,
       "sha256": "33c94cb3175f3333b82e2a3be5e8e86f77986f0aa2042b1631f6367a4e5bb6ba"
     },
-    "phone-r14.pck": {
-      "bytes": 33053828,
-      "sha256": "e35764c44e8a8699f14df06806339c66eadb184e801f7e28e57d5b72660f9b34"
+    "phone-r15.pck": {
+      "bytes": 33056660,
+      "sha256": "39a700bab9cb799088e55aef3a950569323765988b73840e3d6f6c8c27119cfb"
     },
-    "phone-r14.png": {
+    "phone-r15.png": {
       "bytes": 552644,
       "sha256": "baf8fe37f6ea8992a2c54c90142b3ff41874ade2580c230dc0e3f16af7a11839"
     },
-    "phone-r14.wasm": {
+    "phone-r15.wasm": {
       "bytes": 39514754,
       "sha256": "fc74679e3b97f76878947fcd4fbe1268cbfa6188182a2e33bbc3f5dc9bfa57d0"
     }
   },
-  "export_total_bytes": 74059631,
+  "export_total_bytes": 74062463,
   "source_sha256": {
     "main_menu": "9d8dd9caabb0968073280cbf0b912a5c453650ef4c30cf89e4df63f4b3c560cc",
-    "world": "ee6a8162fb8fdc0e46339de4eb33efb5f5aeb3d0f74a22682172b5ba0a391c8c",
-    "player": "657279bdf6719a0112642fc0285c7cb9392bc038d2ef7aa168f56c16214cd7f3",
-    "hud": "6524ab44e2ef0a459e9561ff501c640cdcaea8293560a0031a15174c28386538",
-    "touch_pad": "86d7fa71703a9dfce6ba11e2bd2eeb1f3319310daadd4d5e79eb453a3177d6d9",
+    "world": "e4eaa1ddb5ffd7a73f461975d0568d87213a8d8d8022617574943ca67e23f1eb",
+    "player": "730077bf45e57445c40536532874a4c0f96f923812258ac3ad42b59458f21b09",
+    "hud": "0f72ee88598637fbb9f7962c25962dabd92bd36a285a696f672bab587bc208ca",
+    "touch_pad": "6190126045fb522134ea5bca08f0633c479475d8d357fc1ff33bd136c8f22e6b",
     "web_shell": "bd39b3a4456994754ffbb3d143b992593fe838c6a48c87c64bb6b939bdaa6874",
     "project_godot": "f674f4d75e888e4ce1474c7bd3ffe6b3bdcb2b724bc5a8d7d169f24ec647a635",
     "export_presets": "d788054d7bb6bd625bf6665a1676d194cb24ff2962753434801e3189e393c662",
@@ -66,9 +69,18 @@
     "reconstruction": "Collection tasks, village repairs, meetings, NPC dialogue, settlement population/layout, creek, bridge, well, stall, seats, animals and encounters are explicitly labeled in Burmese as gameplay reconstruction, not verified biography or census.",
     "mission_progression": "Eight sequential missions cover the approximate age-18-to-25 span, with EBSCO and Gale episodes kept separate."
   },
+  "illustrative_creek": {
+    "previous_width_game_metres": 7.1,
+    "new_width_game_metres": 2.6,
+    "center_x": 28.5,
+    "surface_y": 0.08,
+    "historical_size_verified": false,
+    "houses_clear_of_water": 19,
+    "all_mission_targets_on_dry_land": true
+  },
   "validation": {
-    "source_regression_suites": 14,
-    "source_regression_suites_passed": 14,
+    "source_regression_suites": 18,
+    "source_regression_suites_passed": 18,
     "source_regression_failures": 0,
     "source_regression_suite_names": [
       "camera_regression",
@@ -81,181 +93,110 @@
       "mobile_controls_smoke",
       "multitouch_regression",
       "pages_responsive_smoke",
+      "r15_creek_scale_regression",
+      "r15_mobile_response_regression",
+      "r15_physical_navigation_regression",
+      "r15_world_accessibility_regression",
       "render_workload_audit",
       "runtime_batching_regression",
       "village_reconstruction_smoke",
       "water_swimming_smoke"
     ],
-    "browser_touch_camera_checks": [
-      {
-        "viewport": "844x390",
-        "device_pixel_ratio": 1,
-        "assertions": [
-          "visible villagers animate while off-screen rigs pause; fitted sole clearance retained",
-          "reference-sized joystick and separate right-side targets at correct DPR",
-          "turning away pauses off-screen rigs and returning resumes them",
-          "real joystick walks >2m and releases without stale movement",
-          "simultaneous movement/camera keeps heading and finger ownership; spike cannot spin",
-          "second-finger Sprint works during movement without camera activation",
-          "individual optional action buttons open and UI touches do not rotate camera",
-          "low-physics-rate render follow has stable offset/pitch and keeps the full body in frame",
-          "portrait pauses input; landscape restores without stale movement"
-        ],
-        "errors": [],
-        "ambient_processing": {
-          "active": 16,
-          "total": 16,
-          "draw_calls": 293,
-          "primitives": 237085
-        },
-        "camera_capture": {
-          "samples": 15,
-          "physics_ticks_per_second": 20,
-          "max_offset_error_m": 9.536743004190384e-07,
-          "pitch_range_rad": 1.49011610994787e-07,
-          "feet_vertical_range_css_px": 3.0517578011313162e-05,
-          "mean_software_wall_frame_ms": 387.4285714285717,
-          "p95_software_wall_frame_ms": 475.9999999999998,
-          "caveat": "Wall-clock software-renderer intervals, not clamped process delta. Not handset FPS or physical-phone validation."
-        }
+    "source_regression_isolated_user_data": true,
+    "browser_validation": {
+      "build": "phone-r15",
+      "environment": "Cloud Chromium Web canvas at 844x390 CSS pixels; not a physical handset",
+      "manual_play": {
+        "normal_menu_entry": true,
+        "four_intro_pages_advanced": true,
+        "native_keyboard_movement": true,
+        "native_interaction_button_clicked": true,
+        "first_mission_completed": true
       },
-      {
-        "viewport": "800x360",
-        "device_pixel_ratio": 1,
-        "assertions": [
-          "visible villagers animate while off-screen rigs pause; fitted sole clearance retained",
-          "reference-sized joystick and separate right-side targets at correct DPR",
-          "turning away pauses off-screen rigs and returning resumes them",
-          "real joystick walks >2m and releases without stale movement",
-          "simultaneous movement/camera keeps heading and finger ownership; spike cannot spin",
-          "second-finger Sprint works during movement without camera activation",
-          "individual optional action buttons open and UI touches do not rotate camera",
-          "low-physics-rate render follow has stable offset/pitch and keeps the full body in frame",
-          "portrait pauses input; landscape restores without stale movement"
+      "full_web_chapter": {
+        "passed": true,
+        "first_mission": "Completed manually through native browser input",
+        "remaining_stages_observed": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
         ],
-        "errors": [],
-        "ambient_processing": {
-          "active": 16,
-          "total": 16,
-          "draw_calls": 295,
-          "primitives": 237245
-        },
-        "camera_capture": {
-          "samples": 15,
-          "physics_ticks_per_second": 20,
-          "max_offset_error_m": 9.536742986426816e-07,
-          "pitch_range_rad": 1.1920928899566974e-07,
-          "feet_vertical_range_css_px": 0,
-          "mean_software_wall_frame_ms": 371.1428571428578,
-          "p95_software_wall_frame_ms": 486.0000000000038,
-          "caveat": "Wall-clock software-renderer intervals, not clamped process delta. Not handset FPS or physical-phone validation."
-        }
+        "final_mission_stage": 8,
+        "completed": true,
+        "hud_progress": "မစ်ရှင်: ၈ / ၈",
+        "hud_objective": "✓ အခန်း ၁ ပြီးဆုံး",
+        "target_interactions": [
+          "ebsco_clue_leadership",
+          "ebsco_clue_king",
+          "ebsco_clue_raid",
+          "assembly",
+          "grain",
+          "tools",
+          "wood",
+          "gale_account",
+          "gale_hearing",
+          "repair_west_watch",
+          "repair_east_watch",
+          "repair_gate",
+          "assembly"
+        ],
+        "method": "Capsule-clear route followed through DOM TouchEvent joystick input and MouseEvent UI clicks, with read-only DOM telemetry; no teleports, mission skipping or engine state setters",
+        "final_position_xz": [
+          1.49432158470154,
+          4.15580749511719
+        ],
+        "released_input": [
+          0,
+          0
+        ],
+        "released_velocity": [
+          0,
+          0
+        ],
+        "camera_finger_after_release": -1,
+        "joystick_finger_after_release": -1
       },
-      {
-        "viewport": "844x390",
-        "device_pixel_ratio": 2,
-        "assertions": [
-          "visible villagers animate while off-screen rigs pause; fitted sole clearance retained",
-          "reference-sized joystick and separate right-side targets at correct DPR",
-          "turning away pauses off-screen rigs and returning resumes them",
-          "real joystick walks >2m and releases without stale movement",
-          "simultaneous movement/camera keeps heading and finger ownership; spike cannot spin",
-          "second-finger Sprint works during movement without camera activation",
-          "individual optional action buttons open and UI touches do not rotate camera",
-          "low-physics-rate render follow has stable offset/pitch and keeps the full body in frame",
-          "portrait pauses input; landscape restores without stale movement"
-        ],
-        "errors": [],
-        "ambient_processing": {
-          "active": 16,
-          "total": 16,
-          "draw_calls": 293,
-          "primitives": 258615
-        },
-        "camera_capture": {
-          "samples": 15,
-          "physics_ticks_per_second": 20,
-          "max_offset_error_m": 9.536743981186646e-07,
-          "pitch_range_rad": 8.940696699655248e-08,
-          "feet_vertical_range_css_px": 0,
-          "mean_software_wall_frame_ms": 675.5714285714286,
-          "p95_software_wall_frame_ms": 770.9999999999999,
-          "caveat": "Wall-clock software-renderer intervals, not clamped process delta. Not handset FPS or physical-phone validation."
-        }
+      "simultaneous_move_and_camera": {
+        "passed": true,
+        "joystick_finger": 31,
+        "camera_finger": 43,
+        "movement_distance_m": 5.4644260406494,
+        "camera_rotation_radians": 0.3593281199573,
+        "both_fingers_released": true,
+        "movement_input_cleared": true,
+        "velocity_stopped": true,
+        "method": "DOM TouchEvents on the game canvas; not physical touch hardware"
+      },
+      "phone_acceptance": {
+        "physical_handset_tested_by_agent": false,
+        "phone_smoothness_verified": false,
+        "owner_approved_r15": false,
+        "r14_owner_outcome": "Owner reported 100% failed; previous emulation results do not override that outcome",
+        "apk_or_native_package_created": false
       }
-    ],
+    },
     "qa_only_bridge_in_release": false,
     "physical_device_tested": false,
     "owner_phone_acceptance_pending": true,
+    "physical_phone_smoothness_verified": false,
     "native_android_app_exported": false,
     "user_save_data_deleted": false,
-    "measurement_caveat": "Godot headless and Chromium ANGLE SwiftShader cloud touch emulation only. Cloud timing is not handset FPS; complete resolution of the owner-reported phone stutter and screenshot issues remains unverified.",
-    "source_regression_isolated_user_data": true,
-    "physical_phone_smoothness_verified": false,
-    "alternating_cloud_render_comparison": {
-      "renderer": "Chromium ANGLE SwiftShader cloud software rendering",
-      "physical_phone_tested": false,
-      "caveat": "Alternating cloud runs only; wall-clock intervals from engine timestamps, not clamped process delta; differences do not establish physical-phone FPS, latency or smoothness.",
-      "results": [
-        {
-          "run": 1,
-          "build": "r13",
-          "viewport": "844x390",
-          "dpr": 1,
-          "samples": 19,
-          "mean_software_wall_frame_ms": 654.1666666666666,
-          "p95_software_wall_frame_ms": 740,
-          "errors": []
-        },
-        {
-          "run": 2,
-          "build": "r14",
-          "viewport": "844x390",
-          "dpr": 1,
-          "samples": 19,
-          "mean_software_wall_frame_ms": 631.5,
-          "p95_software_wall_frame_ms": 766,
-          "processing_ambient_rigs": 16,
-          "total_ambient_rigs": 16,
-          "draw_calls": 292,
-          "primitives": 236849,
-          "errors": []
-        },
-        {
-          "run": 3,
-          "build": "r14",
-          "viewport": "844x390",
-          "dpr": 1,
-          "samples": 19,
-          "mean_software_wall_frame_ms": 617.5,
-          "p95_software_wall_frame_ms": 711.0000000000003,
-          "processing_ambient_rigs": 16,
-          "total_ambient_rigs": 16,
-          "draw_calls": 290,
-          "primitives": 236765,
-          "errors": []
-        },
-        {
-          "run": 4,
-          "build": "r13",
-          "viewport": "844x390",
-          "dpr": 1,
-          "samples": 19,
-          "mean_software_wall_frame_ms": 652.6111111111111,
-          "p95_software_wall_frame_ms": 765.0000000000006,
-          "errors": []
-        }
-      ]
-    }
+    "measurement_caveat": "Cloud Chromium Web canvas and Godot headless checks only; synthetic DOM touch events are not physical handset testing. Owner must approve this candidate on their phone."
   },
   "changes": [
-    "Stockade posts: 114 visuals grouped into 12 wall/material MultiMesh batches, keeping all 120 post/rail collision bodies.",
-    "Rigid animals: 52 part meshes grouped into 30 exact-material batches, preserving every source triangle and root motion.",
-    "Preserve fitted sole clearance through idle/walking, swimming exit and respawn instead of overwriting it every locomotion tick.",
-    "One camera collision sweep per render frame instead of repeating a sweep along the same already-cleared, shorter ray.",
-    "Web-only VisibleOnScreenEnabler3D pauses off-screen ambient NPC rig processing; World patrol simulation continues.",
-    "Web skips wind transform updates for trees over 28 metres from the player.",
-    "Retain the owner-reference compact joystick: 144 CSS px touch target / 132.48 CSS px visible ring, with separate 56 CSS px right-side targets.",
-    "Fresh phone-r14 asset names avoid mixing the new PCK with an older cached release. Previous release entries and player save schema remain unchanged."
+    "Immediate joystick intent, with acceleration smoothing only in the player controller; physics samples current touch intent without an extra render-frame delay.",
+    "Preserve accumulated camera swipe displacement on slow frames rather than discarding it; keep bounded orbit rate and separate finger ownership.",
+    "Restore compact phone mission number and progress; add current target name, distance/direction and nearby action guidance.",
+    "Keep 144 CSS px joystick hit target and approximately 132.48 CSS px visible ring at short landscape size, with separate 56 CSS px right-side actions.",
+    "Match imported hut wall and platform collisions to measured visible mesh footprint; add roof-only camera occluders.",
+    "Add player/NPC collision and ambient personal-space avoidance; make visible market tables solid while keeping their items collectible.",
+    "Shrink the illustrative creek from 7.1m to 2.6m, move it to the eastern edge and keep all 19 homes and all mission targets clear of water.",
+    "Lower water from 0.40m to 0.08m and align swimmer pose, narrow bridge, ramps, banks and water-zone bounds.",
+    "Use fresh phone-r15 assets; preserve old build entry files and player save schema. No native package created."
   ]
 }
