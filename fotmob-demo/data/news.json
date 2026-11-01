@@ -1,8 +1,17 @@
 {
   "provider": "BBC Sport",
-  "feedUrl": "https://feeds.bbci.co.uk/sport/football/rss.xml",
-  "fetchedAt": "2026-11-01T15:02:32.807633Z",
+  "feedUrl": "https://feeds.bbci.co.uk/sport/football/rss.xml?edition=int",
+  "fetchedAt": "2026-11-01T15:27:00Z",
   "articles": [
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/articles/cmy4xwwqzvw1o#0",
+      "title": "Spence 'very proud' to break WSL appearance record",
+      "url": "https://www.bbc.co.uk/sport/football/articles/cmy4xwwqzvw1o?at_medium=RSS&at_campaign=rss",
+      "description": "Tottenham midfielder Drew Spence says it is a \"very proud moment\" to become the Women's Super League's all-time appearance record holder.",
+      "publishedAt": "2026-11-01T15:18:43Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/21ef/live/b83d8390-d203-11f1-b3b6-c1e79e957e40.jpg"
+    },
     {
       "title": "Wednesday appoint former Stockport boss Challinor",
       "url": "https://www.bbc.co.uk/sport/football/articles/ckzd6er2025qo?at_medium=RSS&at_campaign=rss",
@@ -98,6 +107,24 @@
       "publishedAt": "2026-10-31T22:40:38Z",
       "publisher": "BBC Sport",
       "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/42c1/live/ce1cbe80-d57b-11f1-ab63-077ce6c8a12a.jpg"
+    },
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/articles/crz98lwn3pvzo#3",
+      "title": "Man Utd enquire about Toney - Sunday's gossip",
+      "url": "https://www.bbc.co.uk/sport/football/articles/crz98lwn3pvzo?at_medium=RSS&at_campaign=rss",
+      "description": "Manchester United enquire about Ivan Toney's availability, Barcelona are tracking Chelsea winger Estevao Willian, Jean-Philippe Mateta is set to leave Crystal Palace in January, plus more.",
+      "publishedAt": "2026-10-31T22:14:36Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/dc19/live/848cd980-d571-11f1-858c-9b90cf3a2059.png"
+    },
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/articles/cve8rkd8r302o#2",
+      "title": "Maresca's big test is to address mounting Man City issues",
+      "url": "https://www.bbc.co.uk/sport/football/articles/cve8rkd8r302o?at_medium=RSS&at_campaign=rss",
+      "description": "Enzo Maresca enjoyed a flawless start as Manchester City manager, winning his first seven Premier League games in charge, but the honeymoon period is now over.",
+      "publishedAt": "2026-10-31T19:05:41Z",
+      "publisher": "BBC Sport",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/9843/live/a24ea490-d557-11f1-b937-61b94454a4cf.jpg"
     }
   ]
 }
