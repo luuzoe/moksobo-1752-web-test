@@ -1,7 +1,7 @@
 {
   "provider": "BBC Sport",
   "feedUrl": "https://feeds.bbci.co.uk/sport/football/rss.xml?edition=int",
-  "fetchedAt": "2026-11-01T17:36:22Z",
+  "fetchedAt": "2026-11-01T17:46:50Z",
   "articles": [
     {
       "guid": "https://www.bbc.co.uk/sport/football/articles/cmvg7d1xl8epo#17",
@@ -299,6 +299,15 @@
       "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/9ef9/live/3b22ede0-d579-11f1-a701-fddedf244c16.jpg"
     },
     {
+      "guid": "https://www.bbc.co.uk/sport/football/articles/cvn067174knjo#6",
+      "title": "Glasner fears he will be next Forest sacking if wins don't follow",
+      "url": "https://www.bbc.co.uk/sport/football/articles/cvn067174knjo?at_medium=RSS&at_campaign=rss",
+      "description": "Nottingham Forest head coach Oliver Glasner warns he will be the fifth sacking in just over a year by the club, unless results improve soon.",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/6cac/live/3039d500-d55c-11f1-b937-61b94454a4cf.jpg",
+      "publishedAt": "2026-10-31T20:26:15Z",
+      "publisher": "BBC Sport"
+    },
+    {
       "guid": "https://www.bbc.co.uk/sport/football/articles/cmrry892zpkro#7",
       "title": "Sunderland's paradox - San Siro trip amid relegation battle",
       "url": "https://www.bbc.co.uk/sport/football/articles/cmrry892zpkro?at_medium=RSS&at_campaign=rss",
@@ -306,6 +315,15 @@
       "publishedAt": "2026-10-31T20:03:10Z",
       "publisher": "BBC Sport",
       "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/bf84/live/bcbd55c0-d579-11f1-93e1-3b657b665bcf.jpg"
+    },
+    {
+      "guid": "https://www.bbc.co.uk/sport/football/articles/cve8rkd8r302o#3",
+      "title": "Maresca's big test is to address mounting Man City issues",
+      "url": "https://www.bbc.co.uk/sport/football/articles/cve8rkd8r302o?at_medium=RSS&at_campaign=rss",
+      "description": "Enzo Maresca enjoyed a flawless start as Manchester City manager, winning his first seven Premier League games in charge, but the honeymoon period is now over.",
+      "imageUrl": "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/9843/live/a24ea490-d557-11f1-b937-61b94454a4cf.jpg",
+      "publishedAt": "2026-10-31T19:05:41Z",
+      "publisher": "BBC Sport"
     },
     {
       "guid": "https://www.bbc.co.uk/sport/football/articles/ck9dz2yned67o#6",
