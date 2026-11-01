@@ -1,7 +1,7 @@
 {
   "provider": "BBC Sport",
   "feedUrl": "https://feeds.bbci.co.uk/sport/football/rss.xml?edition=int",
-  "fetchedAt": "2026-11-01T22:56:32Z",
+  "fetchedAt": "2026-11-01T23:06:30Z",
   "articles": [
     {
       "guid": "id:https://www.bbc.co.uk/iplayer/live/bbcone#0",
@@ -9,6 +9,14 @@
       "url": "https://www.bbc.co.uk/iplayer/live/bbcone?at_medium=RSS&at_campaign=rss",
       "description": "Highlights of Sunday’s only Premier League game as Liverpool take on champions Arsenal.",
       "publishedAt": "2026-11-01T23:12:25Z",
+      "publisher": "BBC Sport"
+    },
+    {
+      "guid": "id:https://www.bbc.co.uk/sport/football/articles/cqkgk0l3zpnyo#0",
+      "title": "Man Utd eye Barcelona's Balde - Monday's gossip",
+      "url": "https://www.bbc.co.uk/sport/football/articles/cqkgk0l3zpnyo?at_medium=RSS&at_campaign=rss",
+      "description": "Alejandro Balde could leave Barcelona, sparking interest from Manchester United, Liverpool shortlist want Murillo and Nico Schlotterbeck, Real Madrid eye Bart Verbruggen, plus more.",
+      "publishedAt": "2026-11-01T23:00:21Z",
       "publisher": "BBC Sport"
     },
     {
