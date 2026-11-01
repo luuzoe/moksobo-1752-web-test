@@ -9,7 +9,7 @@
   "display_override": ["standalone", "minimal-ui"],
   "orientation": "portrait",
   "background_color": "#f5f6f7",
-  "theme_color": "#f5f6f7",
+  "theme_color": "#047857",
   "categories": ["sports", "news"],
   "prefer_related_applications": false,
   "icons": [
