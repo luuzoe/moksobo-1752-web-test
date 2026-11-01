@@ -146,10 +146,14 @@ def normalize_standings(rows: list[dict]) -> list[dict]:
     for position, row in enumerate(rows, 1):
         if not isinstance(row, dict) or not row.get("teamName"):
             continue
+        logo_url = str(row.get("teamIconUrl") or "").strip()
+        if logo_url.startswith("http://"):
+            logo_url = "https://" + logo_url[7:]
         normalized.append({
             "position": position,
             "team": str(row.get("teamName")),
             "shortName": str(row.get("shortName") or ""),
+            "logoUrl": logo_url,
             "played": row.get("matches"),
             "won": row.get("won"),
             "drawn": row.get("draw"),
