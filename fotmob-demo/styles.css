@@ -565,3 +565,16 @@ main{font-size:17px}
 
 .boot-splash:not(.is-hiding){animation:boot-splash-failsafe 8s linear forwards}
 @keyframes boot-splash-failsafe{0%,94%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden;pointer-events:none}}
+
+
+/* Keep league hero controls inside narrow phone viewports. */
+.league-back-row{display:grid;grid-template-columns:34px minmax(0,1fr) 34px minmax(72px,max-content);align-items:center;gap:7px;width:100%;min-width:0}
+.league-season-picker{width:100%;min-width:0;max-width:none;flex:none}
+.league-season-picker select{display:block;width:100%;min-width:0;max-width:100%;text-overflow:ellipsis}
+.league-alert-button{width:34px;min-width:34px;max-width:34px;margin-left:0}
+.league-hero .follow{width:100%;min-width:72px;max-width:100%;justify-self:stretch;flex:0 0 auto;padding-inline:9px}
+@media(max-width:340px){
+  .league-back-row{grid-template-columns:32px minmax(0,1fr) 32px minmax(68px,max-content);gap:5px}
+  .league-back-row>button[data-action="back-leagues"],.league-alert-button{width:32px;min-width:32px;max-width:32px;height:32px;flex-basis:32px}
+  .league-hero .follow{min-width:68px;min-height:32px;padding-inline:7px;font-size:8px}
+}

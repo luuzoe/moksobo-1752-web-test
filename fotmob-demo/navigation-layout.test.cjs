@@ -45,3 +45,24 @@ test('includes a circular branded startup screen with a football animation and p
   assert.match(css, /@keyframes boot-kick/);
   assert.match(css, /@keyframes boot-ball-roll/);
 });
+
+test('fits league hero controls inside narrow phone viewports', () => {
+  const backRowRules = [...css.matchAll(/\.league-back-row\{([^}]*)\}/g)];
+  const pickerRules = [...css.matchAll(/\.league-season-picker\{([^}]*)\}/g)];
+  const selectRules = [...css.matchAll(/\.league-season-picker select\{([^}]*)\}/g)];
+  const mobileBackRow = backRowRules.find(match => match[1].includes('display:grid'))?.[1] || '';
+  const mobilePicker = pickerRules.at(-1)?.[1] || '';
+  const mobileSelect = selectRules.at(-1)?.[1] || '';
+  assert.match(mobileBackRow, /display:grid/);
+  assert.match(mobileBackRow, /minmax\(0,1fr\)/);
+  assert.match(mobileBackRow, /width:100%/);
+  assert.match(mobilePicker, /max-width:none/);
+  assert.match(mobileSelect, /width:100%/);
+  assert.match(mobileSelect, /text-overflow:ellipsis/);
+});
+
+test('reserves room for league hero action buttons', () => {
+  assert.match(css, /grid-template-columns:34px minmax\(0,1fr\) 34px minmax\(72px,max-content\)/);
+  assert.match(css, /\.league-alert-button\{width:34px;min-width:34px/);
+  assert.match(css, /\.league-hero \.follow\{width:100%;min-width:72px/);
+});
