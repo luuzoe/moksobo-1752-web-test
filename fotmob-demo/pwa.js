@@ -22,6 +22,7 @@
   const siteVersionKey = 'matchday-site-version';
   const siteVersionCheckKey = 'matchday-site-version-checked';
   const siteVersionURL = 'https://api.github.com/repos/luuzoe/moksobo-1752-web-test/commits?path=fotmob-demo&per_page=1';
+  const updateCheckIntervalMs = 5 * 60 * 1000;
 
   const ua = navigator.userAgent || '';
   const isIOS = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -129,7 +130,7 @@
     const now = Date.now();
     try {
       const lastCheck = Number(localStorage.getItem(siteVersionCheckKey) || 0);
-      if (now - lastCheck < 6 * 60 * 60 * 1000) return;
+      if (now - lastCheck < updateCheckIntervalMs) return;
       localStorage.setItem(siteVersionCheckKey, String(now));
     } catch (_) {
       // Continue checking when browser storage is unavailable.
@@ -265,7 +266,7 @@
       if (registration.installing) watchInstallingWorker(registration.installing);
       registration.addEventListener('updatefound', () => watchInstallingWorker(registration.installing));
       checkForUpdate();
-      window.setInterval(checkForUpdate, 6 * 60 * 60 * 1000);
+      window.setInterval(checkForUpdate, updateCheckIntervalMs);
       window.addEventListener('focus', checkForUpdate);
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') checkForUpdate();
