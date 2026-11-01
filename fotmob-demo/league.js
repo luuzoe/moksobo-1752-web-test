@@ -489,7 +489,7 @@
   function formattedDate(value, options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) {
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return 'Date not supplied';
-    return new Intl.DateTimeFormat(undefined, options).format(date);
+    return new Intl.DateTimeFormat(undefined, { ...options, timeZone: 'Asia/Yangon' }).format(date);
   }
 
   function normalizedTeam(value) {
