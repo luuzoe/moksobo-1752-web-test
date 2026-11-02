@@ -35,17 +35,18 @@ test('renders the bottom navigation before app scripts initialize', () => {
   }
 });
 
-test('includes a circular branded startup screen with a football animation and progress track', () => {
+test('includes a branded startup screen with a footballer illustration and progress track', () => {
   assert.match(html, /id="boot-splash"/);
   assert.match(html, /class="boot-brand-orb"/);
+  assert.match(html, /aria-label="Footballer striking a ball"/);
   assert.match(html, /class="boot-player"/);
   assert.match(html, /class="boot-ball"/);
   assert.match(html, /<g class="boot-run" id="boot-run">/);
   assert.match(html, /class="boot-progress" role="progressbar"/);
   assert.match(css, /\.boot-brand-orb\{[^}]*border-radius:50%/);
   assert.match(css, /\.boot-brand-orb img\{[^}]*clip-path:circle\(50%/);
-  assert.match(css, /@keyframes boot-run-across/);
-  assert.match(css, /@keyframes boot-kick/);
+  assert.match(css, /@keyframes boot-run-enter/);
+  assert.match(css, /@keyframes boot-player-bob/);
   assert.match(css, /@keyframes boot-ball-roll/);
 });
 
