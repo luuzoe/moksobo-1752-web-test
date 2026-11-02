@@ -9,6 +9,7 @@ const html = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
 const appRule = css.match(/\.app\{([^}]*)\}/)?.[1] || '';
 const mainRule = css.match(/(?:^|})main\{([^}]*)\}/)?.[1] || '';
 const navRule = css.match(/\.bottomnav\{([^}]*)\}/)?.[1] || '';
+const mobileNavRule = [...css.matchAll(/\.bottomnav\{([^}]*)\}/g)].at(-1)?.[1] || '';
 
 test('keeps the app shell within short mobile viewports', () => {
   assert.match(appRule, /height:100dvh/);
@@ -21,6 +22,16 @@ test('pins the bottom navigation to the app bottom independently of flex sizing'
   assert.match(navRule, /right:0/);
   assert.match(navRule, /bottom:0/);
   assert.match(navRule, /height:calc\(68px \+ var\(--safe-bottom\)\)/);
+});
+
+test('pins mobile navigation to the viewport and reserves space for safe areas and overlays', () => {
+  assert.match(mobileNavRule, /position:fixed/);
+  assert.match(mobileNavRule, /left:0/);
+  assert.match(mobileNavRule, /right:0/);
+  assert.match(mobileNavRule, /bottom:0/);
+  assert.match(mobileNavRule, /max\(env\(safe-area-inset-bottom,0px\),16px\)/);
+  assert.match(css, /\.search-overlay\{bottom:calc\(68px \+ max\(/);
+  assert.match(css, /\.pwa-install-banner\{bottom:calc\(72px \+ max\(/);
 });
 
 test('leaves enough scroll padding for the fixed bottom navigation', () => {

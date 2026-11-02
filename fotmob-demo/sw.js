@@ -1,9 +1,10 @@
-const CACHE_NAME = 'matchday-shell-v15';
+const CACHE_NAME = 'matchday-shell-v16';
 const SHELL_FILES = [
   './',
   './index.html',
   './styles.css',
   './clock.js',
+  './i18n.js',
   './news.js',
   './league.js',
   './pwa.js',
@@ -24,6 +25,7 @@ const REQUIRED_SHELL_FILES = new Set([
   './index.html',
   './styles.css',
   './clock.js',
+  './i18n.js',
   './news.js',
   './league.js',
   './pwa.js',

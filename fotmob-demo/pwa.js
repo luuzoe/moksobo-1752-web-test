@@ -38,7 +38,7 @@
     const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (bootRun && !prefersReducedMotion) {
       const finishBootOnAnimationEnd = event => {
-        if (event.target !== bootRun || event.animationName !== 'boot-run-across') return;
+        if (event.target !== bootRun || event.animationName !== 'boot-run-enter') return;
         bootRun.removeEventListener('animationend', finishBootOnAnimationEnd);
         dismissBootSplash();
       };
@@ -53,9 +53,10 @@
   const isIOS = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   const isSafari = /safari/i.test(ua) && !/(crios|fxios|edgios|opios|chrome|chromium|android)/i.test(ua);
   const standaloneQuery = window.matchMedia ? window.matchMedia('(display-mode: standalone)') : null;
+  const fullscreenQuery = window.matchMedia ? window.matchMedia('(display-mode: fullscreen)') : null;
 
   function isInstalled() {
-    return Boolean((standaloneQuery && standaloneQuery.matches) || navigator.standalone === true);
+    return Boolean((standaloneQuery && standaloneQuery.matches) || (fullscreenQuery && fullscreenQuery.matches) || navigator.standalone === true);
   }
 
   function sessionFlag(key) {
@@ -289,6 +290,10 @@
   if (standaloneQuery) {
     if (standaloneQuery.addEventListener) standaloneQuery.addEventListener('change', syncInstalledState);
     else if (standaloneQuery.addListener) standaloneQuery.addListener(syncInstalledState);
+  }
+  if (fullscreenQuery) {
+    if (fullscreenQuery.addEventListener) fullscreenQuery.addEventListener('change', syncInstalledState);
+    else if (fullscreenQuery.addListener) fullscreenQuery.addListener(syncInstalledState);
   }
 
   if (isInstalled()) {

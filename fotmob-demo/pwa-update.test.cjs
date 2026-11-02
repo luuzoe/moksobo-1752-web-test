@@ -280,7 +280,7 @@ test('waits for the football run animation before hiding the boot splash', () =>
   assert.equal(registered.has('animationend'), true, 'keeps listening after bubbled child animations');
   assert.equal(bootSplash.classList.classes.has('is-hiding'), false, 'ignores unrelated SVG animation events');
 
-  registered.get('animationend')({ target: bootRun, animationName: 'boot-run-across' });
+  registered.get('animationend')({ target: bootRun, animationName: 'boot-run-enter' });
   assert.equal(bootSplash.classList.classes.has('is-hiding'), true, 'starts the splash fade only after the run finishes');
   assert.equal(registered.has('animationend'), false, 'removes the handler after the main animation ends');
   assert.equal(bootSplash.hidden, false, 'keeps the splash during its fade');
@@ -288,4 +288,40 @@ test('waits for the football run animation before hiding the boot splash', () =>
   assert.ok(fade, 'schedules the final hide after the fade transition');
   fade.callback();
   assert.equal(bootSplash.hidden, true);
+});
+
+test('recognizes fullscreen display mode as installed and suppresses install prompts', () => {
+  const windowListeners = new Map();
+  const elements = new Map();
+  const element = id => {
+    if (!elements.has(id)) elements.set(id, { hidden: true, addEventListener() {}, focus() {} });
+    return elements.get(id);
+  };
+  const window = {
+    matchMedia(query) { return { matches: query === '(display-mode: fullscreen)', addEventListener() {}, removeEventListener() {} }; },
+    addEventListener(type, listener) { windowListeners.set(type, listener); },
+    setTimeout() { return 1; },
+    clearTimeout() {},
+    setInterval() {},
+    location: { reload() {} },
+  };
+  const document = { getElementById: element, addEventListener() {}, visibilityState: 'hidden' };
+  const navigator = { userAgent: 'Chrome Android', platform: 'Linux', maxTouchPoints: 5, onLine: false };
+
+  vm.runInNewContext(pwaSource, {
+    document,
+    window,
+    navigator,
+    localStorage: { getItem() { return null; }, setItem() {} },
+    location: { protocol: 'https:', hostname: 'example.test' },
+    console: { warn() {} },
+  }, { filename: 'pwa.js' });
+
+  const installButton = element('install-cta');
+  const banner = element('pwa-install-banner');
+  assert.equal(installButton.hidden, true);
+  assert.equal(banner.hidden, true);
+  windowListeners.get('beforeinstallprompt')({ preventDefault() {} });
+  assert.equal(installButton.hidden, true, 'does not offer installation for an already fullscreen app');
+  assert.equal(banner.hidden, true, 'does not show a banner over the fullscreen app');
 });

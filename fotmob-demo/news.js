@@ -274,8 +274,8 @@
           : html(article.title);
         return `<article class="news-story">
           <div class="news-story-meta"><span class="news-source">${html(publisher)}</span>${article.author ? `<span class="news-author">By ${html(article.author)}</span>` : ''}${image ? `<span class="news-image-credit">Photo: ${html(publisher)}</span>` : ''}${iso ? `<time datetime="${html(iso)}">Published ${html(formatDate(iso))}</time>` : '<span>Publication time unavailable</span>'}</div>
-          <div class="news-story-layout"><div class="news-story-copy"><h2>${title}</h2>
-            ${article.description ? `<p>${html(article.description)}</p>` : ''}
+          <div class="news-story-layout"><div class="news-story-copy"><h2 data-i18n-preserve>${title}</h2>
+            ${article.description ? `<p data-i18n-preserve>${html(article.description)}</p>` : ''}
           </div>${image ? `<img class="news-image" src="${html(image)}" alt="" loading="lazy" decoding="async">` : ''}</div>
         </article>`;
       }).join('')}</div>`;

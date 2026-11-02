@@ -576,3 +576,21 @@ main{font-size:17px}
 
 /* BBC headline links are functional article links; other providers remain unlinked. */
 .news-article-link{color:#24784b;text-decoration:underline;text-underline-offset:2px}.app[data-theme="dark"] .news-article-link{color:#75c99a}.news-article-link:focus-visible{outline:2px solid #31865b;outline-offset:2px;border-radius:2px}
+
+
+/* Keep the mobile navigation anchored to the visible app window after updates. */
+@media(max-width:699px){
+  .app{height:100vh;height:100dvh;padding-top:env(safe-area-inset-top,0px)}
+  .bottomnav{position:fixed;left:0;right:0;bottom:0;width:min(100vw,480px);height:calc(68px + max(env(safe-area-inset-bottom,0px),16px));margin-inline:auto;padding:4px 7px calc(5px + max(env(safe-area-inset-bottom,0px),16px));z-index:8}
+  .navitem span{white-space:nowrap}
+  main{padding-bottom:calc(14px + 68px + max(env(safe-area-inset-bottom,0px),16px))}
+  .search-overlay{bottom:calc(68px + max(env(safe-area-inset-bottom,0px),16px))}
+  .pwa-install-banner{bottom:calc(72px + max(env(safe-area-inset-bottom,0px),16px))}
+  .toast{bottom:calc(86px + max(env(safe-area-inset-bottom,0px),16px))}
+}
+.language-select-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 12px}
+.language-select-row>span{display:grid;gap:4px;min-width:0}
+.language-select-row strong{font-size:11px}
+.language-select-row small{color:var(--muted);font-size:9px}
+.language-select-row select{min-width:100px;max-width:132px;min-height:36px;padding:6px 10px;border:1px solid var(--line);border-radius:9px;background:var(--surface2);color:var(--text)}
+html[lang="my"] .navitem span{font-size:7px;letter-spacing:0}
