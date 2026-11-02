@@ -2,7 +2,8 @@
 
 (function () {
   const DATA_URL = './data/news.json';
-  const CACHE_KEY = 'matchday_bbc_football_news_v2';
+  const CACHE_KEY = 'matchday_football_news_v3';
+  const LEGACY_CACHE_KEYS = ['matchday_bbc_football_news_v2', 'matchday_bbc_football_news_v1'];
   const REFRESH_AFTER_MS = 5 * 60 * 1000;
   let snapshot = null;
   let loading = false;
@@ -33,25 +34,50 @@
     return '';
   }
 
-  function bbcUrl(value) {
+  function httpsUrl(value) {
     const original = fieldString(value);
     if (!original) return '';
     try {
-      const url = new URL(original, location.href);
-      const host = url.hostname.toLowerCase();
-      if (url.protocol !== 'https:' || !(host === 'bbc.co.uk' || host.endsWith('.bbc.co.uk') || host === 'bbc.com' || host.endsWith('.bbc.com'))) return '';
-      return original;
+      return new URL(original, location.href).protocol === 'https:' ? original : '';
     } catch (_) { return ''; }
   }
 
-  function bbcImageUrl(value) {
-    const original = fieldString(value);
+  function isBbcArticleUrl(value) {
+    const original = httpsUrl(value);
+    if (!original) return false;
+    try {
+      const host = new URL(original, location.href).hostname.toLowerCase();
+      return host === 'bbc.co.uk' || host.endsWith('.bbc.co.uk') || host === 'bbc.com' || host.endsWith('.bbc.com') || host === 'bbci.co.uk' || host.endsWith('.bbci.co.uk');
+    } catch (_) { return false; }
+  }
+
+  function publisherFromUrl(value) {
+    const original = httpsUrl(value);
     if (!original) return '';
     try {
-      const url = new URL(original, location.href);
-      if (url.protocol !== 'https:' || url.hostname.toLowerCase() !== 'ichef.bbci.co.uk') return '';
-      return original;
+      const host = new URL(original, location.href).hostname.toLowerCase();
+      if (host === 'bbc.co.uk' || host.endsWith('.bbc.co.uk') || host === 'bbc.com' || host.endsWith('.bbc.com') || host === 'bbci.co.uk' || host.endsWith('.bbci.co.uk')) return 'BBC Sport';
+      if (host === 'skysports.com' || host.endsWith('.skysports.com')) return 'SkySports | News';
+      return host.replace(/^www\./, '').split('.')[0].replace(/(^|[-_])([a-z])/g, (_, separator, letter) => `${separator}${letter.toUpperCase()}`);
     } catch (_) { return ''; }
+  }
+
+  function usablePublisher(value) {
+    const publisher = fieldString(value);
+    if (!publisher || /^https?:\/\//i.test(publisher) || /^(multiple|multi[- ]source|football news feeds?)$/i.test(publisher)) return '';
+    return publisher;
+  }
+
+  function publisherFor(item, fallback, articleUrl) {
+    const source = item.source && typeof item.source === 'object' ? item.source : {};
+    const explicit = usablePublisher(
+      item.publisher || item.publisherName || item.publisher_name || item.sourceName || item.source_name ||
+      item.feedTitle || item.feed_title || item.sourceTitle || item.source_title ||
+      source.title || source.name || source.publisher || item['feed:title']
+    );
+    if (explicit) return explicit;
+    const fromUrl = publisherFromUrl(item.feedUrl || item.feed_url || item.sourceUrl || item.source_url || source.url || articleUrl);
+    return fromUrl || usablePublisher(fallback) || 'Football news';
   }
 
   function dateIso(value) {
@@ -66,7 +92,7 @@
   }
 
   function canonicalLink(value) {
-    const valid = bbcUrl(value);
+    const valid = httpsUrl(value);
     if (!valid) return '';
     try {
       const url = new URL(valid, location.href);
@@ -78,19 +104,19 @@
 
   function imageFrom(item) {
     const values = [
-      item.image, item.imageUrl, item.image_url, item.thumbnail, item['media:thumbnail'],
-      item.mediaThumbnail, item.media_thumbnail, item.enclosure, item.media?.thumbnail,
-      item.media?.content, item.media_content
+      item.imageUrl, item.image_url, item.image, item.thumbnailUrl, item.thumbnail_url, item.thumbnail,
+      item['media:thumbnail'], item.mediaThumbnail, item.media_thumbnail, item.enclosure,
+      item.media?.thumbnail, item.media?.content, item.media_content
     ];
     for (const value of values) {
-      const url = bbcImageUrl(value);
+      const url = httpsUrl(value);
       if (url) return url;
     }
     return '';
   }
 
   function articleRows(document) {
-    let source = safeParse(document);
+    const source = safeParse(document);
     if (source && typeof source === 'object' && !Array.isArray(source)) {
       for (const key of ['payload', 'data', 'result']) {
         const nested = safeParse(source[key]);
@@ -102,19 +128,29 @@
       for (const key of ['articles', 'items', 'entries', 'stories']) {
         if (Array.isArray(source[key])) return source[key];
       }
+      for (const key of ['feeds', 'sources']) {
+        if (Array.isArray(source[key])) {
+          return source[key].flatMap(feed => {
+            const rows = articleRows(feed);
+            const publisher = feed?.publisher || feed?.provider || feed?.feedTitle || feed?.title || feed?.name || '';
+            return rows.map(item => ({ ...item, publisher: item.publisher || publisher }));
+          });
+        }
+      }
       if (source.item && typeof source.item === 'object') return [source.item];
       if (source.title || source.guid || source.link || source.url) return [source];
     }
     return Array.isArray(source) ? source : [];
   }
 
-  function normalizeArticle(item) {
+  function normalizeArticle(item, fallbackPublisher) {
     if (!item || typeof item !== 'object') return null;
     const title = fieldString(item.title || item.headline);
-    const url = bbcUrl(item.link || item.url || item.articleUrl || item.article_url || item.href);
+    const url = httpsUrl(item.link || item.url || item.articleUrl || item.article_url || item.href);
     if (!title || !url) return null;
     const time = item.time ?? item.publishedAt ?? item.published_at ?? item.pubDate ?? item.published ?? item.date ?? item.updated;
     const author = fieldString(item.author || item.creator || item['dc:creator'] || item['author:name'] || (Array.isArray(item.authors) ? item.authors[0] : ''));
+    const publisher = publisherFor(item, fallbackPublisher, url);
     return {
       guid: fieldString(item.guid || item.id || item.identifier),
       title,
@@ -122,64 +158,40 @@
       description: fieldString(item.summary || item.description || item.contentSnippet || item.content_snippet || item.subtitle),
       author,
       publishedAt: dateIso(time),
-      publisher: 'BBC Sport',
+      publisher,
       imageUrl: imageFrom(item)
     };
   }
 
-  function deduplicate(rows) {
-    const items = rows.map(normalizeArticle).filter(Boolean);
+  function deduplicate(rows, fallbackPublisher) {
+    const items = rows.map(item => normalizeArticle(item, fallbackPublisher)).filter(Boolean);
     items.sort((a, b) => (Date.parse(b.publishedAt || '') || 0) - (Date.parse(a.publishedAt || '') || 0));
     const output = [];
-    const guidIndex = new Map();
-    const linkIndex = new Map();
+    const guidIndex = new Set();
+    const linkIndex = new Set();
     for (const item of items) {
-      const guidKey = item.guid ? item.guid.trim().toLowerCase() : '';
+      const guidKey = item.guid ? `${item.publisher.toLowerCase()}\u0000${item.guid.trim().toLowerCase()}` : '';
       const linkKey = canonicalLink(item.url);
-      const existing = (guidKey && guidIndex.get(guidKey)) || (linkKey && linkIndex.get(linkKey));
-      if (existing) {
-        const newer = (Date.parse(item.publishedAt || '') || 0) > (Date.parse(existing.item.publishedAt || '') || 0);
-        const preferred = newer ? item : existing.item;
-        const other = newer ? existing.item : item;
-        const merged = {
-          ...other,
-          ...preferred,
-          guid: preferred.guid || other.guid,
-          description: preferred.description || other.description,
-          author: preferred.author || other.author,
-          imageUrl: preferred.imageUrl || other.imageUrl,
-          publishedAt: preferred.publishedAt || other.publishedAt,
-          url: preferred.url || other.url,
-          publisher: 'BBC Sport'
-        };
-        output[existing.index] = merged;
-        existing.item = merged;
-        if (guidKey) guidIndex.set(guidKey, existing);
-        if (linkKey) linkIndex.set(linkKey, existing);
-        if (merged.guid) guidIndex.set(merged.guid.trim().toLowerCase(), existing);
-        const mergedLink = canonicalLink(merged.url);
-        if (mergedLink) linkIndex.set(mergedLink, existing);
-      } else {
-        const entry = { item, index: output.length };
-        output.push(item);
-        if (guidKey) guidIndex.set(guidKey, entry);
-        if (linkKey) linkIndex.set(linkKey, entry);
-      }
+      if ((guidKey && guidIndex.has(guidKey)) || (linkKey && linkIndex.has(linkKey))) continue;
+      output.push(item);
+      if (guidKey) guidIndex.add(guidKey);
+      if (linkKey) linkIndex.add(linkKey);
     }
-    return output.sort((a, b) => (Date.parse(b.publishedAt || '') || 0) - (Date.parse(a.publishedAt || '') || 0));
+    return output;
   }
 
   function normalizedSnapshot(document) {
     const source = safeParse(document);
     const rows = articleRows(source);
-    const articles = deduplicate(rows);
+    const provider = usablePublisher(source?.provider || source?.publisher || source?.title) || 'Football news feeds';
+    const articles = deduplicate(rows, provider);
     const fetchedAt = dateIso(source?.fetchedAt || source?.updatedAt || source?.syncedAt || source?.lastUpdated || source?.time);
     return {
-      provider: 'BBC Sport',
-      feedUrl: fieldString(source?.feedUrl || source?.sourceUrl) || 'https://feeds.bbci.co.uk/sport/football/rss.xml?edition=int',
+      provider,
+      feedUrl: fieldString(source?.feedUrl || source?.sourceUrl) || '',
       fetchedAt,
       articles,
-      recognized: rows.length > 0 || Array.isArray(source?.articles) || Array.isArray(source?.items) || Array.isArray(source?.entries)
+      recognized: rows.length > 0 || Array.isArray(source?.articles) || Array.isArray(source?.items) || Array.isArray(source?.entries) || Array.isArray(source?.feeds) || Array.isArray(source?.sources)
     };
   }
 
@@ -187,8 +199,13 @@
     const cached = normalizedSnapshot(localStorage.getItem(CACHE_KEY) || 'null');
     if (cached.articles.length) snapshot = cached;
     else {
-      const oldCache = safeParse(localStorage.getItem('matchday_bbc_football_news_v1'));
-      if (oldCache && Array.isArray(oldCache.articles)) snapshot = normalizedSnapshot(oldCache);
+      for (const key of LEGACY_CACHE_KEYS) {
+        const oldCache = safeParse(localStorage.getItem(key));
+        if (oldCache && Array.isArray(oldCache.articles)) {
+          snapshot = normalizedSnapshot(oldCache);
+          if (snapshot.articles.length) break;
+        }
+      }
     }
   } catch (_) {}
 
@@ -226,38 +243,60 @@
     }
   }
 
+  function publisherNames(articles) {
+    return [...new Set(articles.map(article => article.publisher).filter(Boolean))];
+  }
+
+  function joinNames(names) {
+    if (names.length < 2) return names[0] || '';
+    if (names.length === 2) return `${names[0]} and ${names[1]}`;
+    return `${names.slice(0, -1).join(', ')}, and ${names[names.length - 1]}`;
+  }
+
   function render() {
     if (!lastRequested || Date.now() - lastRequested >= REFRESH_AFTER_MS) void load(false);
     const articles = snapshot?.articles || [];
+    const publishers = publisherNames(articles);
     const latest = articles[0]?.publishedAt || '';
     const status = hadError && articles.length
-      ? '<p class="news-status news-status-warning">Could not refresh the saved BBC feed data just now; showing the latest verified stories already on this page.</p>'
+      ? '<p class="news-status news-status-warning">Could not refresh the latest stories just now; showing the most recently saved feed items.</p>'
       : latest ? `<p class="news-status">Latest story published ${html(formatDate(latest))}</p>` : '';
 
     let content;
     if (articles.length) {
       content = `<div class="news-list">${articles.map(article => {
-        const image = bbcImageUrl(article.imageUrl);
+        const image = httpsUrl(article.imageUrl);
         const iso = dateIso(article.publishedAt);
+        const publisher = article.publisher || 'Football news';
+        const storyUrl = isBbcArticleUrl(article.url) ? article.url : '';
+        const title = storyUrl
+          ? `<a class="news-article-link" href="${html(storyUrl)}" target="_blank" rel="noopener noreferrer">${html(article.title)}</a>`
+          : html(article.title);
         return `<article class="news-story">
-          <div class="news-story-meta"><a class="news-source" href="https://www.bbc.com/sport/football" target="_blank" rel="noopener noreferrer">BBC Sport</a>${article.author ? `<span class="news-author">By ${html(article.author)}</span>` : ''}${image ? '<span class="news-image-credit">Photo: BBC Sport</span>' : ''}${iso ? `<time datetime="${html(iso)}">Published ${html(formatDate(iso))}</time>` : '<span>Publication time unavailable</span>'}</div>
-          <div class="news-story-layout"><div class="news-story-copy"><h2>${html(article.title)}</h2>
+          <div class="news-story-meta"><span class="news-source">${html(publisher)}</span>${article.author ? `<span class="news-author">By ${html(article.author)}</span>` : ''}${image ? `<span class="news-image-credit">Photo: ${html(publisher)}</span>` : ''}${iso ? `<time datetime="${html(iso)}">Published ${html(formatDate(iso))}</time>` : '<span>Publication time unavailable</span>'}</div>
+          <div class="news-story-layout"><div class="news-story-copy"><h2>${title}</h2>
             ${article.description ? `<p>${html(article.description)}</p>` : ''}
           </div>${image ? `<img class="news-image" src="${html(image)}" alt="" loading="lazy" decoding="async">` : ''}</div>
         </article>`;
       }).join('')}</div>`;
     } else if (loading) {
-      content = '<div class="news-empty"><strong>Loading football news…</strong><span>Checking the latest BBC Sport RSS items.</span></div>';
+      content = '<div class="news-empty"><strong>Loading football news…</strong><span>Checking the latest configured football RSS feeds.</span></div>';
     } else if (hadError) {
-      content = '<div class="news-empty"><strong>News could not be loaded</strong><span>The saved BBC Sport feed data is temporarily unavailable. Try again shortly.</span></div>';
+      content = '<div class="news-empty"><strong>News could not be loaded</strong><span>The saved football news feed data is temporarily unavailable. Try again shortly.</span></div>';
     } else {
-      content = '<div class="news-empty"><strong>No recent stories are available</strong><span>No verified BBC Sport RSS items are present in the published feed data yet.</span></div>';
+      content = '<div class="news-empty"><strong>No recent stories are available</strong><span>No verified football RSS stories are present in the published feed data yet.</span></div>';
     }
 
+    const sourceCount = publishers.length;
+    const eyebrow = sourceCount ? `FOOTBALL NEWS · ${sourceCount} SOURCE${sourceCount === 1 ? '' : 'S'}` : 'FOOTBALL NEWS';
+    const intro = publishers.length
+      ? `Recent stories from ${html(joinNames(publishers))}; each item is credited to its feed.`
+      : 'Recent football stories from configured RSS feeds.';
+
     return `<section class="news-feed" aria-label="Latest football news">
-      <header class="news-heading"><div><p class="news-eyebrow">BBC SPORT · FOOTBALL</p><h1>Latest news</h1><p class="news-intro">Stories from the BBC Sport Football RSS feed, with publication times and BBC attribution.</p></div><button class="news-refresh" type="button" data-news-refresh ${loading ? 'disabled' : ''}>${loading ? 'Updating…' : 'Refresh'}</button></header>
+      <header class="news-heading"><div><p class="news-eyebrow">${html(eyebrow)}</p><h1>Latest news</h1><p class="news-intro">${intro}</p></div><button class="news-refresh" type="button" data-news-refresh ${loading ? 'disabled' : ''}>${loading ? 'Updating…' : 'Refresh'}</button></header>
       ${status}${content}
-      <p class="news-attribution">Titles, summaries, dates and images are shown only when supplied by <a href="https://www.bbc.com/sport/football" target="_blank" rel="noopener noreferrer">BBC Sport Football</a>. BBC image credit is shown with each feed-provided image. Times use your device’s local time.</p>
+      <p class="news-attribution">Titles, summaries, dates and thumbnails are shown as supplied by their RSS feeds. Source credits appear with each story. Times use your device’s local time.</p>
     </section>`;
   }
 
