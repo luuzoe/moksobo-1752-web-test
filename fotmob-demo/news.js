@@ -2,6 +2,7 @@
 
 (function () {
   const DATA_URL = './data/news.json';
+  const TRANSLATIONS_URL = './data/news-my.json';
   const CACHE_KEY = 'matchday_football_news_v3';
   const LEGACY_CACHE_KEYS = ['matchday_bbc_football_news_v2', 'matchday_bbc_football_news_v1'];
   const REFRESH_AFTER_MS = 5 * 60 * 1000;
@@ -9,6 +10,8 @@
   let loading = false;
   let hadError = false;
   let lastRequested = 0;
+  let translations = {};
+  let translationLoadPromise = null;
 
   function safeParse(value) {
     if (typeof value !== 'string') return value;
@@ -220,6 +223,24 @@
     window.dispatchEvent(new Event('matchday-news-updated'));
   }
 
+  function loadTranslations() {
+    if (translationLoadPromise) return translationLoadPromise;
+    translationLoadPromise = (async () => {
+      try {
+        const response = await fetch(TRANSLATIONS_URL, { cache: 'no-store' });
+        if (response.ok) {
+          const result = await response.json();
+          if (result && typeof result === 'object' && !Array.isArray(result)) translations = result;
+        }
+      } catch (_) {
+        // If the translation layer is unavailable, keep the original source copy visible.
+      } finally {
+        notifyUpdated();
+      }
+    })();
+    return translationLoadPromise;
+  }
+
   async function load(force) {
     const now = Date.now();
     if (loading || (!force && now - lastRequested < REFRESH_AFTER_MS)) return;
@@ -255,6 +276,8 @@
 
   function render() {
     if (!lastRequested || Date.now() - lastRequested >= REFRESH_AFTER_MS) void load(false);
+    const burmese = window.MatchdayI18n?.locale === 'my';
+    if (burmese) void loadTranslations();
     const articles = snapshot?.articles || [];
     const publishers = publisherNames(articles);
     const latest = articles[0]?.publishedAt || '';
@@ -268,14 +291,17 @@
         const image = httpsUrl(article.imageUrl);
         const iso = dateIso(article.publishedAt);
         const publisher = article.publisher || 'Football news';
+        const translation = burmese ? translations[canonicalLink(article.url)] : null;
+        const titleText = typeof translation?.title === 'string' ? translation.title : article.title;
+        const descriptionText = typeof translation?.description === 'string' ? translation.description : article.description;
         const storyUrl = isBbcArticleUrl(article.url) ? article.url : '';
         const title = storyUrl
-          ? `<a class="news-article-link" href="${html(storyUrl)}" target="_blank" rel="noopener noreferrer">${html(article.title)}</a>`
-          : html(article.title);
+          ? `<a class="news-article-link" href="${html(storyUrl)}" target="_blank" rel="noopener noreferrer">${html(titleText)}</a>`
+          : html(titleText);
         return `<article class="news-story">
           <div class="news-story-meta"><span class="news-source">${html(publisher)}</span>${article.author ? `<span class="news-author">By ${html(article.author)}</span>` : ''}${image ? `<span class="news-image-credit">Photo: ${html(publisher)}</span>` : ''}${iso ? `<time datetime="${html(iso)}">Published ${html(formatDate(iso))}</time>` : '<span>Publication time unavailable</span>'}</div>
           <div class="news-story-layout"><div class="news-story-copy"><h2 data-i18n-preserve>${title}</h2>
-            ${article.description ? `<p data-i18n-preserve>${html(article.description)}</p>` : ''}
+            ${descriptionText ? `<p data-i18n-preserve>${html(descriptionText)}</p>` : ''}
           </div>${image ? `<img class="news-image" src="${html(image)}" alt="" loading="lazy" decoding="async">` : ''}</div>
         </article>`;
       }).join('')}</div>`;

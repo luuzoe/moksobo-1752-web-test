@@ -1,4 +1,4 @@
-const CACHE_NAME = 'matchday-shell-v16';
+const CACHE_NAME = 'matchday-shell-v17';
 const SHELL_FILES = [
   './',
   './index.html',
@@ -18,6 +18,7 @@ const SHELL_FILES = [
   './icons/option-a-football-badge.svg',
   './icons/option-b-ball-m.svg',
   './data/news.json',
+  './data/news-my.json',
   './data/matches.json'
 ];
 const REQUIRED_SHELL_FILES = new Set([
@@ -27,6 +28,7 @@ const REQUIRED_SHELL_FILES = new Set([
   './clock.js',
   './i18n.js',
   './news.js',
+  './data/news-my.json',
   './league.js',
   './pwa.js',
   './app.js',

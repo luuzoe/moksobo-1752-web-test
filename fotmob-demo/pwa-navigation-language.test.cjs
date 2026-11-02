@@ -34,6 +34,10 @@ test('offers a persisted Burmese/English selector and preserves source article c
   assert.match(i18n, /new MutationObserver/);
   assert.match(news, /<h2 data-i18n-preserve>/);
   assert.match(news, /<p data-i18n-preserve>/);
+  assert.match(news, /const TRANSLATIONS_URL = '\.\/data\/news-my\.json'/);
+  assert.match(news, /const titleText = typeof translation\?\.title === 'string' \? translation\.title : article\.title/);
+  assert.match(news, /const descriptionText = typeof translation\?\.description === 'string' \? translation\.description : article\.description/);
+  assert.match(serviceWorker, /'\.\/data\/news-my\.json'/);
   assert.doesNotMatch(i18n, /[А-Яа-яЁё]/);
 });
 
@@ -42,7 +46,7 @@ test('requests fullscreen display with a neutral top-bar theme and caches locali
   assert.deepEqual(manifest.display_override, ['fullscreen', 'standalone', 'minimal-ui']);
   assert.equal(manifest.theme_color, '#f5f6f7');
   assert.match(html, /name="theme-color" content="#f5f6f7"/);
-  assert.match(serviceWorker, /matchday-shell-v16/);
+  assert.match(serviceWorker, /matchday-shell-v17/);
   assert.match(serviceWorker, /'\.\/i18n\.js'/);
   assert.match(app, /themeColor\.content=state\.theme==='dark'\?'#101214':'#f5f6f7'/);
 });

@@ -7,10 +7,10 @@ const { test } = require('node:test');
 
 const source = fs.readFileSync(path.join(__dirname, 'news.js'), 'utf8');
 
-function makeHarness(payload) {
+function makeHarness(payload, { locale = 'en', translations = {} } = {}) {
   const storage = new Map();
   const requests = [];
-  const window = { dispatchEvent() {}, setInterval() {} };
+  const window = { dispatchEvent() {}, setInterval() {}, MatchdayI18n: { locale } };
   const document = { visibilityState: 'visible', addEventListener() {} };
   const sandbox = {
     window,
@@ -24,6 +24,7 @@ function makeHarness(payload) {
     },
     fetch: async (url, options) => {
       requests.push({ url: String(url), options });
+      if (String(url).includes('news-my.json')) return { ok: true, json: async () => translations };
       return { ok: true, json: async () => payload };
     },
     console: { warn() {} }
@@ -84,6 +85,41 @@ test('renders BBC and Sky feed stories with their source credits and original fe
   assert.match(html, /<a class="news-article-link" href="https:\/\/www\.bbc\.co\.uk\/sport\/football\/articles\/example\?campaign=rss" target="_blank" rel="noopener noreferrer">Arsenal &amp; Liverpool: supplied headline<\/a>/);
   assert.equal((html.match(/href=/g) || []).length, 1);
   assert.doesNotMatch(html, /example-story/);
+});
+
+test('shows the separate Burmese translation layer only in Burmese mode without changing RSS source fields', async () => {
+  const url = 'https://www.bbc.co.uk/sport/football/story?campaign=rss';
+  const original = {
+    title: 'A supplied headline',
+    url,
+    description: 'A supplied summary.',
+    publishedAt: '2026-11-02T07:00:00Z'
+  };
+  const harness = makeHarness({ provider: 'BBC Sport', articles: [original] }, {
+    locale: 'my',
+    translations: {
+      'https://www.bbc.co.uk/sport/football/story': {
+        title: 'မြန်မာလို ခေါင်းစဉ်',
+        description: 'မြန်မာလို အကျဉ်းချုပ်။'
+      }
+    }
+  });
+
+  let html = await loadNews(harness);
+  assert.match(html, /မြန်မာလို ခေါင်းစဉ်/);
+  assert.match(html, /မြန်မာလို အကျဉ်းချုပ်။/);
+  assert.doesNotMatch(html, /A supplied headline|A supplied summary\./);
+  assert.equal(harness.requests.filter(request => request.url.includes('news-my.json')).length, 1);
+
+  const cachedArticle = JSON.parse(harness.storage.get('matchday_football_news_v3')).articles[0];
+  assert.equal(cachedArticle.title, original.title);
+  assert.equal(cachedArticle.description, original.description);
+
+  harness.window.MatchdayI18n.locale = 'en';
+  html = harness.window.MatchdayNews.render();
+  assert.match(html, /A supplied headline/);
+  assert.match(html, /A supplied summary\./);
+  assert.doesNotMatch(html, /မြန်မာလို/);
 });
 
 test('rejects non-HTTPS story and image URLs without altering accepted source data', async () => {
